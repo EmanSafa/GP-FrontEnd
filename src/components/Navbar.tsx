@@ -67,7 +67,7 @@ const Navbar = () => {
   };
   return (
     <div className="flex flex-col ">
-      <div className="bg-black w-full h-[2rem] py-1 justify-between px-5 flex items-center">
+      <div className="bg-black w-full h-[2rem] py-1 justify-between px-5 flex items-center ">
         <CustomSelect
           options={levelOptions}
           defaultValue="level-one"
