@@ -177,7 +177,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className={navbarStyles.layout.main}>
+    <div className={navbarStyles.layout.main} >
       {/* Top Bar - Same across all devices */}
       <div className={navbarStyles.layout.topBar}>
         <div className={navbarStyles.topBar.selectContainer}>

@@ -84,13 +84,13 @@ export const navbarStyles = {
 
   // Layout Containers
   layout: {
-    main: "flex flex-col",
+    main: "flex flex-col relative z-50",
     topBar:
-      "bg-black w-full h-[2rem] py-1 justify-between px-2 md:px-5 flex items-center",
+      "bg-black w-full h-[2rem] py-1 justify-between px-2 md:px-5 flex items-center z-50",
     desktop: "hidden xl:flex items-center justify-evenly",
     tablet: "hidden md:flex xl:hidden items-center justify-between px-4 py-3",
-    mobile: "md:hidden flex flex-col",
-    mobileMenu: "bg-white border-t shadow-lg",
+    mobile: "md:hidden flex flex-col relative z-50",
+    mobileMenu: "bg-white border-t shadow-lg z-50 relative",
   },
 
   // Top Bar Elements
