@@ -5,6 +5,8 @@ import {
   Link,
   Search,
   ShoppingBagIcon,
+  Menu,
+  X,
 } from "lucide-react";
 import {
   NavigationMenu,
@@ -15,6 +17,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import CustomSelect from "./ui/custom-select";
+import { navbarStyles, navigationConfig } from "./ui/navbar-styles";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Alert Dialog",
@@ -54,87 +57,176 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
+// Reusable Navigation Links Component
+const NavLinks = ({
+  variant = "desktop",
+  onLinkClick,
+}: {
+  variant?: "desktop" | "tablet" | "mobile";
+  onLinkClick?: () => void;
+}) => {
+  if (variant === "mobile") {
+    return (
+      <nav className={navbarStyles.navMenuList.mobile}>
+        {navigationConfig.items.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={navbarStyles.navLinks.mobile}
+            onClick={onLinkClick}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    );
+  }
+
+  return (
+    <NavigationMenu viewport={false}>
+      <NavigationMenuList className={navbarStyles.navMenuList[variant]}>
+        {navigationConfig.items.map((item) => (
+          <NavigationMenuItem key={item.href}>
+            {item.hasDropdown ? (
+              <>
+                <NavigationMenuTrigger
+                  className={navbarStyles.navTriggers[variant]}
+                >
+                  {item.label}
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className={navbarStyles.dropdownContent[variant]}>
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </>
+            ) : (
+              <NavigationMenuLink
+                href={item.href}
+                className={navbarStyles.navLinks[variant]}
+              >
+                {variant === "tablet" && item.label === "Contact us"
+                  ? "Contact"
+                  : item.label}
+              </NavigationMenuLink>
+            )}
+          </NavigationMenuItem>
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+};
+
+// Reusable Search Bar Component
+const SearchBar = ({
+  variant = "desktop",
+}: {
+  variant?: "desktop" | "tablet" | "mobile";
+}) => {
+  const style = navbarStyles.searchBar[variant];
+
+  return (
+    <div className={style.container}>
+      <input
+        type="text"
+        className={style.input}
+        placeholder={style.placeholder}
+      />
+      <span className={style.button}>
+        <Search className="text-white" size={style.iconSize} />
+      </span>
+    </div>
+  );
+};
+
+// Reusable Icons Component
+const ActionIcons = ({
+  variant = "desktop",
+}: {
+  variant?: "desktop" | "tablet" | "mobile";
+}) => {
+  const style = navbarStyles.actionIcons[variant];
+
+  return (
+    <div className={style.container}>
+      <div className={style.iconWrapper}>
+        <Heart size={style.iconSize} />
+        <ShoppingBagIcon size={style.iconSize} />
+      </div>
+    </div>
+  );
+};
+
 const Navbar = () => {
-  // Level options for the select component
-  const levelOptions = [
-    { value: "level-one", label: "Level one" },
-    { value: "level-two", label: "Level two" },
-    { value: "level-three", label: "Level three" },
-  ];
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleLevelChange = (value: string) => {
     console.log("Selected level:", value);
   };
-  return (
-    <div className="flex flex-col ">
-      <div className="bg-black w-full h-[2rem] py-1 justify-between px-5 flex items-center ">
-        <CustomSelect
-          options={levelOptions}
-          defaultValue="level-one"
-          onValueChange={handleLevelChange}
-        />
 
-        <div className=" text-white">Logo</div>
-        <CircleUserRound className="text-white " />
-      </div>
-      <div className="flex items-center justify-evenly ">
-        <NavigationMenu viewport={false}>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/"
-                className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
-                Home
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/contact"
-                className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
-                Contact us
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/about"
-                className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
-                About
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-        <div className="flex items-center justify-center">
-          <input
-            type="text"
-            className="border-2 px-2 py-1 border-black rounded-l-2xl w-[28rem] h-[1.8rem]"
+  const handleMobileLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <div className={navbarStyles.layout.main}>
+      {/* Top Bar - Same across all devices */}
+      <div className={navbarStyles.layout.topBar}>
+        <div className={navbarStyles.topBar.selectContainer}>
+          <CustomSelect
+            options={navigationConfig.levelOptions}
+            defaultValue="level-one"
+            onValueChange={handleLevelChange}
           />
-          <span className="bg-black flex items-center justify-center rounded-r-2xl h-[1.8rem] w-[4rem] p-2 ">
-            <Search className="text-white" />
-          </span>
         </div>
-        <div className="flex items-center justify-center gap-3">
-          <Heart />
-          <ShoppingBagIcon />
+
+        {/* Mobile: Show menu button instead of select */}
+        <button
+          className={navbarStyles.topBar.mobileMenuButton}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
+        <div className={navbarStyles.topBar.logo}>Logo</div>
+        <CircleUserRound className={navbarStyles.topBar.userIcon} />
+      </div>
+
+      {/* Desktop Navigation (1280px+) */}
+      <div className={navbarStyles.layout.desktop}>
+        <NavLinks variant="desktop" />
+        <SearchBar variant="desktop" />
+        <ActionIcons variant="desktop" />
+      </div>
+
+      {/* Tablet Navigation (768px - 1279px) */}
+      <div className={navbarStyles.layout.tablet}>
+        <NavLinks variant="tablet" />
+        <div className={navbarStyles.containers.tabletSearchAndIcons}>
+          <SearchBar variant="tablet" />
+          <ActionIcons variant="tablet" />
         </div>
+      </div>
+
+      {/* Mobile Navigation (< 768px) */}
+      <div className={navbarStyles.layout.mobile}>
+        <SearchBar variant="mobile" />
+        <ActionIcons variant="mobile" />
+
+        {/* Mobile Menu - Collapsible */}
+        {isMobileMenuOpen && (
+          <div className={navbarStyles.layout.mobileMenu}>
+            <NavLinks variant="mobile" onLinkClick={handleMobileLinkClick} />
+          </div>
+        )}
       </div>
     </div>
   );
