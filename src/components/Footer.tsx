@@ -1,7 +1,7 @@
 import { Instagram, PhoneCall } from "lucide-react";
-import WhatsAppIcon from "./icons/whatsappIcon";
-import FacebookIcon from "./icons/facebookIcon";
-import LinkedInIcon from "./icons/linkedInIcon";
+import WhatsAppIcon from "./ui/icons/whatsappIcon";
+import FacebookIcon from "./ui/icons/facebookIcon";
+import LinkedInIcon from "./ui/icons/linkedInIcon";
 import { Link } from "@tanstack/react-router";
 
 const Footer = () => {
