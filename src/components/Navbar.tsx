@@ -2,12 +2,12 @@ import * as React from "react";
 import {
   CircleUserRound,
   Heart,
-  Link,
   Search,
   ShoppingBagIcon,
   Menu,
   X,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -69,14 +69,14 @@ const NavLinks = ({
     return (
       <nav className={navbarStyles.navMenuList.mobile}>
         {navigationConfig.items.map((item) => (
-          <a
+          <Link
             key={item.href}
-            href={item.href}
+            to={item.href}
             className={navbarStyles.navLinks.mobile}
             onClick={onLinkClick}
           >
             {item.label}
-          </a>
+          </Link>
         ))}
       </nav>
     );
@@ -109,13 +109,12 @@ const NavLinks = ({
                 </NavigationMenuContent>
               </>
             ) : (
-              <NavigationMenuLink
-                href={item.href}
-                className={navbarStyles.navLinks[variant]}
-              >
-                {variant === "tablet" && item.label === "Contact us"
-                  ? "Contact"
-                  : item.label}
+              <NavigationMenuLink asChild>
+                <Link to={item.href} className={navbarStyles.navLinks[variant]}>
+                  {variant === "tablet" && item.label === "Contact us"
+                    ? "Contact"
+                    : item.label}
+                </Link>
               </NavigationMenuLink>
             )}
           </NavigationMenuItem>
@@ -158,8 +157,13 @@ const ActionIcons = ({
   return (
     <div className={style.container}>
       <div className={style.iconWrapper}>
-        <Heart size={style.iconSize} />
-        <ShoppingBagIcon size={style.iconSize} />
+        <Link to="/favourits">
+          <Heart size={style.iconSize} />
+        </Link>
+        <Link to="/cart">
+          {" "}
+          <ShoppingBagIcon size={style.iconSize} />
+        </Link>
       </div>
     </div>
   );
@@ -177,7 +181,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className={navbarStyles.layout.main} >
+    <div className={navbarStyles.layout.main}>
       {/* Top Bar - Same across all devices */}
       <div className={navbarStyles.layout.topBar}>
         <div className={navbarStyles.topBar.selectContainer}>
@@ -197,7 +201,9 @@ const Navbar = () => {
         </button>
 
         <div className={navbarStyles.topBar.logo}>Logo</div>
-        <CircleUserRound className={navbarStyles.topBar.userIcon} />
+        <Link to="/account">
+          <CircleUserRound className={navbarStyles.topBar.userIcon} />
+        </Link>
       </div>
 
       {/* Desktop Navigation (1280px+) */}
@@ -241,7 +247,7 @@ function ListItem({
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
-        <Link href={href}>
+        <Link to={href}>
           <div className="text-sm leading-none font-medium ">{title}</div>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
             {children}
