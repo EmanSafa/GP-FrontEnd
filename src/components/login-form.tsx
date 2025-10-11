@@ -56,7 +56,7 @@ export function LoginForm({
           <Button
             variant="outline"
             type="button"
-            className="text-[#5D0505]  hover:text-[#5D0505]/90 hover:border-[#5D0505]"
+            className="text-[#5D0505]  hover:text-[#5D0505]/90 hover:border-[#5D0505] transition-all duration-200 "
           >
             <GoogleIcon className="text-[#5D0505]" />
             Login with Google
