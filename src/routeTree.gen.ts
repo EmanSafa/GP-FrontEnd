@@ -14,6 +14,7 @@ import { Route as MainRouteRouteImport } from './routes/_main/route'
 import { Route as MainIndexRouteImport } from './routes/_main/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
 import { Route as MainShopRouteImport } from './routes/_main/shop'
 import { Route as MainFavouritsRouteImport } from './routes/_main/favourits'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
@@ -43,6 +44,11 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
+  id: '/forgetPassword',
+  path: '/forgetPassword',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 const MainShopRoute = MainShopRouteImport.update({
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
   '/shop': typeof MainShopRoute
+  '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof MainIndexRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
   '/shop': typeof MainShopRoute
+  '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof MainIndexRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/_main/contact': typeof MainContactRoute
   '/_main/favourits': typeof MainFavouritsRoute
   '/_main/shop': typeof MainShopRoute
+  '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_main/': typeof MainIndexRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/favourits'
     | '/shop'
+    | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
     | '/'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/favourits'
     | '/shop'
+    | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
     | '/'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/_main/contact'
     | '/_main/favourits'
     | '/_main/shop'
+    | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
     | '/_main/'
@@ -194,6 +206,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/auth/forgetPassword': {
+      id: '/auth/forgetPassword'
+      path: '/forgetPassword'
+      fullPath: '/auth/forgetPassword'
+      preLoaderRoute: typeof AuthForgetPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_main/shop': {
@@ -266,11 +285,13 @@ const MainRouteRouteWithChildren = MainRouteRoute._addFileChildren(
 )
 
 interface AuthRouteRouteChildren {
+  AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthForgetPasswordRoute: AuthForgetPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
 }
