@@ -1,0 +1,17 @@
+// routes/auth/route.tsx
+import { Outlet, createFileRoute } from "@tanstack/react-router";
+import "../../index.css";
+
+function AuthLayout() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
+export const Route = createFileRoute("/auth")({
+  component: AuthLayout,
+});
