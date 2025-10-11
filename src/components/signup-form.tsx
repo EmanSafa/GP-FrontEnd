@@ -109,7 +109,7 @@ export function SignupForm({
               to="/auth/login"
               className=" font-semibold transition-colors duration-200"
             >
-              Sign in
+              Login
             </Link>
           </FieldDescription>
         </Field>
