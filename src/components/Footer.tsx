@@ -6,7 +6,7 @@ import { Link } from "@tanstack/react-router";
 
 const Footer = () => {
   return (
-    <div className="fixed bottom-0 w-full bg-black z-10 text-white">
+    <div className="relative bottom-0 w-full bg-black z-10 text-white">
       <div className="flex items-start ml-4 md:ml-[120px] mt-8 md:mt-[80px] justify-between gap-6 flex-col ">
         <h1 className="cursor-pointer text-xl md:text-2xl my-1  font-medium transation duration-300 ease-in-out  hover:text-gray-200">
           Contact Us
