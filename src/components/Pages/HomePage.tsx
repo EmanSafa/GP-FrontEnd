@@ -14,7 +14,19 @@ import ShippingIcon from "../ui/icons/shippingIcon";
 import ReturnsIcon from "../ui/icons/returnsIcon";
 import SecurityIcon from "../ui/icons/securityIcon";
 import PhoneCallIcon from "../ui/icons/phoneIcon";
-import InfoCard from "../ui/info-card";
+import InfoCard from "./Home/info-card";
+import phoneImg from "../../assets/mobile.png";
+import ProductCard from "./Home/product-card";
+import { FaAngleRight } from "react-icons/fa";
+import appleLogo from "../../assets/logos-brand/apple.png";
+import huwawiLogo from "../../assets/logos-brand/huawai.png";
+import samsungLogo from "../../assets/logos-brand/samsung.png";
+import realmeLogo from "../../assets/logos-brand/Realme.png";
+import vivoLogo from "../../assets/logos-brand/vivo.png";
+import CategoryCard from "./Home/Category-card";
+import mobileIcon from "../../assets/categories/mobile.png";
+import watchIcon from "../../assets/categories/watch.png";
+
 const HomePage = () => {
   return (
     <div>
@@ -33,13 +45,16 @@ const HomePage = () => {
                         SALE UP TO 40%
                       </span>
                       <Link to="/shop">
-                        {" "}
                         <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-[#5D0505] text-white hover:bg-[#7a0707]">
                           Shop Now
                         </Button>
                       </Link>
                     </div>
-                    <img src={saleImg} alt="sale" className="w-44 sm:w-56 md:w-72 lg:w-96 object-contain" />
+                    <img
+                      src={saleImg}
+                      alt="sale"
+                      className="w-44 sm:w-56 md:w-72 lg:w-96 object-contain"
+                    />
                   </CardContent>
                 </Card>
               </div>
@@ -77,6 +92,62 @@ const HomePage = () => {
           icon={<PhoneCallIcon />}
           animationDelay={300}
         />
+      </div>
+      <div className="flex items-center justify-between w-[88%] mx-auto mt-7">
+        <h1 className="text-2xl font-semibold">Grab your best deal</h1>
+        <Button
+          variant="auth"
+          className="group mt-5 w-full md:w-40 text-lg rounded-full flex items-center justify-center transition-all"
+        >
+          View All
+          <FaAngleRight className="transform transition-transform duration-300 group-hover:translate-x-3" />
+        </Button>
+      </div>
+      <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <ProductCard
+            key={i}
+            title={`Galaxy Ultra ${i + 1}`}
+            price="$960"
+            oldPrice="$1200"
+            rating={5}
+            imgSrc={phoneImg}
+            discount={20}
+          />
+        ))}
+      </div>
+      <div className="w-[88%] mx-auto mt-7">
+        <h1 className="text-2xl font-semibold">Shop by Category</h1>
+        <div className="my-5 flex items-center gap-7">
+          <CategoryCard title="Smartphones" image={mobileIcon} />
+          <CategoryCard title="Smart Watch" image={watchIcon} />
+          <CategoryCard title="Laptop" image={mobileIcon} />
+          <CategoryCard title="Tablet" image={mobileIcon} />
+          <CategoryCard title="HeadPhones" image={mobileIcon} />
+          <CategoryCard title="Accessories" image={mobileIcon} />
+        </div>
+      </div>
+      <div className="w-[88%] mx-auto mt-7">
+        <h1 className="text-2xl font-semibold">Shop by Brand</h1>
+        <Carousel className="mt-5" opts={{ align: "start" }}>
+          <CarouselContent className=" gap-4">
+            {[
+              <img src={appleLogo} alt="apple_logo" />,
+              <img src={huwawiLogo} alt="huwawi_logo" />,
+              <img src={samsungLogo} alt="samsung_logo" />,
+              <img src={realmeLogo} alt="realme_logo" />,
+              <img src={vivoLogo} alt="vivo_logo" />,
+            ].map((b, idx) => (
+              <CarouselItem key={idx} className="basis-auto">
+                <div className=" rounded-lg w-60  h-18 bg-gray-200 flex items-center justify-center">
+                  {b}
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="ml-2" />
+          <CarouselNext className="mr-2" />
+        </Carousel>
       </div>
     </div>
   );
