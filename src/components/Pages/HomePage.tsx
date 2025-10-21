@@ -94,10 +94,12 @@ const HomePage = () => {
         />
       </div>
       <div className="flex items-center justify-between w-[88%] mx-auto mt-7">
-        <h1 className="text-2xl font-semibold">Grab your best deal</h1>
+        <h1 className="lg:text-2xl sm:text-md md:text-lg font-semibold">
+          Grab your best deal
+        </h1>
         <Button
           variant="auth"
-          className="group mt-5 w-full md:w-40 text-lg rounded-full flex items-center justify-center transition-all"
+          className="group mt-5 text-md md:w-40 sm:w-20 sm:text-sm text-lg rounded-full flex items-center justify-center transition-all"
         >
           View All
           <FaAngleRight className="transform transition-transform duration-300 group-hover:translate-x-3" />
@@ -116,38 +118,52 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <div className="w-[88%] mx-auto mt-7">
-        <h1 className="text-2xl font-semibold">Shop by Category</h1>
-        <div className="my-5 flex items-center gap-7">
-          <CategoryCard title="Smartphones" image={mobileIcon} />
-          <CategoryCard title="Smart Watch" image={watchIcon} />
-          <CategoryCard title="Laptop" image={mobileIcon} />
-          <CategoryCard title="Tablet" image={mobileIcon} />
-          <CategoryCard title="HeadPhones" image={mobileIcon} />
-          <CategoryCard title="Accessories" image={mobileIcon} />
-        </div>
-      </div>
-      <div className="w-[88%] mx-auto mt-7">
-        <h1 className="text-2xl font-semibold">Shop by Brand</h1>
-        <Carousel className="mt-5" opts={{ align: "start" }}>
-          <CarouselContent className=" gap-4">
-            {[
-              <img src={appleLogo} alt="apple_logo" />,
-              <img src={huwawiLogo} alt="huwawi_logo" />,
-              <img src={samsungLogo} alt="samsung_logo" />,
-              <img src={realmeLogo} alt="realme_logo" />,
-              <img src={vivoLogo} alt="vivo_logo" />,
-            ].map((b, idx) => (
-              <CarouselItem key={idx} className="basis-auto">
-                <div className=" rounded-lg w-60  h-18 bg-gray-200 flex items-center justify-center">
+      <div>
+        <div className="w-[88%] mx-auto mt-7">
+          <h1 className="lg:text-2xl sm:text-sm md:text-lg font-semibold">
+            Shop by Category
+          </h1>
+          <Carousel className="mt-5" opts={{ align: "start" }}>
+            <CarouselContent className=" gap-3">
+              {[
+                <CategoryCard title="Smartphones" image={mobileIcon} />,
+                <CategoryCard title="Smart Watch" image={watchIcon} />,
+                <CategoryCard title="Laptop" image={mobileIcon} />,
+                <CategoryCard title="Tablet" image={mobileIcon} />,
+                <CategoryCard title="HeadPhones" image={mobileIcon} />,
+                <CategoryCard title="Accessories" image={mobileIcon} />,
+              ].map((b, idx) => (
+                <CarouselItem key={idx} className="basis-auto">
                   {b}
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="ml-2" />
-          <CarouselNext className="mr-2" />
-        </Carousel>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="ml-7 lg:hidden" />
+            <CarouselNext className="mr-7 lg:hidden" />
+          </Carousel>
+        </div>
+        <div className="w-[88%] mx-auto mt-7">
+          <h1 className="text-2xl font-semibold">Shop by Brand</h1>
+          <Carousel className="mt-5" opts={{ align: "start" }}>
+            <CarouselContent className=" gap-4">
+              {[
+                <img src={appleLogo} alt="apple_logo" />,
+                <img src={huwawiLogo} alt="huwawi_logo" />,
+                <img src={samsungLogo} alt="samsung_logo" />,
+                <img src={realmeLogo} alt="realme_logo" />,
+                <img src={vivoLogo} alt="vivo_logo" />,
+              ].map((b, idx) => (
+                <CarouselItem key={idx} className="basis-auto">
+                  <div className=" rounded-lg w-60  h-18 bg-gray-200 flex items-center justify-center">
+                    {b}
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="ml-7 " />
+            <CarouselNext className="mr-7 " />
+          </Carousel>
+        </div>
       </div>
     </div>
   );

@@ -140,7 +140,7 @@ const SearchBar = ({
         placeholder={style.placeholder}
       />
       <span className={style.button}>
-        <Search className="text-white" size={style.iconSize} />
+        <Search className="text-white " size={style.iconSize} />
       </span>
     </div>
   );
@@ -224,8 +224,14 @@ const Navbar = () => {
 
       {/* Mobile Navigation (< 768px) */}
       <div className={navbarStyles.layout.mobile}>
-        <SearchBar variant="mobile" />
-        <ActionIcons variant="mobile" />
+        <div className="flex items-center gap-2 w-full px-2">
+          <div className="flex-1 min-w-2">
+            <SearchBar variant="mobile" />
+          </div>
+          <div className="flex-shrink-0">
+            <ActionIcons variant="mobile" />
+          </div>
+        </div>
 
         {/* Mobile Menu - Collapsible */}
         {isMobileMenuOpen && (

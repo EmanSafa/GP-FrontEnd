@@ -53,11 +53,11 @@ export const navbarStyles = {
       placeholder: "Search...",
     },
     mobile: {
-      container: "flex items-center justify-center p-3 border-b",
+      container: "bg-white flex items-center justify-center p-3 border-b",
       input:
         "border-2 px-3 py-2 border-black rounded-l-2xl flex-1 max-w-md h-[2.2rem]",
       button:
-        "bg-black flex items-center justify-center rounded-r-2xl h-[2.2rem] w-[3rem]",
+        "bg-black flex items-center justify-center rounded-r-2xl h-[2.2rem] w-[3rem] p-2",
       iconSize: 18,
       placeholder: "Search...",
     },
@@ -84,7 +84,7 @@ export const navbarStyles = {
 
   // Layout Containers
   layout: {
-    main: "fixed top-0 left-0 right-0 z-50 mb-3",
+    main: "bg-white fixed top-0 left-0 right-0 z-50 mb-3",
     topBar:
       "bg-black w-full h-[2rem] py-1 justify-between px-2 md:px-5 flex items-center z-50",
     desktop: "hidden xl:flex items-center justify-evenly bg-white",
