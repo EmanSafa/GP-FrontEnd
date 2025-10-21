@@ -17,7 +17,7 @@ import PhoneCallIcon from "../ui/icons/phoneIcon";
 import InfoCard from "./Home/info-card";
 import phoneImg from "../../assets/mobile.png";
 import ProductCard from "./Home/product-card";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight, FaStar } from "react-icons/fa";
 import appleLogo from "../../assets/logos-brand/apple.png";
 import huwawiLogo from "../../assets/logos-brand/huawai.png";
 import samsungLogo from "../../assets/logos-brand/samsung.png";
@@ -26,6 +26,8 @@ import vivoLogo from "../../assets/logos-brand/vivo.png";
 import CategoryCard from "./Home/Category-card";
 import mobileIcon from "../../assets/categories/mobile.png";
 import watchIcon from "../../assets/categories/watch.png";
+import newArrivalImg from "../../assets/newarrival.png";
+import iphoneImg from "../../assets/iphones.png";
 
 const HomePage = () => {
   return (
@@ -142,27 +144,70 @@ const HomePage = () => {
             <CarouselNext className="mr-7 lg:hidden" />
           </Carousel>
         </div>
-        <div className="w-[88%] mx-auto mt-7">
-          <h1 className="text-2xl font-semibold">Shop by Brand</h1>
-          <Carousel className="mt-5" opts={{ align: "start" }}>
-            <CarouselContent className=" gap-4">
-              {[
-                <img src={appleLogo} alt="apple_logo" />,
-                <img src={huwawiLogo} alt="huwawi_logo" />,
-                <img src={samsungLogo} alt="samsung_logo" />,
-                <img src={realmeLogo} alt="realme_logo" />,
-                <img src={vivoLogo} alt="vivo_logo" />,
-              ].map((b, idx) => (
-                <CarouselItem key={idx} className="basis-auto">
-                  <div className=" rounded-lg w-60  h-18 bg-gray-200 flex items-center justify-center">
-                    {b}
+
+        <div className="flex justify-center items-center">
+          <div className="w-[88%] mx-auto mt-7 ">
+            <h1 className="text-2xl font-semibold">Shop by Brand</h1>
+            <Carousel className="mt-5" opts={{ align: "start" }}>
+              <CarouselContent className=" gap-4">
+                {[
+                  <img src={appleLogo} alt="apple_logo" />,
+                  <img src={huwawiLogo} alt="huwawi_logo" />,
+                  <img src={samsungLogo} alt="samsung_logo" />,
+                  <img src={realmeLogo} alt="realme_logo" />,
+                  <img src={vivoLogo} alt="vivo_logo" />,
+                ].map((b, idx) => (
+                  <CarouselItem key={idx} className="basis-auto">
+                    <div className=" rounded-lg w-60  h-18 bg-gray-200 flex items-center justify-center">
+                      {b}
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="ml-7 " />
+              <CarouselNext className="mr-7 " />
+            </Carousel>
+            <h1 className="text-2xl font-semibold my-9">New Arrival</h1>
+            <div className="flex flex-col lg:flex-row items-center justify-between ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2  grid-rows-4 sm:grid-rows-2 gap-5 w-full ">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div className="flex items-center flex-wrap " key={i}>
+                    <img src={newArrivalImg} alt="" />
+                    <div className="h-[295px] boder-2 border-gray-200 flex-1">
+                      <span className="h-[60%] block bg-gray-100 rounded-md"></span>
+                      <div className="p-1  h-[40%]">
+                        <div className="flex items-start flex-col gap-1 ml-2 mt-2 justify-between">
+                          <div className="flex items-center gap-1">
+                            {Array.from({ length: 5 }).map((_, j) => (
+                              <FaStar
+                                key={j}
+                                className="text-[#880909] w-4 h-4 md:w-5 md:h-5"
+                              />
+                            ))}
+                          </div>
+                          <h4 className="text-base md:text-lg font-semibold truncate">
+                            Galaxy Ultra
+                          </h4>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-sm md:text-base">
+                                $900
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="ml-7 " />
-            <CarouselNext className="mr-7 " />
-          </Carousel>
+                ))}
+              </div>
+              <img
+                src={iphoneImg}
+                alt=""
+                className="w-40 h-64 sm:w-56 sm:h-80 md:w-72 md:h-[400px] lg:w-[303px] lg:h-[628px] object-contain"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
