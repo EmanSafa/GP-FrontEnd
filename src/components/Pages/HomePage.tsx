@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,6 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import saleImg from "../../assets/saleImg.png";
 import { Link } from "@tanstack/react-router";
@@ -25,25 +27,73 @@ import realmeLogo from "../../assets/logos-brand/Realme.png";
 import vivoLogo from "../../assets/logos-brand/vivo.png";
 import CategoryCard from "./Home/Category-card";
 import mobileIcon from "../../assets/categories/mobile.png";
+import laptop from "../../assets/laptop.png";
+import tablet from "../../assets/tablet.png";
+import headphone from "../../assets/headphoes.png";
+import accessors from "../../assets/accessors.png";
 import watchIcon from "../../assets/categories/watch.png";
 import newArrivalImg from "../../assets/newarrival.png";
 import iphoneImg from "../../assets/iphones.png";
+import hero2 from "../../assets/hero2.png";
+import hero3 from "../../assets/hero3.png";
+import hero32 from "../../assets/hero32.png";
 
 const HomePage = () => {
+  const [heroApi, setHeroApi] = React.useState<CarouselApi | null>(null);
+  const [isPaused, setIsPaused] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!heroApi) return;
+
+    const play = () => {
+      const selected = heroApi.selectedScrollSnap();
+      const snaps = heroApi.scrollSnapList();
+      if (snaps.length === 0) return;
+      if (selected >= snaps.length - 1) {
+        heroApi.scrollTo(0);
+      } else {
+        heroApi.scrollNext();
+      }
+    };
+
+    const interval = setInterval(() => {
+      if (!isPaused) play();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [heroApi, isPaused]);
   return (
     <div>
-      <Carousel className="w-[88%] mx-auto mt-7  ">
+      <Carousel
+        className="w-[88%] mx-auto mt-7  "
+        setApi={setHeroApi}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         <CarouselContent>
-          {Array.from({ length: 3 }).map((_, index) => (
+          {[
+            { img: saleImg, bg: "bg-[#FFEAEA]", textColor: "text-[#5B5B5B]" },
+            {
+              img: hero2,
+              bg: "bg-gradient-to-r from-[#F1C6D2] to-[#8F3B52]",
+              textColor: "text-white",
+            },
+            { img: hero3, bg: "bg-[#E8F7FF]", textColor: "text-[#123456]" },
+            { img: hero32, bg: "bg-[#FFF4E6]", textColor: "text-[#5B5B5B]" },
+          ].map((slide, index) => (
             <CarouselItem key={index}>
-              <div className=" w-full">
-                <Card className="bg-[#FFEAEA]">
-                  <CardContent className="flex flex-col lg:flex-row min-h-[360px] justify-between px-6 lg:px-10 items-center gap-6">
-                    <div className="flex flex-col gap-4 items-center  text-center">
-                      <span className="text-[#5B5B5B] text-sm font-light ">
-                        Special Offer
-                      </span>
-                      <span className="font-semibold text-5xl max-w-xs text-center ">
+              <div className="w-full">
+                <Card className={`${slide.bg}`}>
+                  <CardContent
+                    className={`flex flex-col lg:flex-row min-h-[360px] justify-between px-6 lg:px-10 items-center gap-6 ${
+                      index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                    }`}
+                  >
+                    <div
+                      className={`flex flex-col gap-4 items-center text-center ${slide.textColor}`}
+                    >
+                      <span className="text-sm font-light">Special Offer</span>
+                      <span className="font-semibold text-5xl max-w-xs text-center">
                         SALE UP TO 40%
                       </span>
                       <Link to="/shop">
@@ -52,9 +102,10 @@ const HomePage = () => {
                         </Button>
                       </Link>
                     </div>
+
                     <img
-                      src={saleImg}
-                      alt="sale"
+                      src={slide.img}
+                      alt={`hero-${index}`}
                       className="w-44 sm:w-56 md:w-72 lg:w-96 object-contain"
                     />
                   </CardContent>
@@ -125,15 +176,21 @@ const HomePage = () => {
           <h1 className="lg:text-2xl sm:text-sm md:text-lg font-semibold">
             Shop by Category
           </h1>
-          <Carousel className="mt-5" opts={{ align: "start" }}>
+          <Carousel
+            className="mt-5"
+            opts={{ align: "start" }}
+            setApi={setHeroApi}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             <CarouselContent className=" gap-3">
               {[
                 <CategoryCard title="Smartphones" image={mobileIcon} />,
                 <CategoryCard title="Smart Watch" image={watchIcon} />,
-                <CategoryCard title="Laptop" image={mobileIcon} />,
-                <CategoryCard title="Tablet" image={mobileIcon} />,
-                <CategoryCard title="HeadPhones" image={mobileIcon} />,
-                <CategoryCard title="Accessories" image={mobileIcon} />,
+                <CategoryCard title="Laptop" image={laptop} />,
+                <CategoryCard title="Tablet" image={tablet} />,
+                <CategoryCard title="HeadPhones" image={headphone} />,
+                <CategoryCard title="Accessories" image={accessors} />,
               ].map((b, idx) => (
                 <CarouselItem key={idx} className="basis-auto">
                   {b}
@@ -148,7 +205,13 @@ const HomePage = () => {
         <div className="flex justify-center items-center">
           <div className="w-[88%] mx-auto mt-7 ">
             <h1 className="text-2xl font-semibold">Shop by Brand</h1>
-            <Carousel className="mt-5" opts={{ align: "start" }}>
+            <Carousel
+              className="mt-5"
+              opts={{ align: "start" }}
+              setApi={setHeroApi}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
               <CarouselContent className=" gap-4">
                 {[
                   <img src={appleLogo} alt="apple_logo" />,
@@ -168,7 +231,7 @@ const HomePage = () => {
               <CarouselNext className="mr-7 " />
             </Carousel>
             <h1 className="text-2xl font-semibold my-9">New Arrival</h1>
-            <div className="flex flex-col lg:flex-row items-center justify-between ">
+            <div className="flex flex-col md:flex-row items-center justify-between ">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2  grid-rows-4 sm:grid-rows-2 gap-5 w-full ">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <div className="flex items-center flex-wrap " key={i}>
@@ -204,10 +267,13 @@ const HomePage = () => {
               <img
                 src={iphoneImg}
                 alt=""
-                className="w-40 h-64 sm:w-56 sm:h-80 md:w-72 md:h-[400px] lg:w-[303px] lg:h-[628px] object-contain"
+                className=" hidden lg:block w-40 h-64 ml-6 sm:w-56 sm:h-80 md:w-72 md:h-[400px] lg:w-[303px] lg:h-[628px] object-contain"
               />
             </div>
           </div>
+        </div>
+        <div className="w-[88%] mx-auto mt-7 ">
+          <h1 className="text-2xl font-semibold">User Feedback</h1>
         </div>
       </div>
     </div>
