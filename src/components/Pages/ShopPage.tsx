@@ -1,8 +1,9 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "./App-Sidebar";
+import type { ReactNode } from "react";
 
 interface IProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 const ShopPage = ({ children }: IProps) => {
   return (
