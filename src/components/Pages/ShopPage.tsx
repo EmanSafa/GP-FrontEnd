@@ -3,7 +3,7 @@ import AppSidebar from "./App-Sidebar";
 import type { ReactNode } from "react";
 
 interface IProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 const ShopPage = ({ children }: IProps) => {
   return (
