@@ -10,7 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import GoogleIcon from "./ui/icons/googleIcon";
 import { Link } from "@tanstack/react-router";
-
 export function LoginForm({
   className,
   ...props
