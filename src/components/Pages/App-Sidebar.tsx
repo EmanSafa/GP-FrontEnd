@@ -13,7 +13,6 @@ import { Switch } from "@/components/ui/switch";
 import { FaStar } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 
-
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,31 +22,32 @@ import { ChevronDown } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { Slider } from "../ui/slider";
 import { Button } from "../ui/button";
+import { Link } from "@tanstack/react-router";
 // Menu items.
 const items = [
   {
     title: " Mobile",
-    url: "#",
+    url: "/shop/mobile",
   },
   {
     title: "Laptop",
-    url: "#",
+    url: "/shop/laptop",
   },
   {
     title: "Tablet",
-    url: "#",
+    url: "/shop/tablet",
   },
   {
     title: "Headphones",
-    url: "#",
+    url: "/shop/headphones",
   },
   {
     title: "Smartwatches",
-    url: "#",
+    url: "/shop/smartwatches",
   },
   {
     title: "Accessories",
-    url: "#",
+    url: "/shop/accessories",
   },
 ];
 
@@ -67,9 +67,9 @@ const AppSidebar = () => {
                   className="text-normal text-[16px] "
                 >
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -193,7 +193,7 @@ const AppSidebar = () => {
                       <div className="flex items-center gap-1">
                         <Checkbox id="4stars" className="m-3 border-black" />
                         {Array.from({ length: 4 }).map((_, i) => (
-                            <FaStar key={i} className="text-[#880909] w-3 h-3" />
+                          <FaStar key={i} className="text-[#880909] w-3 h-3" />
                         ))}
                         <CiStar className="text-[#880909] w-3 h-3" />
                       </div>

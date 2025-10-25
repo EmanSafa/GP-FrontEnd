@@ -15,12 +15,18 @@ import { Route as MainIndexRouteImport } from './routes/_main/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
-import { Route as MainShopRouteImport } from './routes/_main/shop'
 import { Route as MainFavouritsRouteImport } from './routes/_main/favourits'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCartRouteImport } from './routes/_main/cart'
 import { Route as MainAccountRouteImport } from './routes/_main/account'
 import { Route as MainAboutRouteImport } from './routes/_main/about'
+import { Route as MainShopRouteRouteImport } from './routes/_main/shop/route'
+import { Route as MainShopTabletRouteImport } from './routes/_main/shop/tablet'
+import { Route as MainShopSmartwatchesRouteImport } from './routes/_main/shop/smartwatches'
+import { Route as MainShopMobileRouteImport } from './routes/_main/shop/mobile'
+import { Route as MainShopLaptopRouteImport } from './routes/_main/shop/laptop'
+import { Route as MainShopHeadphonesRouteImport } from './routes/_main/shop/headphones'
+import { Route as MainShopAccessoriesRouteImport } from './routes/_main/shop/accessories'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
@@ -51,11 +57,6 @@ const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
   path: '/forgetPassword',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const MainShopRoute = MainShopRouteImport.update({
-  id: '/shop',
-  path: '/shop',
-  getParentRoute: () => MainRouteRoute,
-} as any)
 const MainFavouritsRoute = MainFavouritsRouteImport.update({
   id: '/favourits',
   path: '/favourits',
@@ -81,89 +82,160 @@ const MainAboutRoute = MainAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => MainRouteRoute,
 } as any)
+const MainShopRouteRoute = MainShopRouteRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => MainRouteRoute,
+} as any)
+const MainShopTabletRoute = MainShopTabletRouteImport.update({
+  id: '/tablet',
+  path: '/tablet',
+  getParentRoute: () => MainShopRouteRoute,
+} as any)
+const MainShopSmartwatchesRoute = MainShopSmartwatchesRouteImport.update({
+  id: '/smartwatches',
+  path: '/smartwatches',
+  getParentRoute: () => MainShopRouteRoute,
+} as any)
+const MainShopMobileRoute = MainShopMobileRouteImport.update({
+  id: '/mobile',
+  path: '/mobile',
+  getParentRoute: () => MainShopRouteRoute,
+} as any)
+const MainShopLaptopRoute = MainShopLaptopRouteImport.update({
+  id: '/laptop',
+  path: '/laptop',
+  getParentRoute: () => MainShopRouteRoute,
+} as any)
+const MainShopHeadphonesRoute = MainShopHeadphonesRouteImport.update({
+  id: '/headphones',
+  path: '/headphones',
+  getParentRoute: () => MainShopRouteRoute,
+} as any)
+const MainShopAccessoriesRoute = MainShopAccessoriesRouteImport.update({
+  id: '/accessories',
+  path: '/accessories',
+  getParentRoute: () => MainShopRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
+  '/shop': typeof MainShopRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
   '/cart': typeof MainCartRoute
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
-  '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof MainIndexRoute
+  '/shop/accessories': typeof MainShopAccessoriesRoute
+  '/shop/headphones': typeof MainShopHeadphonesRoute
+  '/shop/laptop': typeof MainShopLaptopRoute
+  '/shop/mobile': typeof MainShopMobileRoute
+  '/shop/smartwatches': typeof MainShopSmartwatchesRoute
+  '/shop/tablet': typeof MainShopTabletRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
+  '/shop': typeof MainShopRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
   '/cart': typeof MainCartRoute
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
-  '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof MainIndexRoute
+  '/shop/accessories': typeof MainShopAccessoriesRoute
+  '/shop/headphones': typeof MainShopHeadphonesRoute
+  '/shop/laptop': typeof MainShopLaptopRoute
+  '/shop/mobile': typeof MainShopMobileRoute
+  '/shop/smartwatches': typeof MainShopSmartwatchesRoute
+  '/shop/tablet': typeof MainShopTabletRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_main': typeof MainRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/_main/shop': typeof MainShopRouteRouteWithChildren
   '/_main/about': typeof MainAboutRoute
   '/_main/account': typeof MainAccountRoute
   '/_main/cart': typeof MainCartRoute
   '/_main/contact': typeof MainContactRoute
   '/_main/favourits': typeof MainFavouritsRoute
-  '/_main/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_main/': typeof MainIndexRoute
+  '/_main/shop/accessories': typeof MainShopAccessoriesRoute
+  '/_main/shop/headphones': typeof MainShopHeadphonesRoute
+  '/_main/shop/laptop': typeof MainShopLaptopRoute
+  '/_main/shop/mobile': typeof MainShopMobileRoute
+  '/_main/shop/smartwatches': typeof MainShopSmartwatchesRoute
+  '/_main/shop/tablet': typeof MainShopTabletRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/auth'
+    | '/shop'
     | '/about'
     | '/account'
     | '/cart'
     | '/contact'
     | '/favourits'
-    | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
     | '/'
+    | '/shop/accessories'
+    | '/shop/headphones'
+    | '/shop/laptop'
+    | '/shop/mobile'
+    | '/shop/smartwatches'
+    | '/shop/tablet'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
+    | '/shop'
     | '/about'
     | '/account'
     | '/cart'
     | '/contact'
     | '/favourits'
-    | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
     | '/'
+    | '/shop/accessories'
+    | '/shop/headphones'
+    | '/shop/laptop'
+    | '/shop/mobile'
+    | '/shop/smartwatches'
+    | '/shop/tablet'
   id:
     | '__root__'
     | '/_main'
     | '/auth'
+    | '/_main/shop'
     | '/_main/about'
     | '/_main/account'
     | '/_main/cart'
     | '/_main/contact'
     | '/_main/favourits'
-    | '/_main/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
     | '/_main/'
+    | '/_main/shop/accessories'
+    | '/_main/shop/headphones'
+    | '/_main/shop/laptop'
+    | '/_main/shop/mobile'
+    | '/_main/shop/smartwatches'
+    | '/_main/shop/tablet'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -215,13 +287,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgetPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/_main/shop': {
-      id: '/_main/shop'
-      path: '/shop'
-      fullPath: '/shop'
-      preLoaderRoute: typeof MainShopRouteImport
-      parentRoute: typeof MainRouteRoute
-    }
     '/_main/favourits': {
       id: '/_main/favourits'
       path: '/favourits'
@@ -257,26 +322,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainAboutRouteImport
       parentRoute: typeof MainRouteRoute
     }
+    '/_main/shop': {
+      id: '/_main/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof MainShopRouteRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
+    '/_main/shop/tablet': {
+      id: '/_main/shop/tablet'
+      path: '/tablet'
+      fullPath: '/shop/tablet'
+      preLoaderRoute: typeof MainShopTabletRouteImport
+      parentRoute: typeof MainShopRouteRoute
+    }
+    '/_main/shop/smartwatches': {
+      id: '/_main/shop/smartwatches'
+      path: '/smartwatches'
+      fullPath: '/shop/smartwatches'
+      preLoaderRoute: typeof MainShopSmartwatchesRouteImport
+      parentRoute: typeof MainShopRouteRoute
+    }
+    '/_main/shop/mobile': {
+      id: '/_main/shop/mobile'
+      path: '/mobile'
+      fullPath: '/shop/mobile'
+      preLoaderRoute: typeof MainShopMobileRouteImport
+      parentRoute: typeof MainShopRouteRoute
+    }
+    '/_main/shop/laptop': {
+      id: '/_main/shop/laptop'
+      path: '/laptop'
+      fullPath: '/shop/laptop'
+      preLoaderRoute: typeof MainShopLaptopRouteImport
+      parentRoute: typeof MainShopRouteRoute
+    }
+    '/_main/shop/headphones': {
+      id: '/_main/shop/headphones'
+      path: '/headphones'
+      fullPath: '/shop/headphones'
+      preLoaderRoute: typeof MainShopHeadphonesRouteImport
+      parentRoute: typeof MainShopRouteRoute
+    }
+    '/_main/shop/accessories': {
+      id: '/_main/shop/accessories'
+      path: '/accessories'
+      fullPath: '/shop/accessories'
+      preLoaderRoute: typeof MainShopAccessoriesRouteImport
+      parentRoute: typeof MainShopRouteRoute
+    }
   }
 }
 
+interface MainShopRouteRouteChildren {
+  MainShopAccessoriesRoute: typeof MainShopAccessoriesRoute
+  MainShopHeadphonesRoute: typeof MainShopHeadphonesRoute
+  MainShopLaptopRoute: typeof MainShopLaptopRoute
+  MainShopMobileRoute: typeof MainShopMobileRoute
+  MainShopSmartwatchesRoute: typeof MainShopSmartwatchesRoute
+  MainShopTabletRoute: typeof MainShopTabletRoute
+}
+
+const MainShopRouteRouteChildren: MainShopRouteRouteChildren = {
+  MainShopAccessoriesRoute: MainShopAccessoriesRoute,
+  MainShopHeadphonesRoute: MainShopHeadphonesRoute,
+  MainShopLaptopRoute: MainShopLaptopRoute,
+  MainShopMobileRoute: MainShopMobileRoute,
+  MainShopSmartwatchesRoute: MainShopSmartwatchesRoute,
+  MainShopTabletRoute: MainShopTabletRoute,
+}
+
+const MainShopRouteRouteWithChildren = MainShopRouteRoute._addFileChildren(
+  MainShopRouteRouteChildren,
+)
+
 interface MainRouteRouteChildren {
+  MainShopRouteRoute: typeof MainShopRouteRouteWithChildren
   MainAboutRoute: typeof MainAboutRoute
   MainAccountRoute: typeof MainAccountRoute
   MainCartRoute: typeof MainCartRoute
   MainContactRoute: typeof MainContactRoute
   MainFavouritsRoute: typeof MainFavouritsRoute
-  MainShopRoute: typeof MainShopRoute
   MainIndexRoute: typeof MainIndexRoute
 }
 
 const MainRouteRouteChildren: MainRouteRouteChildren = {
+  MainShopRouteRoute: MainShopRouteRouteWithChildren,
   MainAboutRoute: MainAboutRoute,
   MainAccountRoute: MainAccountRoute,
   MainCartRoute: MainCartRoute,
   MainContactRoute: MainContactRoute,
   MainFavouritsRoute: MainFavouritsRoute,
-  MainShopRoute: MainShopRoute,
   MainIndexRoute: MainIndexRoute,
 }
 
