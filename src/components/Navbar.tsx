@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  CircleUserRound,
-  Heart,
-  Search,
-  ShoppingBagIcon,
-  Menu,
-  X,
-} from "lucide-react";
+import { Heart, Search, ShoppingBagIcon, Menu, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -18,6 +11,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import CustomSelect from "./ui/custom-select";
 import { navbarStyles, navigationConfig } from "./ui/navbar-styles";
+import { useRef } from "react";
+import UserDropDown from "./UserDropDown";
+
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Mobile",
@@ -166,6 +162,7 @@ const ActionIcons = ({
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const userDropDownWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const handleLevelChange = (value: string) => {
     console.log("Selected level:", value);
@@ -196,9 +193,24 @@ const Navbar = () => {
         </button>
 
         <div className={navbarStyles.topBar.logo}>Logo</div>
-        <Link to="/account">
-          <CircleUserRound className={navbarStyles.topBar.userIcon} />
-        </Link>
+        <div className="relative">
+          {/* Keep the user's dropdown component intact and trigger it programmatically when the icon is pressed. */}
+          <div
+            ref={userDropDownWrapperRef}
+            style={{ display: "none" }}
+            aria-hidden="true"
+          >
+            <UserDropDown />
+          </div>
+
+          <button
+            aria-controls="user-dropdown"
+            className="bg-transparent border-0 p-0"
+            title="User menu"
+          >
+            <UserDropDown />
+          </button>
+        </div>
       </div>
 
       {/* Desktop Navigation (1280px+) */}

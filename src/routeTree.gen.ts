@@ -15,6 +15,7 @@ import { Route as MainIndexRouteImport } from './routes/_main/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
+import { Route as MainSettingsRouteImport } from './routes/_main/settings'
 import { Route as MainFavouritsRouteImport } from './routes/_main/favourits'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCartRouteImport } from './routes/_main/cart'
@@ -56,6 +57,11 @@ const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
   id: '/forgetPassword',
   path: '/forgetPassword',
   getParentRoute: () => AuthRouteRoute,
+} as any)
+const MainSettingsRoute = MainSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => MainRouteRoute,
 } as any)
 const MainFavouritsRoute = MainFavouritsRouteImport.update({
   id: '/favourits',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof MainCartRoute
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
+  '/settings': typeof MainSettingsRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/cart': typeof MainCartRoute
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
+  '/settings': typeof MainSettingsRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_main/cart': typeof MainCartRoute
   '/_main/contact': typeof MainContactRoute
   '/_main/favourits': typeof MainFavouritsRoute
+  '/_main/settings': typeof MainSettingsRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/favourits'
+    | '/settings'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/favourits'
+    | '/settings'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/_main/cart'
     | '/_main/contact'
     | '/_main/favourits'
+    | '/_main/settings'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/signup'
@@ -286,6 +298,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/forgetPassword'
       preLoaderRoute: typeof AuthForgetPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
+    }
+    '/_main/settings': {
+      id: '/_main/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof MainSettingsRouteImport
+      parentRoute: typeof MainRouteRoute
     }
     '/_main/favourits': {
       id: '/_main/favourits'
@@ -403,6 +422,7 @@ interface MainRouteRouteChildren {
   MainCartRoute: typeof MainCartRoute
   MainContactRoute: typeof MainContactRoute
   MainFavouritsRoute: typeof MainFavouritsRoute
+  MainSettingsRoute: typeof MainSettingsRoute
   MainIndexRoute: typeof MainIndexRoute
 }
 
@@ -413,6 +433,7 @@ const MainRouteRouteChildren: MainRouteRouteChildren = {
   MainCartRoute: MainCartRoute,
   MainContactRoute: MainContactRoute,
   MainFavouritsRoute: MainFavouritsRoute,
+  MainSettingsRoute: MainSettingsRoute,
   MainIndexRoute: MainIndexRoute,
 }
 
