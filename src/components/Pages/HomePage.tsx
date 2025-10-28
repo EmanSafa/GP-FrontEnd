@@ -300,8 +300,8 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div className="w-[88%] mx-auto mt-7 ">
-          <h1 className="text-2xl font-semibold">User Feedback</h1>
+        <div className="w-[88%] mx-auto mt-10 ">
+          <h1 className="text-2xl font-semibold mb-10">User Feedback</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             {testimonials.map((testimonial, index) => (
               <UserFeedback
