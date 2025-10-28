@@ -18,6 +18,7 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as MainFavouritsRouteImport } from './routes/_main/favourits'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCartRouteImport } from './routes/_main/cart'
+import { Route as MainCardInfoRouteImport } from './routes/_main/cardInfo'
 import { Route as MainAccountRouteImport } from './routes/_main/account'
 import { Route as MainAboutRouteImport } from './routes/_main/about'
 import { Route as MainShopRouteRouteImport } from './routes/_main/shop/route'
@@ -72,6 +73,11 @@ const MainCartRoute = MainCartRouteImport.update({
   path: '/cart',
   getParentRoute: () => MainRouteRoute,
 } as any)
+const MainCardInfoRoute = MainCardInfoRouteImport.update({
+  id: '/cardInfo',
+  path: '/cardInfo',
+  getParentRoute: () => MainRouteRoute,
+} as any)
 const MainAccountRoute = MainAccountRouteImport.update({
   id: '/account',
   path: '/account',
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof MainShopRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
+  '/cardInfo': typeof MainCardInfoRoute
   '/cart': typeof MainCartRoute
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/shop': typeof MainShopRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
+  '/cardInfo': typeof MainCardInfoRoute
   '/cart': typeof MainCartRoute
   '/contact': typeof MainContactRoute
   '/favourits': typeof MainFavouritsRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/_main/shop': typeof MainShopRouteRouteWithChildren
   '/_main/about': typeof MainAboutRoute
   '/_main/account': typeof MainAccountRoute
+  '/_main/cardInfo': typeof MainCardInfoRoute
   '/_main/cart': typeof MainCartRoute
   '/_main/contact': typeof MainContactRoute
   '/_main/favourits': typeof MainFavouritsRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/about'
     | '/account'
+    | '/cardInfo'
     | '/cart'
     | '/contact'
     | '/favourits'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/about'
     | '/account'
+    | '/cardInfo'
     | '/cart'
     | '/contact'
     | '/favourits'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/_main/shop'
     | '/_main/about'
     | '/_main/account'
+    | '/_main/cardInfo'
     | '/_main/cart'
     | '/_main/contact'
     | '/_main/favourits'
@@ -306,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof MainCartRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
+    '/_main/cardInfo': {
+      id: '/_main/cardInfo'
+      path: '/cardInfo'
+      fullPath: '/cardInfo'
+      preLoaderRoute: typeof MainCardInfoRouteImport
       parentRoute: typeof MainRouteRoute
     }
     '/_main/account': {
@@ -400,6 +419,7 @@ interface MainRouteRouteChildren {
   MainShopRouteRoute: typeof MainShopRouteRouteWithChildren
   MainAboutRoute: typeof MainAboutRoute
   MainAccountRoute: typeof MainAccountRoute
+  MainCardInfoRoute: typeof MainCardInfoRoute
   MainCartRoute: typeof MainCartRoute
   MainContactRoute: typeof MainContactRoute
   MainFavouritsRoute: typeof MainFavouritsRoute
@@ -410,6 +430,7 @@ const MainRouteRouteChildren: MainRouteRouteChildren = {
   MainShopRouteRoute: MainShopRouteRouteWithChildren,
   MainAboutRoute: MainAboutRoute,
   MainAccountRoute: MainAccountRoute,
+  MainCardInfoRoute: MainCardInfoRoute,
   MainCartRoute: MainCartRoute,
   MainContactRoute: MainContactRoute,
   MainFavouritsRoute: MainFavouritsRoute,

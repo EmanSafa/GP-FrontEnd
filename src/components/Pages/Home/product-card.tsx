@@ -1,5 +1,6 @@
 import { Heart, Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
+import { useNavigate } from "@tanstack/react-router";
 
 type ProductCardProps = {
   title: string;
@@ -11,9 +12,19 @@ type ProductCardProps = {
   className?: string;
 };
 
-const ProductCard = ({ title, price, oldPrice, rating = 5, imgSrc, discount, className = "" }: ProductCardProps) => {
+const ProductCard = ({
+  title,
+  price,
+  oldPrice,
+  rating = 5,
+  imgSrc,
+  discount,
+  className = "",
+}: ProductCardProps) => {
+  const navigate = useNavigate();
   return (
     <div
+      onClick={() => navigate({ to: "/cardInfo" })}
       className={`w-full max-w-xs bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-3 hover:shadow-2xl duration-300 fade-up flex-wrap ${className}`}
     >
       <div className="relative bg-gradient-to-b from-white to-gray-100 p-4 flex items-center justify-center">

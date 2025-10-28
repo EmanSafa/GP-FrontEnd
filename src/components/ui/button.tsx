@@ -5,7 +5,8 @@ import type { VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./button-variants";
 
-function Button({
+function 
+Button({
   className,
   variant,
   size,
