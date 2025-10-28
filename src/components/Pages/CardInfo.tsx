@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import ShippingsIcon from "../ui/icons/shippingsIcon";
 import DeliverIcon from "../ui/icons/deliverIcon";
 import CardTable from "./CardTable";
+import YouMightLike from "./YouMightLike";
 const CardInfo = () => {
   const [counter, setCounter] = useState(0);
   return (
@@ -130,6 +131,7 @@ const CardInfo = () => {
         </div>
       </div>
       <CardTable />
+      <YouMightLike />
     </>
   );
 };
