@@ -10,7 +10,7 @@ import {
 import ResetPasswordForm from "../ui/reset-password-form";
 import { Link } from "@tanstack/react-router";
 
-const ForgetPassword = () => {
+const ResetPassword = () => {
   return (
     <div className="relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8">
       <Card className="z-1 w-full border-none shadow-md sm:max-w-md">
@@ -40,4 +40,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default ResetPassword;

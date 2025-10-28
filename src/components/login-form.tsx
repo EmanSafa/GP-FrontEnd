@@ -36,12 +36,9 @@ export function LoginForm({
             <FieldLabel htmlFor="password" className="text-[#5D0505]">
               Password
             </FieldLabel>
-            <Link
-              to="/auth/forgetPassword"
-              className="ml-auto font-medium text-sm text-[#5D0505] underline-offset-4 hover:underline"
-            >
+            <div className="ml-auto font-medium text-sm text-[#5D0505] underline-offset-4 hover:underline">
               Forgot your password?
-            </Link>
+            </div>
           </div>
           <Input id="password" type="password" required />
         </Field>
