@@ -37,10 +37,38 @@ import iphoneImg from "../../assets/iphones.png";
 import hero2 from "../../assets/hero2.png";
 import hero3 from "../../assets/hero3.png";
 import hero32 from "../../assets/hero32.png";
+import UserFeedback from "./UserFeedback";
 
 const HomePage = () => {
   const [heroApi, setHeroApi] = React.useState<CarouselApi | null>(null);
   const [isPaused, setIsPaused] = React.useState(false);
+
+  const testimonials = [
+    {
+      img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&h=600&fit=crop",
+      user: "Sagy Reda",
+      userComment:
+        "One of the best ecommerce product, easy to use & value of time i demand that's why i am recommanding",
+      userImg:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&h=600&fit=crop",
+      user: "Emma Wilson",
+      userComment:
+        "Outstanding quality and exceptional service! This product exceeded all my expectations and I highly recommend it to everyone",
+      userImg:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=600&fit=crop",
+      user: "James Anderson",
+      userComment:
+        "Amazing experience from start to finish. The attention to detail and customer support are second to none. Worth every penny",
+      userImg:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+    },
+  ];
 
   React.useEffect(() => {
     if (!heroApi) return;
@@ -274,6 +302,17 @@ const HomePage = () => {
         </div>
         <div className="w-[88%] mx-auto mt-7 ">
           <h1 className="text-2xl font-semibold">User Feedback</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            {testimonials.map((testimonial, index) => (
+              <UserFeedback
+                key={index}
+                img={testimonial.img}
+                user={testimonial.user}
+                userComment={testimonial.userComment}
+                userImg={testimonial.userImg}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
