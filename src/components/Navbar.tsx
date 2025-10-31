@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Heart, Search, ShoppingBagIcon, Menu, X } from "lucide-react";
+import { Heart, Search, Menu, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -13,6 +13,7 @@ import CustomSelect from "./ui/custom-select";
 import { navbarStyles, navigationConfig } from "./ui/navbar-styles";
 import { useRef } from "react";
 import UserDropDown from "./UserDropDown";
+import Cart from "./Pages/Cart";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -151,10 +152,7 @@ const ActionIcons = ({
         <Link to="/favourits">
           <Heart size={style.iconSize} />
         </Link>
-        <Link to="/cart">
-          {" "}
-          <ShoppingBagIcon size={style.iconSize} />
-        </Link>
+        <Cart />
       </div>
     </div>
   );
