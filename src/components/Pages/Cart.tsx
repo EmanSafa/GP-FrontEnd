@@ -12,6 +12,7 @@ import {
 import { ShoppingBagIcon } from "lucide-react";
 import CartItem from "./CartItem";
 import mobile from "../../assets/mobile.png";
+import { Link } from "@tanstack/react-router";
 const Cart = () => {
   return (
     <Sheet>
@@ -69,7 +70,13 @@ const Cart = () => {
               <span className="text-xl font-medium ml-2">$160</span>
             </div>
           </div>
-          <Button type="submit">Checkout</Button>
+          <SheetClose asChild>
+            <Link to="/checkout">
+              <Button type="submit" className="w-full" variant={"auth"}>
+                Checkout
+              </Button>
+            </Link>
+          </SheetClose>
           <SheetClose asChild>
             <Button variant="outline">Continue Shopping</Button>
           </SheetClose>
