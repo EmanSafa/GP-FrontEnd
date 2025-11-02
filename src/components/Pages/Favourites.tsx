@@ -24,12 +24,12 @@ const Favourites = () => {
       <h1 className="font-bold text-[30px] sm:text-[36px] mt-15 ml-[20px]  sm:ml-[120px]">
         Favourites (16)
       </h1>
-      <div className="flex items-end justify-end ">
+      <div className="flex items-end justify-end  mr-[6%] ">
         {/* <Label htmlFor="sort">
             Sort by:
             </Label>  */}
-        <Select>
-          <SelectTrigger className="border-0 text-black mr-5">
+        <Select >
+          <SelectTrigger className="border-0 text-black">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>

@@ -22,12 +22,12 @@ const UserDropDown = () => {
       <DropdownMenuContent className="w-56 " align="start">
         <DropdownMenuLabel className="text-xl">My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link to="/account" className="no-underline">
+          <Link to="/account" className="no-underline">
+            <DropdownMenuItem>
               Profile
-            </Link>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
@@ -41,7 +41,9 @@ const UserDropDown = () => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
+        <Link to='/contact'>
         <DropdownMenuItem>Support</DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <Link to="/auth/login">
           <DropdownMenuItem>
