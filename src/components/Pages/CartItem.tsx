@@ -26,7 +26,7 @@ const CartItem = ({
   return (
     <div key={id} className="m-4 ">
       <div className="flex items-start justify-start gap-3  mb-5 ">
-        <div className="f border-1  border-[#DEDEDE] shadow-md rounded-md h-[200px] flex items-center justify-center  p-2">
+        <div className="f border-1  border-[#DEDEDE] shadow-md rounded-md h-[150px] flex items-center justify-center  p-2">
           <img src={imgSrc} alt={title} className="  rounded" />
         </div>
         <div className="flex flex-1 flex-col  items-stretch gap-2   ">
