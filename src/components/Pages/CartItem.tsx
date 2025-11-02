@@ -29,7 +29,7 @@ const CartItem = ({
         <div className="f border-1  border-[#DEDEDE] shadow-md rounded-md h-[200px] flex items-center justify-center  p-2">
           <img src={imgSrc} alt={title} className="  rounded" />
         </div>
-        <div className="flex flex-1 flex-col  items-stretch gap-2 h-[200px]  ">
+        <div className="flex flex-1 flex-col  items-stretch gap-2   ">
           <h3 className="text-lg font-semibold">{title}</h3>
           <div className="flex justify-start gap-1">
             {[...Array(rating)].map((_, index) => (

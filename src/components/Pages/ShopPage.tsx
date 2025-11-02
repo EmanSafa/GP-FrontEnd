@@ -36,7 +36,7 @@ const ShopPage = ({
 }: IProps) => {
   return (
     <>
-      <SidebarProvider>
+      <SidebarProvider  >
         <AppSidebar />
         <main className=" w-full">
           <div className="flex items-center justify-start">

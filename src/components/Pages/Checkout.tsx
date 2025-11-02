@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Gift, Lock, Shield, Tag, Truck } from "lucide-react";
+import { ArrowLeft, Gift, Lock, Shield, Tag, Trash2, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import StepContact from "./CheckoutSteps/StepContact";
@@ -129,8 +129,8 @@ const Checkout = () => {
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-full border-1 border-[#5D0505]  text-sm font-medium transition-colors ${
                     stepNumber <= step
-                      ? "bg-[#5D0505] text-primary-foreground"
-                      : "bg-muted text-muted-foreground"
+                      ? "bg-[#5D0505] text-white"
+                      : "bg-muted text-[#5D0505]"
                   }`}
                 >
                   {stepNumber}
@@ -236,7 +236,7 @@ const Checkout = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Items */}
-                <div className="space-y-4">
+                <div className="space-y-4 ">
                   {orderSummary.items.map((item) => (
                     <div key={item.id} className="flex gap-4">
                       <div className="relative">
@@ -263,6 +263,7 @@ const Checkout = () => {
                           ${item.price}
                         </p>
                       </div>
+                      <Trash2/>
                     </div>
                   ))}
                 </div>
