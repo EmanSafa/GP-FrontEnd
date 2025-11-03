@@ -1,6 +1,6 @@
 import authsidebarImg from "../../assets/authSidebarImg.png";
 
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/components/ui/Auth-Forms/login-form";
 
 const LoginPage = () => {
   return (

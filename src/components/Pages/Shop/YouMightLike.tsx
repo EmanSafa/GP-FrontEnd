@@ -1,5 +1,5 @@
-import ProductCard from "./Home/product-card";
-import phoneImg from "../../assets/mobile.png";
+import ProductCard from "../Home/product-card";
+import phoneImg from "../../../assets/mobile.png"
 
 const YouMightLike = () => {
   return (

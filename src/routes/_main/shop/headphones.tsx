@@ -1,4 +1,4 @@
-import ShopPage from "@/components/Pages/ShopPage";
+import ShopPage from "@/components/Pages/Shop/ShopPage";
 import headphones from "../../../assets/headphoes.png";
 
 import { createFileRoute } from "@tanstack/react-router";

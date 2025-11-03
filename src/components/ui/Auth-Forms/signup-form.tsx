@@ -8,7 +8,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import GoogleIcon from "./ui/icons/googleIcon";
+import GoogleIcon from "../icons/googleIcon";
 import { Link } from "@tanstack/react-router";
 
 export function SignupForm({

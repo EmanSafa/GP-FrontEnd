@@ -19,9 +19,9 @@ import {
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
 import { ChevronDown } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
-import { Slider } from "../ui/slider";
-import { Button } from "../ui/button";
+import { Checkbox } from "../../ui/checkbox";
+import { Slider } from "../../ui/slider";
+import { Button } from "../../ui/button";
 import { Link } from "@tanstack/react-router";
 // Menu items.
 const items = [

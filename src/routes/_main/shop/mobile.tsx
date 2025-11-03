@@ -1,7 +1,7 @@
 // src/routes/_main/shop/mobile.tsx
-import ShopPage from "@/components/Pages/ShopPage";
 import { createFileRoute } from "@tanstack/react-router";
 import mobile from '../../../assets/mobile.png'
+import ShopPage from "@/components/Pages/Shop/ShopPage";
 
 const MobilePage = () => (
    <ShopPage

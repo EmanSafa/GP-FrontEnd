@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+// import { useState } from "react";
+// import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useNavigate } from "@tanstack/react-router";
 
-const ResetPasswordForm = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-    useState(false);
-
+const ForgetPasswordForm = () => {
+  // const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  // const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+  //   useState(false);
+  const navigate = useNavigate();
   return (
     <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
       {/* Email */}
@@ -24,7 +25,7 @@ const ResetPasswordForm = () => {
       </div>
 
       {/* Password */}
-      <div className="w-full space-y-1">
+      {/* { <div className="w-full space-y-1">
         <Label className="leading-5 text-[#5D0505]" htmlFor="password">
           New Password*
         </Label>
@@ -50,6 +51,7 @@ const ResetPasswordForm = () => {
       </div>
 
       {/* Confirm Password */}
+      {/*
       <div className="w-full space-y-1">
         <Label className="leading-5 text-[#5D0505]" htmlFor="confirmPassword">
           Confirm Password*
@@ -76,15 +78,16 @@ const ResetPasswordForm = () => {
           </Button>
         </div>
       </div>
-
+ */}
       <Button
         className="w-full bg-[#5D0505] text-white hover:bg-[#5D0505]/90"
         type="submit"
+        onClick={() => navigate({ to: "/auth/otp" })}
       >
-        Set New Password
+        Send Reset Link
       </Button>
     </form>
   );
 };
 
-export default ResetPasswordForm;
+export default ForgetPasswordForm;

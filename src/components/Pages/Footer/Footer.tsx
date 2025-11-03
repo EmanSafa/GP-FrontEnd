@@ -1,7 +1,7 @@
 import { Instagram, PhoneCall } from "lucide-react";
-import WhatsAppIcon from "./ui/icons/whatsappIcon";
-import FacebookIcon from "./ui/icons/facebookIcon";
-import LinkedInIcon from "./ui/icons/linkedInIcon";
+import WhatsAppIcon from "../../ui/icons/whatsappIcon";
+import FacebookIcon from "../../ui/icons/facebookIcon";
+import LinkedInIcon from "../../ui/icons/linkedInIcon";
 import { Link } from "@tanstack/react-router";
 
 const Footer = () => {
@@ -26,13 +26,25 @@ const Footer = () => {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-5">
-          <a href="http://www.facebook.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="http://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FacebookIcon />
           </a>
-          <a href="http://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="http://www.instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Instagram />
           </a>
-          <a href="http://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="http://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <LinkedInIcon />
           </a>
         </div>
@@ -41,10 +53,18 @@ const Footer = () => {
             <span className="font-medium text-xl md:text-2xl mb-3">Links</span>
             <div className="h-[2px] my-3 w-[8rem] bg-white"></div>
             <ul className="list-disc text-base md:text-lg ml-5 space-y-2 md:space-y-3">
-              <Link to="/"><li>Home</li></Link>
-              <Link to="/cart"><li>Cart</li></Link>
-              <Link to="/account"><li>My Account</li></Link>
-              <Link to="/about"><li>About us</li></Link>
+              <Link to="/">
+                <li>Home</li>
+              </Link>
+              <Link to="/cart">
+                <li>Cart</li>
+              </Link>
+              <Link to="/account">
+                <li>My Account</li>
+              </Link>
+              <Link to="/about">
+                <li>About us</li>
+              </Link>
             </ul>
           </div>
           <div>

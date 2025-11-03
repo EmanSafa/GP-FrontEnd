@@ -32,12 +32,7 @@ const UserDropDown = () => {
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <Link to="/auth/resetPass">
-            <DropdownMenuItem>
-              Reset Password
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
+         
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

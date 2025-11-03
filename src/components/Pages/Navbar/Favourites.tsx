@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import phoneImg from "../../assets/mobile.png";
-import ProductCard from "./Home/product-card";
+import ProductCard from "../Home/product-card";
 import {
   Pagination,
   PaginationContent,
@@ -28,7 +28,7 @@ const Favourites = () => {
         {/* <Label htmlFor="sort">
             Sort by:
             </Label>  */}
-        <Select >
+        <Select>
           <SelectTrigger className="border-0 text-black">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>

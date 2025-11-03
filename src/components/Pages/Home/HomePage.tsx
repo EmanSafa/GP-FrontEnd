@@ -10,33 +10,33 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import saleImg from "../../assets/saleImg.png";
+import saleImg from "../../../assets/saleImg.png";
 import { Link } from "@tanstack/react-router";
-import ShippingIcon from "../ui/icons/shippingIcon";
-import ReturnsIcon from "../ui/icons/returnsIcon";
-import SecurityIcon from "../ui/icons/securityIcon";
-import PhoneCallIcon from "../ui/icons/phoneIcon";
-import InfoCard from "./Home/info-card";
-import phoneImg from "../../assets/mobile.png";
-import ProductCard from "./Home/product-card";
+import ShippingIcon from "../../ui/icons/shippingIcon";
+import ReturnsIcon from "../../ui/icons/returnsIcon";
+import SecurityIcon from "../../ui/icons/securityIcon";
+import PhoneCallIcon from "../../ui/icons/phoneIcon";
+import InfoCard from "./info-card";
+import phoneImg from "../../../assets/mobile.png";
+import ProductCard from "./product-card";
 import { FaAngleRight, FaStar } from "react-icons/fa";
-import appleLogo from "../../assets/logos-brand/apple.png";
-import huwawiLogo from "../../assets/logos-brand/huawai.png";
-import samsungLogo from "../../assets/logos-brand/samsung.png";
-import realmeLogo from "../../assets/logos-brand/Realme.png";
-import vivoLogo from "../../assets/logos-brand/vivo.png";
-import CategoryCard from "./Home/Category-card";
-import mobileIcon from "../../assets/categories/mobile.png";
-import laptop from "../../assets/laptop.png";
-import tablet from "../../assets/tablet.png";
-import headphone from "../../assets/headphoes.png";
-import accessors from "../../assets/accessors.png";
-import watchIcon from "../../assets/categories/watch.png";
-import newArrivalImg from "../../assets/newarrival.png";
-import iphoneImg from "../../assets/iphones.png";
-import hero2 from "../../assets/hero2.png";
-import hero3 from "../../assets/hero3.png";
-import hero32 from "../../assets/hero32.png";
+import appleLogo from "../../../assets/logos-brand/apple.png";
+import huwawiLogo from "../../../assets/logos-brand/huawai.png";
+import samsungLogo from "../../../assets/logos-brand/samsung.png";
+import realmeLogo from "../../../assets/logos-brand/Realme.png";
+import vivoLogo from "../../../assets/logos-brand/vivo.png";
+import CategoryCard from "./Category-card";
+import mobileIcon from "../../../assets/categories/mobile.png";
+import laptop from "../../../assets/laptop.png";
+import tablet from "../../../assets/tablet.png";
+import headphone from "../../../assets/headphoes.png";
+import accessors from "../../../assets/accessors.png";
+import watchIcon from "../../../assets/categories/watch.png";
+import newArrivalImg from "../../../assets/newarrival.png";
+import iphoneImg from "../../../assets/iphones.png";
+import hero2 from "../../../assets/hero2.png";
+import hero3 from "../../../assets/hero3.png";
+import hero32 from "../../../assets/hero32.png";
 import UserFeedback from "./UserFeedback";
 
 const HomePage = () => {

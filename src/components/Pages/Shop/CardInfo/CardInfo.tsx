@@ -1,17 +1,17 @@
-import img1 from "../../assets/cardInfo/cardinfoimg1.png";
-import img2 from "../../assets/cardInfo/cardinfoimg2.png";
-import img3 from "../../assets/cardInfo/cardinfoimg3.png";
-import img from "../../assets/cardInfo/cardinfo.png";
-import color1 from "../../assets/phoneWhite.png";
-import color2 from "../../assets/phoneBlack.png";
+import img1 from "../../../../assets/cardInfo/cardinfoimg1.png";
+import img2 from "../../../../assets/cardInfo/cardinfoimg2.png";
+import img3 from "../../../../assets/cardInfo/cardinfoimg3.png";
+import img from "../../../../assets/cardInfo/cardinfo.png";
+import color1 from "../../../../assets/phoneWhite.png";
+import color2 from "../../../../assets/phoneBlack.png";
 import { Heart, Minus, Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
-import { Button } from "../ui/button";
-import ShippingsIcon from "../ui/icons/shippingsIcon";
-import DeliverIcon from "../ui/icons/deliverIcon";
+import { Button } from "../../../ui/button";
+import ShippingsIcon from "../../../ui/icons/shippingsIcon";
+import DeliverIcon from "../../../ui/icons/deliverIcon";
 import CardTable from "./CardTable";
-import YouMightLike from "./YouMightLike";
+import YouMightLike from "../YouMightLike";
 const CardInfo = () => {
   const [counter, setCounter] = useState(0);
   return (
@@ -59,7 +59,7 @@ const CardInfo = () => {
             <span className="text-[#9D0000]">(32 reivews)</span>
           </div>
           <div className="text-[#414141] font-normal sm:text-[24px] text-[15px]">
-            12 month  Warranty by Local Agent
+            12 month Warranty by Local Agent
           </div>
           <div className="h-[1px] w-[85%] bg-[#5D0505] my-3"></div>
           <div className="flex flex-col gap-2">

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { ShoppingBagIcon } from "lucide-react";
 import CartItem from "./CartItem";
-import mobile from "../../assets/mobile.png";
+import mobile from "../../../assets/mobile.png";
 import { Link } from "@tanstack/react-router";
 const Cart = () => {
   return (

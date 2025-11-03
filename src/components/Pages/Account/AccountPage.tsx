@@ -134,7 +134,7 @@ const AccountPage = () => {
           </div>
         </div>
       </div>
-      <OrderHistory/>
+      <OrderHistory />
     </div>
   );
 };

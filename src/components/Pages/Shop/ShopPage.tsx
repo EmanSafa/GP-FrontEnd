@@ -10,7 +10,7 @@ import {
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "./App-Sidebar";
 import type { ReactNode } from "react";
-import ProductCard from "./Home/product-card";
+import ProductCard from "../Home/product-card";
 import {
   Pagination,
   PaginationContent,
@@ -38,7 +38,7 @@ const ShopPage = ({
     <>
       <SidebarProvider  >
         <AppSidebar />
-        <main className=" w-full">
+        <main className=" w-full mt-10">
           <div className="flex items-center justify-start">
             <SidebarTrigger />
             <h1 className="font-bold text-4xl ">{categoryTitle}</h1>

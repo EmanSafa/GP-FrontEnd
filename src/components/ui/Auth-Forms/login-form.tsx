@@ -8,7 +8,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import GoogleIcon from "./ui/icons/googleIcon";
+import GoogleIcon from "../icons/googleIcon";
 import { Link } from "@tanstack/react-router";
 export function LoginForm({
   className,
@@ -36,9 +36,12 @@ export function LoginForm({
             <FieldLabel htmlFor="password" className="text-[#5D0505]">
               Password
             </FieldLabel>
-            <div className="ml-auto font-medium text-sm text-[#5D0505] underline-offset-4 hover:underline">
+            <Link
+              to="/auth/forgetPassword"
+              className="ml-auto font-medium text-sm text-[#5D0505] underline-offset-4 hover:underline"
+            >
               Forgot your password?
-            </div>
+            </Link>
           </div>
           <Input id="password" type="password" required />
         </Field>

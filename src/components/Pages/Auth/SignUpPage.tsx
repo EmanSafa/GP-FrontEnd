@@ -1,6 +1,6 @@
 import authsidebarImg from "../../assets/authSidebarImg.png";
 
-import { SignupForm } from "@/components/signup-form";
+import { SignupForm } from "@/components/ui/Auth-Forms/signup-form";
 const SignupPage = () => {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">

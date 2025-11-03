@@ -9,11 +9,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import CustomSelect from "./ui/custom-select";
-import { navbarStyles, navigationConfig } from "./ui/navbar-styles";
+import CustomSelect from "../../ui/custom-select";
+import { navbarStyles, navigationConfig } from "../../ui/navbar-styles";
 import { useRef } from "react";
 import UserDropDown from "./UserDropDown";
-import Cart from "./Pages/Cart";
+import Cart from "../Cart/Cart";
 
 const components: { title: string; href: string; description: string }[] = [
   {
