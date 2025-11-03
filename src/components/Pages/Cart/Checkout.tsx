@@ -39,7 +39,7 @@ const Checkout = () => {
     // Shipping Address
     address: "",
     city: "",
-    state: "",
+    governorate: "",
     zipCode: "",
     country: "US",
 

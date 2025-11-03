@@ -26,7 +26,7 @@ const PersonalInfoEditDialog = () => {
           {" "}
           <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
         </DialogTrigger>
-        <DialogContent className="">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Personal Information</DialogTitle>
             <DialogDescription>

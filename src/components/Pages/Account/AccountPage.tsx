@@ -1,5 +1,6 @@
 import { UserRound, Pencil } from "lucide-react";
 import PersonalInfoEditDialog from "./personalInfoEditDialog";
+import ShippingInfoEditDialog from "./ShippingInfoEditDialog";
 
 const AccountPage = () => {
   return (
@@ -26,7 +27,7 @@ const AccountPage = () => {
         <div className="bg-[#F5F5F5] rounded-lg p-5">
           <div className="flex justify-between items-center mb-3">
             <h2 className="font-semibold text-lg">Personal Information</h2>
-            <PersonalInfoEditDialog/>
+            <PersonalInfoEditDialog />
           </div>
           <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
           <div className="space-y-4">
@@ -67,7 +68,7 @@ const AccountPage = () => {
         <div className="bg-[#F5F5F5] rounded-lg p-5">
           <div className="flex justify-between items-center mb-3">
             <h2 className="font-semibold text-lg">Shipping Information</h2>
-            <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
+            <ShippingInfoEditDialog />
           </div>
           <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
           <div className="space-y-4">
@@ -91,6 +92,10 @@ const AccountPage = () => {
               <div>
                 <p className="text-sm text-gray-600 mb-1">Governorate</p>
                 <p className="font-medium">El Sharqia</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Country</p>
+                <p className="font-medium"> Egypt</p>
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ import {
 interface ShippingData {
   address: string;
   city: string;
-  state: string;
+  governorate: string;
   zipCode: string;
   country: string;
 }
@@ -47,12 +47,12 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="state-wX3k85M">State</Label>
+          <Label htmlFor="governorate-wX3k85M">governorate</Label>
           <Input
-            id="state-wX3k85M"
+            id="governorate-wX3k85M"
             placeholder="NY"
-            value={formData.state}
-            onChange={(e) => handleInputChange("state", e.target.value)}
+            value={formData.governorate}
+            onChange={(e) => handleInputChange("governorate", e.target.value)}
             className="mt-2"
           />
         </div>
@@ -79,7 +79,7 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="US">United States</SelectItem>
+              <SelectItem value="US">United governorates</SelectItem>
               <SelectItem value="CA">Canada</SelectItem>
               <SelectItem value="UK">United Kingdom</SelectItem>
               <SelectItem value="AU">Australia</SelectItem>
