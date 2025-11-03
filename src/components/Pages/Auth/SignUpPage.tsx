@@ -1,4 +1,4 @@
-import authsidebarImg from "../../assets/authSidebarImg.png";
+import authsidebarImg from "../../../assets/authSidebarImg.png";
 
 import { SignupForm } from "@/components/ui/Auth-Forms/signup-form";
 const SignupPage = () => {

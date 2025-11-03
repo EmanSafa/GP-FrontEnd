@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import phoneImg from "../../assets/mobile.png";
+import phoneImg from "../../../assets/mobile.png";
 import ProductCard from "../Home/product-card";
 import {
   Pagination,
