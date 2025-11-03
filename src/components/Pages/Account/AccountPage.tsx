@@ -1,5 +1,5 @@
 import { UserRound, Pencil } from "lucide-react";
-import OrderHistory from "./OrderHistory";
+import PersonalInfoEditDialog from "./personalInfoEditDialog";
 
 const AccountPage = () => {
   return (
@@ -26,9 +26,9 @@ const AccountPage = () => {
         <div className="bg-[#F5F5F5] rounded-lg p-5">
           <div className="flex justify-between items-center mb-3">
             <h2 className="font-semibold text-lg">Personal Information</h2>
-            <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
+            <PersonalInfoEditDialog/>
           </div>
-          <div className="h-[2px] w-[98%] text-center mx-auto  mb-4 bg-black"></div>
+          <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -56,10 +56,21 @@ const AccountPage = () => {
                 <p className="font-medium">Mirnaabdelrahman511</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600 mb-1">Governorate</p>
-                <p className="font-medium">El Sharqia</p>
+                <p className="text-sm text-gray-600 mb-1">Password</p>
+                <p className="font-medium">***********</p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Shipping Information */}
+        <div className="bg-[#F5F5F5] rounded-lg p-5">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="font-semibold text-lg">Shipping Information</h2>
+            <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
+          </div>
+          <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
+          <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 mb-1">City/Town</p>
@@ -70,71 +81,52 @@ const AccountPage = () => {
                 <p className="font-medium">171717</p>
               </div>
             </div>
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Permanent Address</p>
-              <p className="font-medium">
-                5 Saied Street, Farouk Street , Floor 4
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Permanent Address</p>
+                <p className="font-medium">
+                  5 Saied Street, Farouk Street, Floor 4
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Governorate</p>
+                <p className="font-medium">El Sharqia</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column */}
-        <div className="space-y-5">
-          {/* Shipping Information */}
-          <div className="bg-[#F5F5F5] rounded-lg p-5">
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="font-semibold text-lg">Shipping Information</h2>
-              <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
-            </div>
-            <div className="h-[2px] w-[98%] text-center mx-auto  mb-4 bg-black"></div>
-
+        {/* Payment Information */}
+        <div className="bg-[#F5F5F5] rounded-lg p-5">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="font-semibold text-lg">Payment Information</h2>
+            <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
+          </div>
+          <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
+          <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Shipping Method</p>
-                <p className="font-medium">Standard</p>
+                <p className="text-sm text-gray-600 mb-1">Name of Card</p>
+                <p className="font-medium">Mirna Abdelrahman</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600 mb-1">Payment Method</p>
-                <p className="font-medium">CrPencil Card</p>
+                <p className="text-sm text-gray-600 mb-1">Card Number</p>
+                <p className="font-medium">************</p>
               </div>
             </div>
-          </div>
-
-          {/* Payment Information */}
-          <div className="bg-[#F5F5F5] rounded-lg p-5">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-semibold text-lg">Payment Information</h2>
-              <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
-            </div>
-            <div className="h-[2px] w-[98%] text-center mx-auto  mb-4 bg-black"></div>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Name of Card</p>
-                  <p className="font-medium">Mirna Abdelrahman</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Card Number</p>
-                  <p className="font-medium">************</p>
-                </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Valid Through</p>
+                <p className="font-medium">2026/12/4</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Valid Through</p>
-                  <p className="font-medium">2026/12/4</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">CVV</p>
-                  <p className="font-medium">***</p>
-                </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">CVV</p>
+                <p className="font-medium">***</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <OrderHistory />
     </div>
   );
 };
