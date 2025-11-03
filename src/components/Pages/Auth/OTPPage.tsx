@@ -1,5 +1,5 @@
 
-import { OTPForm } from './../../ui/Auth-Forms/otp-form';
+import { OTPForm } from '../../ui/Auth-Forms/otp-form';
 
 const OTP = () => {
   return (

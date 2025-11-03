@@ -1,6 +1,8 @@
 import { UserRound, Pencil } from "lucide-react";
 import PersonalInfoEditDialog from "./personalInfoEditDialog";
 import ShippingInfoEditDialog from "./ShippingInfoEditDialog";
+import OrderHistory from "./OrderHistory";
+import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 
 const AccountPage = () => {
   return (
@@ -105,13 +107,13 @@ const AccountPage = () => {
         <div className="bg-[#F5F5F5] rounded-lg p-5">
           <div className="flex justify-between items-center mb-3">
             <h2 className="font-semibold text-lg">Payment Information</h2>
-            <Pencil className="w-5 h-5 text-gray-600 cursor-pointer" />
+            <PaymentInfoEditDialog/>
           </div>
           <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Name of Card</p>
+                <p className="text-sm text-gray-600 mb-1">Name on Card</p>
                 <p className="font-medium">Mirna Abdelrahman</p>
               </div>
               <div>
@@ -122,7 +124,7 @@ const AccountPage = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Valid Through</p>
-                <p className="font-medium">2026/12/4</p>
+                <p className="font-medium">12/4</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600 mb-1">CVV</p>
@@ -132,6 +134,7 @@ const AccountPage = () => {
           </div>
         </div>
       </div>
+      <OrderHistory/>
     </div>
   );
 };
