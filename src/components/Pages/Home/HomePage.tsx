@@ -124,7 +124,7 @@ const HomePage = () => {
                       <span className="font-semibold text-5xl max-w-xs text-center">
                         SALE UP TO 40%
                       </span>
-                      <Link to="/shop/mobile">
+                      <Link to="/shop">
                         <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-[#5D0505] text-white hover:bg-[#7a0707]">
                           Shop Now
                         </Button>

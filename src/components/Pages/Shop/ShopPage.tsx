@@ -20,23 +20,22 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { UseGetAllProducts } from "@/hooks/useProducts";
 
 interface IProps {
   children?: ReactNode;
   /** Optional category title to show in the page header. Defaults to 'Mobile Samsung' */
   categoryTitle?: string;
-  productCardTitle: string;
-  productCardSrcImg: string;
 }
 const ShopPage = ({
   children,
   categoryTitle,
-  productCardSrcImg,
-  productCardTitle,
 }: IProps) => {
+  const { data: allProducts } = UseGetAllProducts();
+  console.log(allProducts);
   return (
     <>
-      <SidebarProvider  >
+      <SidebarProvider>
         <AppSidebar />
         <main className=" w-full mt-10">
           <div className="flex items-center justify-start">
@@ -60,17 +59,18 @@ const ShopPage = ({
             </Select>
           </div>
           <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
-            {Array.from({ length: 20 }).map((_, i) => (
+{/*             
+            {allProducts?.map((product) => (
               <ProductCard
-                key={i}
-                title={productCardTitle}
-                price="$960"
-                oldPrice="$1200"
-                rating={5}
-                imgSrc={productCardSrcImg}
+                key={product.id}
+                title={product?.name}
+                price={`$${product?.price}`}
+                oldPrice={`$${product?.price + 240}`}
+                rating={product?.rating}
+                imgSrc={product?.imgSrc || productCardSrcImg}
                 discount={20}
               />
-            ))}
+            ))} */}
           </div>
           {children}
           <Pagination>

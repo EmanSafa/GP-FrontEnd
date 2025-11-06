@@ -22,32 +22,28 @@ import { ChevronDown } from "lucide-react";
 import { Checkbox } from "../../ui/checkbox";
 import { Slider } from "../../ui/slider";
 import { Button } from "../../ui/button";
-import { Link } from "@tanstack/react-router";
 // Menu items.
 const items = [
   {
     title: " Mobile",
-    url: "/shop/mobile",
   },
   {
     title: "Laptop",
-    url: "/shop/laptop",
   },
   {
     title: "Tablet",
-    url: "/shop/tablet",
+  },
+  {
+    title: "Camera",
   },
   {
     title: "Headphones",
-    url: "/shop/headphones",
   },
   {
     title: "Smartwatches",
-    url: "/shop/smartwatches",
   },
   {
     title: "Accessories",
-    url: "/shop/accessories",
   },
 ];
 
@@ -67,9 +63,7 @@ const AppSidebar = () => {
                   className="text-normal text-[16px] "
                 >
                   <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <span>{item.title}</span>
-                    </Link>
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
