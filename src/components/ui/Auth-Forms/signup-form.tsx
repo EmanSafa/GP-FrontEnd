@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
@@ -10,15 +11,74 @@ import {
 import { Input } from "@/components/ui/input";
 import GoogleIcon from "../icons/googleIcon";
 import { Link } from "@tanstack/react-router";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const schema = z
+    .object({
+      fullName: z
+        .string()
+        .min(2, { message: "Full Name is too short" })
+        .max(100, { message: "Full Name is too long" })
+        .nonempty({ message: "Full name is required" }),
+
+      email: z
+        .string()
+        .trim()
+        .nonempty({ message: "Email is required" })
+        .min(5, { message: "Email is too short" })
+        .max(50, { message: "Email is too long" })
+        .regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
+          message: "Please enter a valid email address",
+        }),
+
+      password: z
+        .string()
+        .trim()
+        .nonempty({ message: "Password is required" })
+        .min(8, { message: "Password must be at least 8 characters long" })
+        .max(50, { message: "Password must not exceed 50 characters" })
+        .regex(/[A-Z]/, { message: "At least one uppercase letter required" })
+        .regex(/[a-z]/, { message: "At least one lowercase letter required" })
+        .regex(/[0-9]/, { message: "At least one number required" })
+        .regex(/[^A-Za-z0-9]/, {
+          message: "At least one special character required",
+        })
+        .refine((val) => !val.includes("password"), {
+          message: "Password should not contain the word 'password'",
+        }),
+      confirmPassword: z
+        .string()
+        .trim()
+        .nonempty({ message: "Please confirm your password" }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      path: ["confirmPassword"],
+      message: "Passwords do not match",
+    });
+  type SignupFormData = z.infer<typeof schema>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(schema),
+    mode: "onSubmit",
+  });
+  const onSubmit = (data: SignupFormData) => {
+    console.log(data);
+  };
   return (
     <form
-      className={cn("flex flex-col gap-2 max-w-sm mx-auto", className)}
+      className={cn("flex flex-col  max-w-sm mx-auto", className)}
       {...props}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center ">
@@ -38,8 +98,15 @@ export function SignupForm({
             type="text"
             placeholder="Enter your full name"
             required
-            className=" border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20"
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              errors.fullName && "border-red-500 focus:ring-red-300"
+            )}
+            {...register("fullName")}
           />
+          {errors.fullName && (
+            <FieldError>{errors.fullName.message}</FieldError>
+          )}
         </Field>
         <Field>
           <FieldLabel htmlFor="email" className="text-[#5D0505] font-medium">
@@ -50,8 +117,13 @@ export function SignupForm({
             type="email"
             placeholder="Enter your email"
             required
-            className=" border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20"
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",              
+              errors.email && "border-red-500 focus:ring-red-300"
+            )}
+            {...register("email")}
           />
+          {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </Field>
         <Field>
           <FieldLabel htmlFor="password" className="text-[#5D0505] font-medium">
@@ -62,8 +134,16 @@ export function SignupForm({
             type="password"
             placeholder="Create a password"
             required
-            className=" border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20"
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              errors.password && "border-red-500 focus:ring-red-300"
+            )}
+            {...register("password")}
+            isPassword={true}
           />
+          {errors.password && (
+            <FieldError>{errors.password.message}</FieldError>
+          )}
         </Field>
         <Field>
           <FieldLabel
@@ -77,13 +157,22 @@ export function SignupForm({
             type="password"
             placeholder="Confirm your password"
             required
-            className=" border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20"
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              errors.confirmPassword && "border-red-500 focus:ring-red-300"
+            )}
+            {...register("confirmPassword")}
+            isPassword={true}
           />
+          {errors.confirmPassword && (
+            <FieldError>{errors.confirmPassword.message}</FieldError>
+          )}
         </Field>
         <Field className="mt-1">
           <Button
             type="submit"
             className="w-full bg-[#5D0505] hover:bg-[#4a0404] text-white font-medium  rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+            disabled={isSubmitting}
           >
             Create Account
           </Button>

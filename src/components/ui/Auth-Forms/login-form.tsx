@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
@@ -10,12 +11,65 @@ import {
 import { Input } from "@/components/ui/input";
 import GoogleIcon from "../icons/googleIcon";
 import { Link } from "@tanstack/react-router";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const schema = z.object({
+    email: z
+      .string()
+      .trim()
+      .nonempty({ message: "Email is required" })
+      .min(5, { message: "Email is too short" })
+      .max(50, { message: "Email is too long" })
+      .regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
+        message: "Please enter a valid email address",
+      }),
+
+    password: z
+      .string()
+      .trim()
+      .nonempty({ message: "Password is required" })
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .max(50, { message: "Password must not exceed 50 characters" })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[^A-Za-z0-9]/, {
+        message: "Password must contain at least one special character",
+      })
+      .refine((val) => !/\s/.test(val), {
+        message: "Password must not contain spaces",
+      }),
+  });
+  type LoginFormData = z.infer<typeof schema>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(schema),
+    mode: "onSubmit",
+  });
+  const onSubmit = (data: LoginFormData) => {
+    console.log(data);
+  };
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+    >
       <FieldGroup>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
@@ -29,7 +83,18 @@ export function LoginForm({
           <FieldLabel htmlFor="email" className="text-[#5D0505]">
             Email
           </FieldLabel>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              errors.email && "border-red-500 focus:ring-red-300"
+            )}
+            {...register("email")}
+          />
+          {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </Field>
         <Field>
           <div className="flex items-center">
@@ -43,10 +108,23 @@ export function LoginForm({
               Forgot your password?
             </Link>
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            isPassword
+            required
+            {...register("password")}
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              errors.password && "border-red-500 focus:ring-red-300"
+            )}
+          />
+          {errors.password && (
+            <FieldError>{errors.password.message}</FieldError>
+          )}
         </Field>
         <Field>
-          <Button type="submit" variant={"auth"}>
+          <Button type="submit" variant={"auth"} disabled={isSubmitting}>
             Login
           </Button>
         </Field>
