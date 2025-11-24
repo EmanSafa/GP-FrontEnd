@@ -18,33 +18,33 @@ import Cart from "../Cart/Cart";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Mobile",
-    href: "/shop/mobile",
+      href: "/shop",
     description: " ",
   },
 
   {
     title: "Laptop",
-    href: "/shop/laptop",
+      href: "/shop",
     description: "",
   },
   {
     title: "Tablet",
-    href: "/shop/tablet",
+      href: "/shop",
     description: "",
   },
   {
     title: "HeadPhones",
-    href: "/shop/headphones",
+      href: "/shop",
     description: "",
   },
   {
     title: "SmartWatches",
-    href: "/shop/smartwatches",
+      href: "/shop",
     description: "",
   },
   {
     title: "Acessories",
-    href: "/shop/accessories",
+      href: "/shop",
     description: "",
   },
 ];
