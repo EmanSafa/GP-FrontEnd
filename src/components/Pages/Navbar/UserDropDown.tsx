@@ -11,7 +11,17 @@ import {
 import { CircleUserRound } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
+import { useNavigate } from "@tanstack/react-router";
+import { authApi } from "@/api/authApi";
+
 const UserDropDown = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await authApi.logout();
+    navigate({ to: "/auth/login" });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,12 +50,10 @@ const UserDropDown = () => {
         <DropdownMenuItem>Support</DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
-        <Link to="/auth/login">
-          <DropdownMenuItem>
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </Link>
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

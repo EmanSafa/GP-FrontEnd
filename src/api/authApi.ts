@@ -13,6 +13,7 @@ interface RegisterRequest {
   name: string;
   email: string;
   password: string;
+  phone?: string;
 }
 
 interface AuthResponse {
@@ -21,8 +22,10 @@ interface AuthResponse {
     email: string;
     name: string;
     role: 'admin' | 'customer';
+    phone?: string;
   };
   token: string;
+  session_id?: string;
 }
 
 export const authApi = {
@@ -45,11 +48,8 @@ export const authApi = {
         : response.data as AuthResponse;
       
       // Store user and token in Zustand
-      useAuthStore.getState().setAuth(authData.user, authData.token);
+      // useAuthStore.getState().setAuth(authData.user, authData.token, authData.session_id);
       console.log('✅ Registration successful:', authData);
-      console.log('✅ Registration successful:', authData.user);
-      console.log('✅ Registration successful:', authData.token);
-
       
       return authData;
     } catch (error: any) {
@@ -76,7 +76,7 @@ export const authApi = {
         : response.data as AuthResponse;
       
       // Store user and token in Zustand
-      useAuthStore.getState().setAuth(authData.user, authData.token);
+      useAuthStore.getState().setUser(authData.user);
       console.log('✅ Login successful:', authData);
 
       return authData;
@@ -91,6 +91,7 @@ export const authApi = {
     try {
       // Call backend logout endpoint (optional - clears token on server)
       await axiosInstance.post(endpoints.auth.logout);
+      console.log('✅ Logout successful');
     } catch (error) {
       // Even if backend fails, clear local state
       console.error('Logout error:', error);

@@ -4,7 +4,29 @@ import ShippingInfoEditDialog from "./ShippingInfoEditDialog";
 import OrderHistory from "./OrderHistory";
 import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 
+import { useAuthStore } from "@/store/authStore";
+
 const AccountPage = () => {
+  const { user } = useAuthStore();
+  
+  // Helper to safely get user data
+  const userData = user || {
+    name: "Guest User",
+    email: "guest@example.com",
+    phone: "N/A",
+    address: "N/A",
+    city: "N/A",
+    postcode: "N/A",
+    governorate: "N/A",
+    country: "N/A",
+    role: "customer" as const
+  };
+
+  // Split name into first and last name
+  const nameParts = (userData.name || "").split(" ");
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || "";
+
   return (
     <div className="mt-7 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
@@ -16,10 +38,15 @@ const AccountPage = () => {
           </div>
         </div>
         <div>
-          <h1 className="font-bold text-xl md:text-2xl">Mirna Abdelrahman</h1>
+          <h1 className="font-bold text-xl md:text-2xl">{userData.name}</h1>
           <h3 className="font-normal text-[#3D3D3D] text-sm md:text-base">
-            Mirnaabdelrahman511
+            {userData.email}
           </h3>
+          {userData.role && (
+            <span className="inline-block mt-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full capitalize">
+              {userData.role}
+            </span>
+          )}
         </div>
       </div>
 
@@ -36,31 +63,37 @@ const AccountPage = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 mb-1">First Name</p>
-                <p className="font-medium">Mirna</p>
+                <p className="font-medium">{firstName}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600 mb-1">Last Name</p>
-                <p className="font-medium">Abdelrahman</p>
+                <p className="font-medium">{lastName}</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Email Address</p>
-                <p className="font-medium text-sm">Mirnaabddo2@gmail.com</p>
+                <p className="font-medium text-sm">{userData.email}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600 mb-1">Phone Number</p>
-                <p className="font-medium">01341273931</p>
+                <p className="font-medium">{userData.phone || "N/A"}</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 mb-1">User Name</p>
-                <p className="font-medium">Mirnaabdelrahman511</p>
+                <p className="font-medium">{userData.name}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600 mb-1">Password</p>
                 <p className="font-medium">***********</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Role</p>
+                <p className="font-medium capitalize">{userData.role || "Customer"}</p>
               </div>
             </div>
           </div>

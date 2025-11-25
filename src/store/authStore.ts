@@ -6,14 +6,15 @@ interface User {
   name?: string;
   email: string;
   role?: 'admin' | 'customer';
-  // Add other user properties as needed
+  phone?: string;
 }
 
 interface AuthState {
   user: User | null;
   token: string | null;
+  sessionId?: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, token: string) => void;
+  setAuth: (user: User, token: string, sessionId?: string) => void;
   clearAuth: () => void;
   setUser: (user: User) => void;
 }
@@ -23,10 +24,11 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
+      sessionId: null,
       isAuthenticated: false,
-      setAuth: (user, token) => set({ user, token, isAuthenticated: true }),
-      clearAuth: () => set({ user: null, token: null, isAuthenticated: false }),
-      setUser: (user) => set({ user }),
+      setAuth: (user, token, sessionId) => set({ user, token, sessionId, isAuthenticated: true }),
+      clearAuth: () => set({ user: null, token: null, sessionId: null, isAuthenticated: false }),
+      setUser: (user) => set({ user , isAuthenticated: true}),
     }),
     {
       name: "auth-storage", // name of the item in the storage (must be unique)

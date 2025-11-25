@@ -57,6 +57,12 @@ export function SignupForm({
           message: "Please enter a valid email address",
         }),
 
+      phone: z
+        .string()
+        .trim()
+        .optional(),
+    
+
       password: z
         .string()
         .trim()
@@ -103,6 +109,7 @@ export function SignupForm({
       name: data.name,  // Backend expects 'name'
       email: data.email,
       password: data.password,
+      phone: data.phone,
     };
 
     console.log('Form data:', data);
@@ -174,6 +181,23 @@ export function SignupForm({
           />
           {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </Field>
+        <Field>
+          <FieldLabel htmlFor="phone" className="text-[#5D0505] font-medium">
+            Phone Number
+          </FieldLabel>
+          <Input
+            id="phone"
+            type="tel"
+            placeholder="Enter your phone number"
+            className={cn(
+              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              errors.phone && "border-red-500 focus:ring-red-300"
+            )}
+            {...register("phone")}
+          />
+          {errors.phone && <FieldError>{errors.phone.message}</FieldError>}
+        </Field>
+       
         <Field>
           <FieldLabel htmlFor="password" className="text-[#5D0505] font-medium">
             Password

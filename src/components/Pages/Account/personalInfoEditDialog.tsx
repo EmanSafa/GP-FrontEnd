@@ -14,7 +14,23 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon, Pencil } from "lucide-react";
 import { useState } from "react";
 
+import { useAuthStore } from "@/store/authStore";
+
 const PersonalInfoEditDialog = () => {
+  const { user } = useAuthStore();
+  const userData = user || {
+    name: "Guest User",
+    email: "guest@example.com",
+    phone: "N/A",
+    role: "customer"
+  };
+
+  // Split name into first and last name
+  const nameParts = (userData.name || "").split(" ");
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || "";
+
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [showChangePass, setShowChangePass] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
@@ -37,18 +53,18 @@ const PersonalInfoEditDialog = () => {
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-1">First Name</Label>
-              <Input id="name-1" name="name" defaultValue="Mirna" />
+              <Input id="name-1" name="name" defaultValue={firstName} />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="name-2">Last Name</Label>
-              <Input id="name-2" name="name" defaultValue="Abdelrahman" />
+              <Input id="name-2" name="name" defaultValue={lastName} />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Username</Label>
               <Input
                 id="username-1"
                 name="username"
-                defaultValue="Mirnaabdelrahman511"
+                defaultValue={userData.name}
               />
             </div>
             <div className="grid gap-3">
@@ -56,12 +72,16 @@ const PersonalInfoEditDialog = () => {
               <Input
                 id="email"
                 name="email"
-                defaultValue="Mirnaabddo2@gmail.com"
+                defaultValue={userData.email}
               />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" name="phone" defaultValue="01341273931" />
+              <Input id="phone" name="phone" defaultValue={userData.phone} />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="role">Role</Label>
+              <Input id="role" name="role" defaultValue={userData.role} disabled className="bg-gray-100" />
             </div>
             <Label htmlFor="pass">Password</Label>
             <div className="flex justify-between items-center gap-4">
