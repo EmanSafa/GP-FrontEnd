@@ -18,10 +18,12 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
 import { Route as MainShopRouteImport } from './routes/_main/shop'
 import { Route as MainFavouritsRouteImport } from './routes/_main/favourits'
+import { Route as MainDashboardRouteImport } from './routes/_main/dashboard'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCheckoutRouteImport } from './routes/_main/checkout'
 import { Route as MainCartRouteImport } from './routes/_main/cart'
 import { Route as MainCardInfoRouteImport } from './routes/_main/cardInfo'
+import { Route as MainAdminRouteImport } from './routes/_main/admin'
 import { Route as MainAccountRouteImport } from './routes/_main/account'
 import { Route as MainAboutRouteImport } from './routes/_main/about'
 
@@ -69,6 +71,11 @@ const MainFavouritsRoute = MainFavouritsRouteImport.update({
   path: '/favourits',
   getParentRoute: () => MainRouteRoute,
 } as any)
+const MainDashboardRoute = MainDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => MainRouteRoute,
+} as any)
 const MainContactRoute = MainContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -89,6 +96,11 @@ const MainCardInfoRoute = MainCardInfoRouteImport.update({
   path: '/cardInfo',
   getParentRoute: () => MainRouteRoute,
 } as any)
+const MainAdminRoute = MainAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => MainRouteRoute,
+} as any)
 const MainAccountRoute = MainAccountRouteImport.update({
   id: '/account',
   path: '/account',
@@ -104,10 +116,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
+  '/admin': typeof MainAdminRoute
   '/cardInfo': typeof MainCardInfoRoute
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
+  '/dashboard': typeof MainDashboardRoute
   '/favourits': typeof MainFavouritsRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
@@ -120,10 +134,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
+  '/admin': typeof MainAdminRoute
   '/cardInfo': typeof MainCardInfoRoute
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
+  '/dashboard': typeof MainDashboardRoute
   '/favourits': typeof MainFavouritsRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
@@ -138,10 +154,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteRouteWithChildren
   '/_main/about': typeof MainAboutRoute
   '/_main/account': typeof MainAccountRoute
+  '/_main/admin': typeof MainAdminRoute
   '/_main/cardInfo': typeof MainCardInfoRoute
   '/_main/cart': typeof MainCartRoute
   '/_main/checkout': typeof MainCheckoutRoute
   '/_main/contact': typeof MainContactRoute
+  '/_main/dashboard': typeof MainDashboardRoute
   '/_main/favourits': typeof MainFavouritsRoute
   '/_main/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
@@ -156,10 +174,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/about'
     | '/account'
+    | '/admin'
     | '/cardInfo'
     | '/cart'
     | '/checkout'
     | '/contact'
+    | '/dashboard'
     | '/favourits'
     | '/shop'
     | '/auth/forgetPassword'
@@ -172,10 +192,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/about'
     | '/account'
+    | '/admin'
     | '/cardInfo'
     | '/cart'
     | '/checkout'
     | '/contact'
+    | '/dashboard'
     | '/favourits'
     | '/shop'
     | '/auth/forgetPassword'
@@ -189,10 +211,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_main/about'
     | '/_main/account'
+    | '/_main/admin'
     | '/_main/cardInfo'
     | '/_main/cart'
     | '/_main/checkout'
     | '/_main/contact'
+    | '/_main/dashboard'
     | '/_main/favourits'
     | '/_main/shop'
     | '/auth/forgetPassword'
@@ -272,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainFavouritsRouteImport
       parentRoute: typeof MainRouteRoute
     }
+    '/_main/dashboard': {
+      id: '/_main/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof MainDashboardRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
     '/_main/contact': {
       id: '/_main/contact'
       path: '/contact'
@@ -300,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainCardInfoRouteImport
       parentRoute: typeof MainRouteRoute
     }
+    '/_main/admin': {
+      id: '/_main/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof MainAdminRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
     '/_main/account': {
       id: '/_main/account'
       path: '/account'
@@ -320,10 +358,12 @@ declare module '@tanstack/react-router' {
 interface MainRouteRouteChildren {
   MainAboutRoute: typeof MainAboutRoute
   MainAccountRoute: typeof MainAccountRoute
+  MainAdminRoute: typeof MainAdminRoute
   MainCardInfoRoute: typeof MainCardInfoRoute
   MainCartRoute: typeof MainCartRoute
   MainCheckoutRoute: typeof MainCheckoutRoute
   MainContactRoute: typeof MainContactRoute
+  MainDashboardRoute: typeof MainDashboardRoute
   MainFavouritsRoute: typeof MainFavouritsRoute
   MainShopRoute: typeof MainShopRoute
   MainIndexRoute: typeof MainIndexRoute
@@ -332,10 +372,12 @@ interface MainRouteRouteChildren {
 const MainRouteRouteChildren: MainRouteRouteChildren = {
   MainAboutRoute: MainAboutRoute,
   MainAccountRoute: MainAccountRoute,
+  MainAdminRoute: MainAdminRoute,
   MainCardInfoRoute: MainCardInfoRoute,
   MainCartRoute: MainCartRoute,
   MainCheckoutRoute: MainCheckoutRoute,
   MainContactRoute: MainContactRoute,
+  MainDashboardRoute: MainDashboardRoute,
   MainFavouritsRoute: MainFavouritsRoute,
   MainShopRoute: MainShopRoute,
   MainIndexRoute: MainIndexRoute,

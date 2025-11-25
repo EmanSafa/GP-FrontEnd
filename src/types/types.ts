@@ -4,11 +4,11 @@ export interface Product {
   id: string;
   name: string;
   description?: string;
-  price: string; // API returns price as a string (e.g. "35000.00")
+  price: string;
   stock?: string;
   brand_id?: string;
   category_id?: string;
-  specifications?: string; // JSON string like '{"ram":"12GB","storage":"512GB"}'
+  specifications?: string; // JSON string
   main_image?: string;
   rating?: string;
   is_available?: string; // "1" or "0"

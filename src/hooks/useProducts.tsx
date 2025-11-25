@@ -9,8 +9,14 @@ export const UseGetAllProducts = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const response = await productsApi.list();
-      return response.data;
+      if (response.data && Array.isArray(response.data.products)) {
+        return response.data.products;
+      }
+      
+      if (Array.isArray(response.data)) {
+        return response.data;
+      }
+      throw new Error("Failed to fetch products: Invalid response format");
     },
-  
   });
 };

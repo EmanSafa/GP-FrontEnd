@@ -1,25 +1,9 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "./App-Sidebar";
 import type { ReactNode } from "react";
 import ProductCard from "../Home/product-card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import GlobalPagination from "@/components/Global/GlobalPagination";
+import GlobalSort from "@/components/Global/GlobalSort";
 import { UseGetAllProducts } from "@/hooks/useProducts";
 
 interface IProps {
@@ -27,12 +11,12 @@ interface IProps {
   /** Optional category title to show in the page header. Defaults to 'Mobile Samsung' */
   categoryTitle?: string;
 }
+
 const ShopPage = ({
   children,
   categoryTitle,
 }: IProps) => {
   const { data: allProducts } = UseGetAllProducts();
-  console.log(allProducts);
   return (
     <>
       <SidebarProvider>
@@ -46,57 +30,23 @@ const ShopPage = ({
             {/* <Label htmlFor="sort">
             Sort by:
             </Label>  */}
-            <Select>
-              <SelectTrigger className="border-0 text-black mr-5">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Sort by</SelectLabel>
-                  <SelectItem value="low-to-high">Price low to high</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <GlobalSort className="mr-5" />
           </div>
           <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
-{/*             
             {allProducts?.map((product) => (
               <ProductCard
                 key={product.id}
-                title={product?.name}
-                price={`$${product?.price}`}
-                oldPrice={`$${product?.price + 240}`}
-                rating={product?.rating}
-                imgSrc={product?.imgSrc || productCardSrcImg}
-                discount={20}
+                title={product.name}
+                price={`$${product.price}`}
+                oldPrice={`$${parseFloat(product.price) + 240}`} 
+                rating={parseFloat(product.rating || "0")}
+                imgSrc={product.main_image_url || product.main_image || ""}
+                discount={20} 
               />
-            ))} */}
+            ))}
           </div>
           {children}
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <GlobalPagination />
         </main>
       </SidebarProvider>
     </>

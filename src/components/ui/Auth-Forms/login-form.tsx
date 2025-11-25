@@ -10,15 +10,35 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import GoogleIcon from "../icons/googleIcon";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { authApi } from "@/api/authApi";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthStore } from "@/store/authStore";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const [apiError, setApiError] = useState<string>("");
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: authApi.login,
+    onSuccess: () => {
+      // Auth data is already stored by authApi.login
+      const redirectPath = user?.role === 'admin' ? '/dashboard' : '/';
+      navigate({ to: redirectPath });
+    },
+    onError: (error: Error) => {
+      setApiError(error.message);
+    },
+  });
+
   const schema = z.object({
     email: z
       .string()
@@ -50,18 +70,23 @@ export function LoginForm({
         message: "Password must not contain spaces",
       }),
   });
+  
   type LoginFormData = z.infer<typeof schema>;
+  
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(schema),
     mode: "onSubmit",
   });
+
   const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+    setApiError("");
+    login(data);
   };
+
 
   return (
     <form
@@ -78,6 +103,11 @@ export function LoginForm({
           <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
             Enter your email below to login to your account
           </p>
+          {apiError && (
+            <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              {apiError}
+            </div>
+          )}
         </div>
         <Field>
           <FieldLabel htmlFor="email" className="text-[#5D0505]">
@@ -124,8 +154,8 @@ export function LoginForm({
           )}
         </Field>
         <Field>
-          <Button type="submit" variant={"auth"} disabled={isSubmitting}>
-            Login
+          <Button type="submit" variant={"auth"} disabled={isPending}>
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
