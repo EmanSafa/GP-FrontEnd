@@ -1,6 +1,7 @@
 import Footer from "@/components/Pages/Footer/Footer";
 import Navbar from "@/components/Pages/Navbar/Navbar";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { useAuthStore } from "@/store/authStore";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 function MainLayout() {
   return (
@@ -15,5 +16,16 @@ function MainLayout() {
   );
 }
 export const Route = createFileRoute("/_main")({
+  beforeLoad: ({ location }) => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) {
+      throw redirect({
+        to: "/auth/login",
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
   component: MainLayout,
 });

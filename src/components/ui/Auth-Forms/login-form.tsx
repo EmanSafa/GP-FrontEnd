@@ -78,8 +78,8 @@ export function LoginForm({
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(schema),
-    mode: "onSubmit",
+    // resolver: zodResolver(schema),
+    // mode: "onSubmit",
   });
 
   const onSubmit = (data: LoginFormData) => {
@@ -117,7 +117,6 @@ export function LoginForm({
             id="email"
             type="email"
             placeholder="m@example.com"
-            required
             className={cn(
               "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
               errors.email && "border-red-500 focus:ring-red-300"
@@ -142,16 +141,15 @@ export function LoginForm({
             id="password"
             type="password"
             isPassword
-            required
             {...register("password")}
             className={cn(
               "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
               errors.password && "border-red-500 focus:ring-red-300"
             )}
           />
-          {errors.password && (
+          {/* {errors.password && (
             <FieldError>{errors.password.message}</FieldError>
-          )}
+          )} */}
         </Field>
         <Field>
           <Button type="submit" variant={"auth"} disabled={isPending}>

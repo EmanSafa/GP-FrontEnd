@@ -4,12 +4,11 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/login")({
   beforeLoad: () => {
-    const { isAuthenticated, user } = useAuthStore.getState();
-    
-    // If already authenticated, redirect to appropriate dashboard
-    if (isAuthenticated && user) {
+    const { isAuthenticated } = useAuthStore.getState();
+
+    if (isAuthenticated) {
       throw redirect({
-        to: user.role === 'admin' ? '/dashboard' : '/',
+        to: "/", // Redirect to home if already logged in
       });
     }
   },

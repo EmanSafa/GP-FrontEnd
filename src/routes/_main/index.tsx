@@ -6,9 +6,9 @@ export const Route = createFileRoute("/_main/")({
   beforeLoad: () => {
     const { isAuthenticated, user } = useAuthStore.getState();
     
-    if (isAuthenticated && user) {
+    if (isAuthenticated && user && user.role === 'admin') {
       throw redirect({
-        to: user.role === 'admin' ? '/dashboard' : '/',
+        to: '/dashboard',
       });
     }
   },
