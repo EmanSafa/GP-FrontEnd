@@ -13,7 +13,7 @@ import GoogleIcon from "../icons/googleIcon";
 import { Link, useNavigate } from "@tanstack/react-router";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
 import { authApi } from "@/api/authApi";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";

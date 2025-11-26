@@ -19,7 +19,7 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Get token from Zustand store
-    const token = useAuthStore.getState().token;
+    const token = useAuthStore.getState().sessionId;
     
     console.log(`🚀 Requesting: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
 
@@ -39,9 +39,9 @@ axiosInstance.interceptors.request.use(
  * Set or remove Authorization header for subsequent requests
  * @param token JWT token or undefined to clear
  */
-export function setAuthToken(token?: string) {
-  if (token) {
-    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+export function setAuthToken(sessionId?: string) {
+  if (sessionId) {
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${sessionId}`;
   } else {
     delete axiosInstance.defaults.headers.common["Authorization"];
   }

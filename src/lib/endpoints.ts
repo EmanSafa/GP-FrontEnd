@@ -5,6 +5,7 @@ export const endpoints = {
     register: "/register",
     login: "/login",
     logout: "/logout",
+    resetPassword: 'password/reset'
   },
   products: {
     list: "/products",
