@@ -3,6 +3,8 @@ import PersonalInfoEditDialog from "./personalInfoEditDialog";
 import ShippingInfoEditDialog from "./ShippingInfoEditDialog";
 import OrderHistory from "./OrderHistory";
 import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
+import InfoSection from "./InfoSection";
+import InfoField from "./InfoField";
 
 import { useAuthStore } from "@/store/authStore";
 
@@ -53,119 +55,53 @@ const AccountPage = () => {
       {/* Information Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Personal Information */}
-        <div className="bg-[#F5F5F5] rounded-lg p-5">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="font-semibold text-lg">Personal Information</h2>
-            <PersonalInfoEditDialog />
+        <InfoSection title="Personal Information" editDialog={<PersonalInfoEditDialog />}>
+          <div className="grid grid-cols-2 gap-4">
+            <InfoField label="First Name" value={firstName} />
+            <InfoField label="Last Name" value={lastName} />
           </div>
-          <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">First Name</p>
-                <p className="font-medium">{firstName}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Last Name</p>
-                <p className="font-medium">{lastName}</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Email Address</p>
-                <p className="font-medium text-sm">{userData.email}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Phone Number</p>
-                <p className="font-medium">{userData.phone || "N/A"}</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">User Name</p>
-                <p className="font-medium">{userData.name}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Password</p>
-                <p className="font-medium">{userData.password?.length > 0 ? "***********" : "N/A"}</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Role</p>
-                <p className="font-medium capitalize">{userData.role || "Customer"}</p>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InfoField label="Email Address" value={userData.email} />
+            <InfoField label="Phone Number" value={userData.phone} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InfoField label="User Name" value={userData.name} />
+            <InfoField 
+              label="Password" 
+              value={ "***********"} 
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="capitalize">
+              <InfoField label="Role" value={userData.role || "Customer"} />
             </div>
           </div>
-        </div>
+        </InfoSection>
 
         {/* Shipping Information */}
-        <div className="bg-[#F5F5F5] rounded-lg p-5">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="font-semibold text-lg">Shipping Information</h2>
-            <ShippingInfoEditDialog />
+        <InfoSection title="Shipping Information" editDialog={<ShippingInfoEditDialog />}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InfoField label="City/Town" value="Zagazig" />
+            <InfoField label="Postcode/Zip" value="171717" />
           </div>
-          <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">City/Town</p>
-                <p className="font-medium">Zagazig</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Postcode/Zip</p>
-                <p className="font-medium">171717</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Permanent Address</p>
-                <p className="font-medium">
-                  5 Saied Street, Farouk Street, Floor 4
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Governorate</p>
-                <p className="font-medium">El Sharqia</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Country</p>
-                <p className="font-medium"> Egypt</p>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InfoField label="Permanent Address" value="5 Saied Street, Farouk Street, Floor 4" />
+            <InfoField label="Governorate" value="El Sharqia" />
+            <InfoField label="Country" value="Egypt" />
           </div>
-        </div>
+        </InfoSection>
 
         {/* Payment Information */}
-        <div className="bg-[#F5F5F5] rounded-lg p-5">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="font-semibold text-lg">Payment Information</h2>
-            <PaymentInfoEditDialog/>
+        <InfoSection title="Payment Information" editDialog={<PaymentInfoEditDialog />}>
+          <div className="grid grid-cols-2 gap-4">
+            <InfoField label="Name on Card" value="Mirna Abdelrahman" />
+            <InfoField label="Card Number" value="************" />
           </div>
-          <div className="h-[2px] w-[98%] text-center mx-auto mb-4 bg-black"></div>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Name on Card</p>
-                <p className="font-medium">Mirna Abdelrahman</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Card Number</p>
-                <p className="font-medium">************</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Valid Through</p>
-                <p className="font-medium">12/4</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">CVV</p>
-                <p className="font-medium">***</p>
-              </div>
-            </div>
+          <div className="grid grid-cols-2 gap-4">
+            <InfoField label="Valid Through" value="12/4" />
+            <InfoField label="CVV" value="***" />
           </div>
-        </div>
+        </InfoSection>
       </div>
       <OrderHistory/>
     </div>
