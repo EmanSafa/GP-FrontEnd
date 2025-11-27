@@ -13,8 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon, Pencil } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { useAuthStore } from "@/store/authStore";
+import { useMutation } from "@tanstack/react-query";
+import { authApi } from "@/api/authApi";
+
 
 const PersonalInfoEditDialog = () => {
   const { user } = useAuthStore();
@@ -35,6 +39,54 @@ const PersonalInfoEditDialog = () => {
   const [showChangePass, setShowChangePass] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
+    const [newPassword, setNewPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+const [passwordError, setPasswordError] = useState("");
+
+    const {mutate , isPending} = useMutation({
+      mutationFn: authApi.resetPassword,
+      onSuccess: () => {
+        toast.success("Password updated successfully");
+    // Reset form
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setShowChangePass(false);
+      },
+      onError: () => {
+        toast.error("Failed to update password. Please try again.");
+            setPasswordError("Failed to update password. Please try again.");
+
+      },
+    })
+    const handlePassInput =(e: React.ChangeEvent<HTMLInputElement>)=>{
+      setNewPassword(e.target.value);
+  setPasswordError(""); 
+    }
+    const handleConfirmPassInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setConfirmPassword(e.target.value);
+  setPasswordError(""); // Clear error when user types
+};
+    const handleUpdatePassword = () => {
+  if (!newPassword || !confirmPassword) {
+    setPasswordError("Please fill in both password fields");
+    return;
+  }
+
+  if (newPassword.length < 8) {
+    setPasswordError("Password must be at least 8 characters long");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    setPasswordError("Passwords do not match");
+    return;
+  }
+      mutate({
+        email: userData.email,
+        new_password: newPassword,
+      })
+    };
   return (
     <Dialog>
       <form>
@@ -85,7 +137,7 @@ const PersonalInfoEditDialog = () => {
             </div>
             <Label htmlFor="pass">Password</Label>
             <div className="flex justify-between items-center gap-4">
-              <Input id="pass" name="pass" defaultValue="**********" />
+              <Input id="pass" name="pass" defaultValue="**********"  />
               <Button
                 variant={"auth"}
                 onClick={() => setShowChangePass(!showChangePass)}
@@ -105,6 +157,7 @@ const PersonalInfoEditDialog = () => {
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="••••••••••••••••"
                     className="pr-9"
+onChange={handlePassInput}
                   />
                   <Button
                     variant="ghost"
@@ -139,6 +192,7 @@ const PersonalInfoEditDialog = () => {
                     type={isConfirmPasswordVisible ? "text" : "password"}
                     placeholder="••••••••••••••••"
                     className="pr-9"
+                    onChange={handleConfirmPassInput}
                   />
                   <Button
                     variant="ghost"
@@ -156,7 +210,7 @@ const PersonalInfoEditDialog = () => {
                     </span>
                   </Button>
                 </div>
-                <Button className="my-4" variant={'authOutline'}>
+                <Button className="my-4" variant={'authOutline'} onClick={handleUpdatePassword}>
                   Update Password
                 </Button>
               </div>
@@ -169,7 +223,7 @@ const PersonalInfoEditDialog = () => {
             </DialogClose>
 
             <DialogClose asChild>
-            <Button type="submit" variant={'auth'}>Save changes</Button>
+            <Button type="submit" variant={'auth'} disabled={isPending}>{isPending ? "Updating..." : "Update Password"}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

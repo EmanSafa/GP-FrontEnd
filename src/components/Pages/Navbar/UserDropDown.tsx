@@ -13,9 +13,12 @@ import { Link } from "@tanstack/react-router";
 
 import { useNavigate } from "@tanstack/react-router";
 import { authApi } from "@/api/authApi";
+import { useAuthStore } from "@/store/authStore";
 
 const UserDropDown = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuthStore.getState();
+    
 
   const handleLogout = async () => {
     await authApi.logout();
@@ -50,6 +53,12 @@ const UserDropDown = () => {
         <DropdownMenuItem>Support</DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
+        {isAuthenticated && user && user.role === 'admin' && (
+          <Link to='/dashboard'>
+            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </Link>
+        )}
         <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

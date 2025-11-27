@@ -87,7 +87,7 @@ const AccountPage = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-600 mb-1">Password</p>
-                <p className="font-medium">***********</p>
+                <p className="font-medium">{userData.password?.length > 0 ? "***********" : "N/A"}</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

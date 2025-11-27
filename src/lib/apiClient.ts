@@ -3,9 +3,10 @@ import endpoints from "./endpoints";
 
 
 export const authApi = {
-  register: (data: unknown) => axiosInstance.post(endpoints.auth.register, data),
-  login: (data: unknown) => axiosInstance.post(endpoints.auth.login, data),
+  register: (data: {email : string , password : string , name : string }) => axiosInstance.post(endpoints.auth.register, data),
+  login: (data: {email : string , password : string}) => axiosInstance.post(endpoints.auth.login, data),
   logout: () => axiosInstance.post(endpoints.auth.logout),
+  resetPassword:(data:{email : string , newPass : string})=> axiosInstance.post(endpoints.auth.resetPassword , data)
 };
 
 export const productsApi = {

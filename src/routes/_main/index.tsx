@@ -3,14 +3,14 @@ import { useAuthStore } from "@/store/authStore";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main/")({
-  beforeLoad: () => {
-    const { isAuthenticated, user } = useAuthStore.getState();
+  // beforeLoad: () => {
+  //   const { isAuthenticated, user } = useAuthStore.getState();
     
-    if (isAuthenticated && user && user.role === 'admin') {
-      throw redirect({
-        to: '/dashboard',
-      });
-    }
-  },
+  //   if (isAuthenticated && user && user.role === 'admin') {
+  //     throw redirect({
+  //       to: '/dashboard',
+  //     });
+  //   }
+  // },
   component: HomePage,
 });
