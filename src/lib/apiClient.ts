@@ -10,7 +10,7 @@ export const authApi = {
 };
 
 export const productsApi = {
-  list: () => axiosInstance.get(endpoints.products.list),
+  list: (params?: any) => axiosInstance.get(endpoints.products.list, { params }),
   getById: (id: number) => axiosInstance.get(endpoints.products.detail(id)),
   create: (data: FormData) => axiosInstance.post(endpoints.products.list, data, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -29,6 +29,7 @@ export const productsApi = {
   }),
   categories: () => axiosInstance.get(endpoints.products.categories),
   brands: () => axiosInstance.get(endpoints.products.brands),
+  search: (params:any) => axiosInstance.get(endpoints.search.query,{params}),
 };
 
 export const cartApi = {
@@ -66,9 +67,7 @@ export const userApi = {
   update: (data: unknown) => axiosInstance.put(endpoints.user.update, data),
 };
 
-export const searchApi = {
-  query: (q: string) => axiosInstance.get(endpoints.search.query, { params: { q } }),
-};
+
 
 export const testApi = {
   ping: () => axiosInstance.get(endpoints.test.ping),

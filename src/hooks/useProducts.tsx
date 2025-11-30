@@ -1,22 +1,44 @@
-import { productsApi } from "@/lib/apiClient";
-import type { Product } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
+import { productsApi } from "@/lib/apiClient";
+import type {  ProductParams, ProductsResponse, SearchParams } from "@/types/types";
 
-
-
-export const UseGetAllProducts = () => {
-  return useQuery<Product[], Error>({
-    queryKey: ["products"],
+export const useGetProducts = (params?: ProductParams, options?: { enabled?: boolean }) => {
+  return useQuery<ProductsResponse, Error>({
+    ...options,
+    queryKey: ["products", params],
     queryFn: async () => {
-      const response = await productsApi.list();
-      if (response.data && Array.isArray(response.data.products)) {
-        return response.data.products;
-      }
-      
-      if (Array.isArray(response.data)) {
+      const response = await productsApi.list(params);
+      if (response.data) {
         return response.data;
       }
       throw new Error("Failed to fetch products: Invalid response format");
     },
   });
 };
+
+export const useSearchProducts = (params?:SearchParams, options?: { enabled?: boolean }) => {
+  return useQuery<ProductsResponse, Error>({
+    ...options,
+    queryKey: ["products-search", params],
+    queryFn: async () => {
+      const response = await productsApi.search({ q: params?.q, limit: params?.limit });
+      // Normalize search response to match ProductsResponse structure
+      if (response.data && response.data.success) {
+        return {
+          success: true,
+          products: response.data.results,
+          pagination: {
+            total: response.data.results.length,
+            perPage: response.data.results.length,
+            page: 1,
+            totalPages: 1,
+          },
+          filters: {},
+        };
+      }
+      throw new Error("Failed to search products");
+    },
+  });
+};
+
+

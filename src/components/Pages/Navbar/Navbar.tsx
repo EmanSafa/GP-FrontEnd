@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Heart, Search, Menu, X } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,40 +14,8 @@ import { navbarStyles, navigationConfig } from "../../ui/navbar-styles";
 import { useRef } from "react";
 import UserDropDown from "./UserDropDown";
 import Cart from "../Cart/Cart";
+import { useGetAllCategories } from "@/hooks/useCategories";
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Mobile",
-      href: "/shop",
-    description: " ",
-  },
-
-  {
-    title: "Laptop",
-      href: "/shop",
-    description: "",
-  },
-  {
-    title: "Tablet",
-      href: "/shop",
-    description: "",
-  },
-  {
-    title: "HeadPhones",
-      href: "/shop",
-    description: "",
-  },
-  {
-    title: "SmartWatches",
-      href: "/shop",
-    description: "",
-  },
-  {
-    title: "Acessories",
-      href: "/shop",
-    description: "",
-  },
-];
 
 // Reusable Navigation Links Component
 const NavLinks = ({
@@ -73,6 +41,7 @@ const NavLinks = ({
       </nav>
     );
   }
+  const {data: categories} = useGetAllCategories()
 
   return (
     <NavigationMenu viewport={false}>
@@ -88,14 +57,15 @@ const NavLinks = ({
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className={navbarStyles.dropdownContent[variant]}>
-                    {components.map((component) => (
-                      <ListItem
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
+                    {categories?.map((category) => (
+                      <NavigationMenuItem
+                        key={category.id}
+                        title={category.name}
                       >
-                        {component.description}
-                      </ListItem>
+                        <NavigationMenuLink href={`/shop?categoryId=${category.id}`} className={navbarStyles.navLinks[variant]}>
+                          {category.name}
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
                     ))}
                   </ul>
                 </NavigationMenuContent>
@@ -107,7 +77,7 @@ const NavLinks = ({
                     ? "Contact"
                     : item.label}
                 </Link>
-              </NavigationMenuLink>
+                </NavigationMenuLink>
             )}
           </NavigationMenuItem>
         ))}
@@ -123,18 +93,29 @@ const SearchBar = ({
   variant?: "desktop" | "tablet" | "mobile";
 }) => {
   const style = navbarStyles.searchBar[variant];
+  const navigate = useNavigate();
+  const [query, setQuery] = React.useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate({ to: "/shop", search: (prev: any) => ({ ...prev, q: query }) });
+    }
+  };
 
   return (
-    <div className={style.container}>
+    <form onSubmit={handleSearch} className={style.container}>
       <input
         type="text"
         className={style.input}
         placeholder={style.placeholder}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
       />
-      <span className={style.button}>
+      <button type="submit" className={style.button}>
         <Search className="text-white " size={style.iconSize} />
-      </span>
-    </div>
+      </button>
+    </form>
   );
 };
 

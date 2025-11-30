@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
     // Get token from Zustand store
     const token = useAuthStore.getState().sessionId;
     
-    console.log(`🚀 Requesting: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+    // console.log(`🚀 Requesting: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
 
     // If token exists, add it to headers
     if (token) {

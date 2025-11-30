@@ -36,18 +36,18 @@ export const endpoints = {
   },
   categories: {
     list: "/categories",
-    detail: (id: number) => `/categories/${id}`,
+    detail: (id: number) => `/categories/${id}/products`,
   },
   brands: {
     list: "/brands",
-    detail: (id: number) => `/brands/${id}`,
+    detail: (id: number) => `/brands/${id}/products`,
   },
   user: {
     profile: "/user",
     update: "/user",
   },
   search: {
-    query: "/search",
+    query: `/products/search`,
   },
   test: {
     ping: "/test",
