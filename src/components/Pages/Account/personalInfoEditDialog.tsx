@@ -54,7 +54,7 @@ const [passwordError, setPasswordError] = useState("");
     setShowChangePass(false);
       },
       onError: () => {
-        toast.error("Failed to update password. Please try again.");
+        toast.error(passwordError);
             setPasswordError("Failed to update password. Please try again.");
 
       },

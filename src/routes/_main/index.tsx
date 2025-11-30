@@ -1,6 +1,6 @@
 import HomePage from "@/components/Pages/Home/HomePage";
-import { useAuthStore } from "@/store/authStore";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+// import { useAuthStore } from "@/store/authStore";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main/")({
   // beforeLoad: () => {

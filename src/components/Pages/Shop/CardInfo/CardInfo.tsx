@@ -12,8 +12,24 @@ import ShippingsIcon from "../../../ui/icons/shippingsIcon";
 import DeliverIcon from "../../../ui/icons/deliverIcon";
 import CardTable from "./CardTable";
 import YouMightLike from "../YouMightLike";
-const CardInfo = () => {
+import { usegetSingleProduct } from "@/hooks/useProducts";
+interface CardInfoProps {
+  id?: number;
+}
+
+const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(0);
+  const { data: product, isLoading } = usegetSingleProduct(id);
+  
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
+  if (!product && !isLoading) {
+     return <div className="flex items-center justify-center h-screen">Product not found</div>;
+  }
+
+  console.log('product card info:',product);
   return (
     <>
       <div className="mt-[55px] lg:h-[627px] h-auto flex flex-col lg:flex-row gap-5 w-full items-start lg:items-center justify-between">
@@ -37,23 +53,23 @@ const CardInfo = () => {
         </div>
         <div className="flex flex-col mx-5 gap-2 w-full lg:w-1/2 ">
           <h1 className=" text-start text-xl font-bold text-[#777777] ">
-            Realme
+            {product?.brand_name || "Brand"}
           </h1>
           <div className="flex items-center justify-between">
             <h2 className="sm:text-3xl text-lg  font-bold text-[#404040] max-w-[438px] ">
-              Realme 14 Dual Sim – 256GB , 12GB RAM,5G
+              {product?.name}
             </h2>
             <Heart className="text-[#5D0505] md:mr-20 sm:mr-6 lg:mr-1" />
           </div>
           <div className="flex items-center flex-wrap justify-start gap-2">
             <span className="sm:text-[24px]/[171%] font-normal text-[20px]  ">
-              18,390 EGP
+              {product?.price}
             </span>
             <span className="text-[#9D0000] text-[16px]/[171%] font-normal line-through">
               21,666EGP
-            </span>
+            </span> 
             <span className="h-[26px] bg-black w-[1px]"></span>
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({ length: Math.round(Number(product?.rating || 0)) }).map((_, i) => (
               <FaStar key={i} className="text-[#D50000] w-3 h-3" />
             ))}
             <span className="text-[#9D0000]">(32 reivews)</span>
@@ -130,7 +146,7 @@ const CardInfo = () => {
           </div>
         </div>
       </div>
-      <CardTable />
+      <CardTable id={id} />
       <YouMightLike />
     </>
   );

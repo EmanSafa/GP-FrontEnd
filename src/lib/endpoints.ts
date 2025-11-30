@@ -13,6 +13,8 @@ export const endpoints = {
     images: (id: number) => `/products/${id}/images`,
     imageDelete: (id: number) => `/products/images/${id}`,
     imagesReplace: (id: number) => `/products/${id}/images/replace`,
+    singleProduct: (id: number) => `/products/${id}`,
+    singleProductImages: (id: number) => `/products/${id}/images`,
     // categories and brands are not explicitly in the paths but mentioned in the NOTE
     categories: "/categories", 
     brands: "/brands",
@@ -36,18 +38,18 @@ export const endpoints = {
   },
   categories: {
     list: "/categories",
-    detail: (id: number) => `/categories/${id}`,
+    detail: (id: number) => `/categories/${id}/products`,
   },
   brands: {
     list: "/brands",
-    detail: (id: number) => `/brands/${id}`,
+    detail: (id: number) => `/brands/${id}/products`,
   },
   user: {
     profile: "/user",
     update: "/user",
   },
   search: {
-    query: "/search",
+    query: `/products/search`,
   },
   test: {
     ping: "/test",
