@@ -7,9 +7,12 @@ import DeliverIcon from "../../../ui/icons/deliverIcon";
 import CardTable from "./CardTable";
 import YouMightLike from "../YouMightLike";
 import { usegetSingleProduct, useGetSingleProductImages } from "@/hooks/useProducts";
+import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
 interface CardInfoProps {
   id?: number;
 }
+
+
 
 const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(0);
@@ -17,14 +20,13 @@ const CardInfo = ({ id }: CardInfoProps) => {
   const { data:singleProductImages} = useGetSingleProductImages(id)
   
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+    return <CardInfoSkeleton />;
   }
 
   if (!product && !isLoading) {
      return <div className="flex items-center justify-center h-screen">Product not found</div>;
   }
 
-  console.log('product card info:',product);
   return (
     <>
       <div className="mt-[55px] lg:h-[627px] h-auto flex flex-col lg:flex-row gap-5 w-full items-start lg:items-center justify-between">

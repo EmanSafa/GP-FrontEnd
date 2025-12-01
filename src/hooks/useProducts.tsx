@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/apiClient";
-import type {  Product, ProductParams, ProductsResponse, SearchParams, SingleProductImagesResponse, SingleProductResponse } from "@/types/types";
+import type {  Product, ProductParams, ProductsResponse, SearchParams, SingleProductImagesResponse } from "@/types/types";
 
 export const useGetProducts = (params?: ProductParams, options?: { enabled?: boolean }) => {
   return useQuery<ProductsResponse, Error>({

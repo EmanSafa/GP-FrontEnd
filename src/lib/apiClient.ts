@@ -65,8 +65,10 @@ export const brandsApi = {
 };
 
 export const userApi = {
-  profile: () => axiosInstance.get(endpoints.user.profile),
-  update: (data: unknown) => axiosInstance.put(endpoints.user.update, data),
+  profile: (id:number) => axiosInstance.get(endpoints.user.profile(id)),
+  update: (id:number, data: {name : string , phone : string , address : string}) => axiosInstance.put(endpoints.user.update(id), data),
+  orders: (id:number) => axiosInstance.get(endpoints.user.orders(id)),
+  reviews: (id:number) => axiosInstance.get(endpoints.user.reviews(id)),
 };
 
 

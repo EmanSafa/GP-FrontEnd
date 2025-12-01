@@ -5,24 +5,19 @@ import OrderHistory from "./OrderHistory";
 import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
-
+import { usetGetUserProfile } from "@/hooks/useAccount";
 import { useAuthStore } from "@/store/authStore";
 
-const AccountPage = () => {
+
+const AccountPage = () => {  
+
   const { user } = useAuthStore();
-  
-  // Helper to safely get user data
-  const userData = user || {
-    name: "Guest User",
-    email: "guest@example.com",
-    phone: "N/A",
-    address: "N/A",
-    city: "N/A",
-    postcode: "N/A",
-    governorate: "N/A",
-    country: "N/A",
-    role: "customer" as const
-  };
+  const id = user ? Number(user.id) : 0;
+  const { data: userData } = usetGetUserProfile(id, { enabled: !!user });
+  console.log('user data' , userData)
+  console.log('user ' , user)
+
+  if (!userData) return <div>Loading...</div>;
 
   // Split name into first and last name
   const nameParts = (userData.name || "").split(" ");
@@ -94,7 +89,7 @@ const AccountPage = () => {
         {/* Payment Information */}
         <InfoSection title="Payment Information" editDialog={<PaymentInfoEditDialog />}>
           <div className="grid grid-cols-2 gap-4">
-            <InfoField label="Name on Card" value="Mirna Abdelrahman" />
+            <InfoField label="Name on Card" value={userData.name} />
             <InfoField label="Card Number" value="************" />
           </div>
           <div className="grid grid-cols-2 gap-4">

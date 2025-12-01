@@ -80,3 +80,18 @@ export interface SingleProductImagesResponse {
   product_id: number;
   success: boolean;
 }
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  role: string;
+  is_active: string;
+  created_at: string;
+}
+
+export interface UserProfileResponse {
+  success: boolean;
+  user: User;
+}

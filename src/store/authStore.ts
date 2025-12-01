@@ -16,7 +16,7 @@ interface AuthState {
   isAuthenticated: boolean;
   setAuth: (user: User, sessionId?: string) => void;
   clearAuth: () => void;
-  setUser: (user: User) => void;
+  setUser: (user: User , session_id?: string) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -27,7 +27,7 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       setAuth: (user, sessionId) => set({ user, sessionId, isAuthenticated: true }),
       clearAuth: () => set({ user: null,  sessionId: null, isAuthenticated: false }),
-      setUser: (user) => set({ user , isAuthenticated: true}),
+      setUser: (user, sessionId) => set({ user, sessionId, isAuthenticated: true }),
     }),
     {
       name: "auth-storage", // name of the item in the storage (must be unique)
