@@ -1,9 +1,3 @@
-import img1 from "../../../../assets/cardInfo/cardinfoimg1.png";
-import img2 from "../../../../assets/cardInfo/cardinfoimg2.png";
-import img3 from "../../../../assets/cardInfo/cardinfoimg3.png";
-import img from "../../../../assets/cardInfo/cardinfo.png";
-import color1 from "../../../../assets/phoneWhite.png";
-import color2 from "../../../../assets/phoneBlack.png";
 import { Heart, Minus, Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
@@ -12,7 +6,7 @@ import ShippingsIcon from "../../../ui/icons/shippingsIcon";
 import DeliverIcon from "../../../ui/icons/deliverIcon";
 import CardTable from "./CardTable";
 import YouMightLike from "../YouMightLike";
-import { usegetSingleProduct } from "@/hooks/useProducts";
+import { usegetSingleProduct, useGetSingleProductImages } from "@/hooks/useProducts";
 interface CardInfoProps {
   id?: number;
 }
@@ -20,6 +14,7 @@ interface CardInfoProps {
 const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(0);
   const { data: product, isLoading } = usegetSingleProduct(id);
+  const { data:singleProductImages} = useGetSingleProductImages(id)
   
   if (isLoading) {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
@@ -37,18 +32,18 @@ const CardInfo = ({ id }: CardInfoProps) => {
           <div className="flex flex-col  items-center lg:w-[30%] w-1/3 justify-between gap-5 ml-0 lg:ml-9">
             {Array.from({ length: 3 }).map((_, i) => (
               <div
-                key={i}
-                className="w-[140px] flex items-center justify-center h-[190px] bg-[#F5F5F5]"
+                key={singleProductImages?.images?.[i]?.id || i}
+                className="w-[150px] flex items-center justify-center h-[210px] bg-[#F5F5F5]"
               >
                 <img
-                  src={i === 0 ? img1 : i === 1 ? img2 : img3}
+                  src={singleProductImages?.images?.[i]?.url}
                   alt={`img${i + 1}`}
                 />
               </div>
             ))}
           </div>
-          <div className=" lg:w-[70%] md:w-[60%] w-full lg:h-[627px] h-auto flex items-center justify-center bg-[#F5F5F5]">
-            <img src={img} alt="" />
+          <div className=" lg:w-[70%] md:w-[60%] w-full p-4 h-auto flex items-center justify-center bg-[#F5F5F5]">
+            <img src={product?.main_image_url} alt="" />
           </div>
         </div>
         <div className="flex flex-col mx-5 gap-2 w-full lg:w-1/2 ">
@@ -60,42 +55,26 @@ const CardInfo = ({ id }: CardInfoProps) => {
               {product?.name}
             </h2>
             <Heart className="text-[#5D0505] md:mr-20 sm:mr-6 lg:mr-1" />
+            {/*Todo:Heart icon is clickble to add to favourites*/}
           </div>
           <div className="flex items-center flex-wrap justify-start gap-2">
             <span className="sm:text-[24px]/[171%] font-normal text-[20px]  ">
               {product?.price}
             </span>
             <span className="text-[#9D0000] text-[16px]/[171%] font-normal line-through">
-              21,666EGP
+             {product?.price ? Number(product.price) + 1000 : ''}
             </span> 
             <span className="h-[26px] bg-black w-[1px]"></span>
             {Array.from({ length: Math.round(Number(product?.rating || 0)) }).map((_, i) => (
               <FaStar key={i} className="text-[#D50000] w-3 h-3" />
             ))}
-            <span className="text-[#9D0000]">(32 reivews)</span>
+            <span className="text-[#9D0000]">{`(${product?.rating})` || 0} Ratings</span>
           </div>
           <div className="text-[#414141] font-normal sm:text-[24px] text-[15px]">
-            12 month Warranty by Local Agent
+           {product?.description}
           </div>
           <div className="h-[1px] w-[85%] bg-[#5D0505] my-3"></div>
-          <div className="flex flex-col gap-2">
-            <span className="text-[#414141] font-normal text-[15px]">
-              Color
-            </span>
-            <div className="flex items-center justify-start gap-3">
-              {Array.from({ length: 2 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-center border-1 border-black w-[50px] h-[65px] rounded-lg"
-                >
-                  <img
-                    src={i === 1 ? color1 : i === 2 ? color1 : color2}
-                    alt={`color${i + 1}`}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          
           <div className="flex flex-col items-start justify-start text-[15px] font-normal text-[#414141]">
             <label htmlFor=""> Whats in the box?</label>
             <ul className="list-disc ml-6">
@@ -120,6 +99,7 @@ const CardInfo = ({ id }: CardInfoProps) => {
               className="rounded-full lg:w-[355px] sm:w-[90%]   sm:h-[50px] h-[40px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
             >
               Add to Cart
+              {/*Todo:Add to cart functionality*/}
             </Button>
           </div>
           <div className="flex items-start justify-start mt-2 ">
@@ -128,6 +108,7 @@ const CardInfo = ({ id }: CardInfoProps) => {
               className="rounded-full lg:w-[500px]  w-[90%] sm:h-[50px] h-[35px] py-[16px] px-[24px] font-semibold text-[18px] "
             >
               Buy Now
+              {/*Todo:Buy now functionality*/}
             </Button>
           </div>
           <div className="flex flex-col max-md:mt-4 gap-3 items-start justify-start">

@@ -11,7 +11,6 @@ export const Route = createFileRoute("/_main/cardInfo")({
   validateSearch: (search) => searchSchema.parse(search),
   component: () => {
     const { id } = Route.useSearch();
-    console.log("Route search params id:", id);
     return <CardInfo id={id} />;
   },
 });

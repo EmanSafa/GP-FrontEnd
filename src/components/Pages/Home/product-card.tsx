@@ -24,11 +24,9 @@ const ProductCard = ({
   className = "",
 }: ProductCardProps) => {
   const navigate = useNavigate();
-  // console.log("ProductCard id:", id);
   return (
     <div
       onClick={() => {
-        // console.log("Navigating to cardInfo with id:", id);
         navigate({ to: "/cardInfo", search: { id: id } });
       }}
       className={`w-full max-w-xs bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-3 hover:shadow-2xl duration-300 fade-up flex-wrap ${className}`}

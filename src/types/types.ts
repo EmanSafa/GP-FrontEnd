@@ -69,4 +69,14 @@ export interface SearchParams {
   q:string;
   limit:number;
 }
-
+ export interface SingleProductResponse {
+  success: boolean;
+  product: Product;
+  
+}
+export interface SingleProductImagesResponse {
+  id: number;
+  images: { id: number; url: string; created_at: string; }[];
+  product_id: number;
+  success: boolean;
+}

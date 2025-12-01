@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/apiClient";
-import type {  Product, ProductParams, ProductsResponse, SearchParams } from "@/types/types";
+import type {  Product, ProductParams, ProductsResponse, SearchParams, SingleProductImagesResponse, SingleProductResponse } from "@/types/types";
 
 export const useGetProducts = (params?: ProductParams, options?: { enabled?: boolean }) => {
   return useQuery<ProductsResponse, Error>({
@@ -48,6 +48,22 @@ export const usegetSingleProduct = (id: number | undefined, options?: { enabled?
     queryFn: async () => {
       if (id === undefined) throw new Error("Product ID is required");
       const response = await productsApi.singleProduct(id);
+      if (response.data && response.data.success && response.data.product) {
+        return response.data.product;
+      }
+      throw new Error("Failed to fetch product: Invalid response format");
+    },
+    enabled: (options?.enabled !== undefined ? options.enabled : true) && !!id,
+  });
+};
+
+export const useGetSingleProductImages = (id: number | undefined, options?: { enabled?: boolean }) => {
+  return useQuery<SingleProductImagesResponse, Error>({
+    ...options,
+    queryKey: ["product-images", id],
+    queryFn: async () => {
+      if (id === undefined) throw new Error("Product ID is required");
+      const response = await productsApi.singleProductImages(id);
       if (response.data ) {
         return response.data;
       }
@@ -56,4 +72,3 @@ export const usegetSingleProduct = (id: number | undefined, options?: { enabled?
     enabled: (options?.enabled !== undefined ? options.enabled : true) && !!id,
   });
 };
-
