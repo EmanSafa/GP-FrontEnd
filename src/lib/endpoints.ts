@@ -45,10 +45,10 @@ export const endpoints = {
     detail: (id: number) => `/brands/${id}/products`,
   },
   user: {
-    profile: (id:number) => `/user/${id}`,
     update: (id:number) => `/user/${id}`,
-    orders: (id:number) => `/user/${id}/orders`,
-    reviews: (id:number) => `/user/${id}/reviews`,
+    profile: (id:number) => `/user/${id}`,
+    orders: (id:number) => `/users/${id}/orders`,
+    reviews: (id:number) => `/users/${id}/reviews`,
     
   },
   search: {

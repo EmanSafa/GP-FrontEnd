@@ -19,25 +19,23 @@ export interface Product {
   main_image_url?: string;
 }
 export interface Category {
-            id: number,
-            name: string,
-            description: string,
-            cat_image: string,
-            created_at: string,
-            updated_at: string,
-            product_count: number,
-            cat_image_url: string
-  
+  id: number;
+  name: string;
+  description: string;
+  cat_image: string;
+  created_at: string;
+  updated_at: string;
+  product_count: number;
+  cat_image_url: string;
 }
 export interface Brand {
-            id: number,
-            name: string,
-            logo: string,
-            created_at: string,
-            updated_at: string,
-            product_count: number,
-            logo_url:string
-
+  id: number;
+  name: string;
+  logo: string;
+  created_at: string;
+  updated_at: string;
+  product_count: number;
+  logo_url: string;
 }
 
 export interface PaginationData {
@@ -62,21 +60,21 @@ export interface ProductParams {
   brand?: number;
   min_price?: number;
   max_price?: number;
-  sort?: 'price' | 'rating' | 'created_at' | 'name';
-  order?: 'asc' | 'desc';
+  sort?: "price" | "rating" | "created_at" | "name";
+  order?: "asc" | "desc";
 }
 export interface SearchParams {
-  q:string;
-  limit:number;
+  q: string;
+  limit: number;
 }
- export interface SingleProductResponse {
+export interface SingleProductResponse {
   success: boolean;
   product: Product;
-  
 }
+
 export interface SingleProductImagesResponse {
   id: number;
-  images: { id: number; url: string; created_at: string; }[];
+  images: { id: number; url: string; created_at: string }[];
   product_id: number;
   success: boolean;
 }
@@ -94,4 +92,31 @@ export interface User {
 export interface UserProfileResponse {
   success: boolean;
   user: User;
+}
+
+export interface UpdateUserProfileRequest {
+  name: string;
+  phone: string;
+  address: string;
+}
+
+export interface Order {
+  id: string;
+  order_number: string;
+  user_id: string;
+  total: string;
+  status: string;
+  payment_method: string;
+  payment_status: string;
+  shipping_address: string;
+  notes: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserOrdersResponse {
+  success: boolean;
+  orders: Order[];
+  total_orders: number;
+  pagination: PaginationData;
 }
