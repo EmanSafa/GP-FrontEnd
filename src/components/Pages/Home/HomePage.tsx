@@ -190,6 +190,7 @@ const HomePage = () => {
         {Array.from({ length: 5 }).map((_, i) => (
           <ProductCard
             key={i}
+            id={i + 1}
             title={`Galaxy Ultra ${i + 1}`}
             price="$960"
             oldPrice="$1200"

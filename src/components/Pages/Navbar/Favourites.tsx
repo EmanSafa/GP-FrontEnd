@@ -16,6 +16,7 @@ const Favourites = () => {
         {Array.from({ length: 17 }).map((_, i) => (
           <ProductCard
             key={i}
+            id={i + 1}
             title={"Galaxy Ultra"}
             price="$960"
             oldPrice="$1200"
@@ -25,7 +26,7 @@ const Favourites = () => {
           />
         ))}
       </div>
-      <GlobalPagination />
+      {/* <GlobalPagination /> */}
     </div>
   );
 };

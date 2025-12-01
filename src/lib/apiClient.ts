@@ -30,6 +30,8 @@ export const productsApi = {
   categories: () => axiosInstance.get(endpoints.products.categories),
   brands: () => axiosInstance.get(endpoints.products.brands),
   search: (params:any) => axiosInstance.get(endpoints.search.query,{params}),
+  singleProductImages: (id: number) => axiosInstance.get(endpoints.products.singleProductImages(id)),
+  singleProduct: (id: number) => axiosInstance.get(endpoints.products.singleProduct(id)),
 };
 
 export const cartApi = {

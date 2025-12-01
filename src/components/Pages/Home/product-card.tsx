@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa";
 import { useNavigate } from "@tanstack/react-router";
 
 type ProductCardProps = {
+  id: number;
   title: string;
   price: string;
   oldPrice?: string;
@@ -13,6 +14,7 @@ type ProductCardProps = {
 };
 
 const ProductCard = ({
+  id,
   title,
   price,
   oldPrice,
@@ -22,9 +24,13 @@ const ProductCard = ({
   className = "",
 }: ProductCardProps) => {
   const navigate = useNavigate();
+  // console.log("ProductCard id:", id);
   return (
     <div
-      onClick={() => navigate({ to: "/cardInfo" })}
+      onClick={() => {
+        // console.log("Navigating to cardInfo with id:", id);
+        navigate({ to: "/cardInfo", search: { id: id } });
+      }}
       className={`w-full max-w-xs bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-3 hover:shadow-2xl duration-300 fade-up flex-wrap ${className}`}
     >
       <div className="relative bg-gradient-to-b from-white to-gray-100 p-4 flex items-center justify-center">

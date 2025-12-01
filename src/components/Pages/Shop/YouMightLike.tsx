@@ -11,6 +11,7 @@ const YouMightLike = () => {
         {Array.from({ length: 5 }).map((_, i) => (
           <ProductCard
             key={i}
+            id={i + 1}
             title={"Galaxy Ultra"}
             price="$960"
             oldPrice="$1200"

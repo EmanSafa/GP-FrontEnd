@@ -1,6 +1,17 @@
 import CardInfo from "@/components/Pages/Shop/CardInfo/CardInfo";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { z } from "zod";
+
+const searchSchema = z.object({
+  id: z.coerce.number().optional(),
+});
+
 export const Route = createFileRoute("/_main/cardInfo")({
-  component: CardInfo,
+  validateSearch: (search) => searchSchema.parse(search),
+  component: () => {
+    const { id } = Route.useSearch();
+    console.log("Route search params id:", id);
+    return <CardInfo id={id} />;
+  },
 });

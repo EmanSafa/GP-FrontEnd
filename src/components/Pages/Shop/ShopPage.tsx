@@ -124,6 +124,7 @@ const ShopPage = ({
               products?.map((product: Product) => (
               <ProductCard
                 key={product.id}
+                id={Number(product.id)}
                 title={product.name}
                 price={`$${product.price}`}
                 oldPrice={`$${parseFloat(product.price) + 240}`} 

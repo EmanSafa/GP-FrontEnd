@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/apiClient";
-import type {  ProductParams, ProductsResponse, SearchParams } from "@/types/types";
+import type {  Product, ProductParams, ProductsResponse, SearchParams } from "@/types/types";
 
 export const useGetProducts = (params?: ProductParams, options?: { enabled?: boolean }) => {
   return useQuery<ProductsResponse, Error>({
@@ -41,4 +41,19 @@ export const useSearchProducts = (params?:SearchParams, options?: { enabled?: bo
   });
 };
 
+export const usegetSingleProduct = (id: number | undefined, options?: { enabled?: boolean }) => {
+  return useQuery<Product, Error>({
+    ...options,
+    queryKey: ["product", id],
+    queryFn: async () => {
+      if (id === undefined) throw new Error("Product ID is required");
+      const response = await productsApi.singleProduct(id);
+      if (response.data ) {
+        return response.data;
+      }
+      throw new Error("Failed to fetch product: Invalid response format");
+    },
+    enabled: (options?.enabled !== undefined ? options.enabled : true) && !!id,
+  });
+};
 
