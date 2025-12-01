@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { FaStar } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
+// import { FaStar } from "react-icons/fa";
+// import { CiStar } from "react-icons/ci";
 
 import {
   Collapsible,
