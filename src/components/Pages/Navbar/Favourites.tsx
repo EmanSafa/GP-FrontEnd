@@ -1,6 +1,6 @@
 import phoneImg from "../../../assets/mobile.png";
 import ProductCard from "../Home/product-card";
-import GlobalPagination from "@/components/Global/GlobalPagination";
+// import GlobalPagination from "@/components/Global/GlobalPagination";
 import GlobalSort from "@/components/Global/GlobalSort";
 
 const Favourites = () => {

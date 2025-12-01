@@ -5,24 +5,19 @@ import OrderHistory from "./OrderHistory";
 import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
-
 import { useAuthStore } from "@/store/authStore";
+import { usetGetUserProfile } from "@/hooks/useAccount";
 
-const AccountPage = () => {
+
+const AccountPage = () => {  
+
   const { user } = useAuthStore();
-  
-  // Helper to safely get user data
-  const userData = user || {
-    name: "Guest User",
-    email: "guest@example.com",
-    phone: "N/A",
-    address: "N/A",
-    city: "N/A",
-    postcode: "N/A",
-    governorate: "N/A",
-    country: "N/A",
-    role: "customer" as const
-  };
+  const id = user ? Number(user.id) : 0;
+  const { data: userData } = usetGetUserProfile(id , {enabled: !!user});
+  console.log('user data' , userData)
+  console.log('user of auth store ' , user)
+
+  if (!userData) return <div>Loading...</div>;
 
   // Split name into first and last name
   const nameParts = (userData.name || "").split(" ");
@@ -32,7 +27,7 @@ const AccountPage = () => {
   return (
     <div className="mt-7 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
-      <div className="flex items-center gap-4 mb-8">
+     <div className="flex items-center gap-4 mb-8">
         <div className="relative">
           <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
           <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1">
@@ -94,7 +89,7 @@ const AccountPage = () => {
         {/* Payment Information */}
         <InfoSection title="Payment Information" editDialog={<PaymentInfoEditDialog />}>
           <div className="grid grid-cols-2 gap-4">
-            <InfoField label="Name on Card" value="Mirna Abdelrahman" />
+            <InfoField label="Name on Card" value={userData.name} />
             <InfoField label="Card Number" value="************" />
           </div>
           <div className="grid grid-cols-2 gap-4">

@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { FaStar } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
+
 
 import {
   Collapsible,
@@ -44,7 +43,7 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="mt-20">
+    <Sidebar className=" overflow-y-auto sticky top-20 h-[calc(100vh-13rem)]">
       <SidebarContent>
         <SidebarGroup className="bg-[#F8E8E8] p-5 ">
           <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">
@@ -207,67 +206,6 @@ const AppSidebar = () => {
                   </SidebarGroup>
                 </Collapsible>
               </SidebarMenuItem>
-             {/* <SidebarMenuItem>
-                <Collapsible defaultOpen className="group/collapsible">
-                  <SidebarGroup>
-                    <SidebarGroupLabel asChild>
-                      <CollapsibleTrigger className="text-normal text-[16px] ">
-                        Reviews
-                        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                      </CollapsibleTrigger>
-                    </SidebarGroupLabel>
-                    <CollapsibleContent>
-                      <div className="flex items-center gap-1">
-                        <Checkbox id="4stars" className="m-3 border-black" />
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <FaStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Checkbox id="4stars" className="m-3 border-black" />
-                        {Array.from({ length: 4 }).map((_, i) => (
-                          <FaStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                        <CiStar className="text-[#880909] w-3 h-3" />
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Checkbox id="4stars" className="m-3 border-black" />
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <FaStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                        {Array.from({ length: 2 }).map((_, i) => (
-                          <CiStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Checkbox id="4stars" className="m-3 border-black" />
-                        {Array.from({ length: 2 }).map((_, i) => (
-                          <FaStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <CiStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Checkbox id="4stars" className="m-3 border-black" />
-                        {Array.from({ length: 1 }).map((_, i) => (
-                          <FaStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                        {Array.from({ length: 4 }).map((_, i) => (
-                          <CiStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Checkbox id="4stars" className="m-3 border-black" />
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <CiStar key={i} className="text-[#880909] w-3 h-3" />
-                        ))}
-                      </div>
-                      <div className="h-20"></div>
-                    </CollapsibleContent>
-                  </SidebarGroup>
-                </Collapsible>
-              </SidebarMenuItem>/*/}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

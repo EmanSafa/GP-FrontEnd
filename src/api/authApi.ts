@@ -24,9 +24,8 @@ interface AuthResponse {
     name: string;
     role: 'admin' | 'customer';
     phone?: string;
+
   };
-  token: string;
-  session_id?: string;
 }
  export interface ResetPasswordRequest {
   email: string;
@@ -37,13 +36,10 @@ export const authApi = {
   // Register new user
   register: async (data: RegisterRequest) => {
     try {
-      
-
       const response = await axiosInstance.post<AuthResponse | { success: boolean; data: AuthResponse }>(
         endpoints.auth.register,
         data
       );
-      
       
       // Handle both response formats: direct or wrapped in data
       const authData = 'data' in response.data && response.data.data 
@@ -51,7 +47,7 @@ export const authApi = {
         : response.data as AuthResponse;
       
       // Store user and token in Zustand
-      // useAuthStore.getState().setAuth(authData.user, authData.token, authData.session_id);
+      // useAuthStore.getState().setAuth(authData.user, authData.session_id);
       toast.success("Registration successful!");
       
       return authData;
@@ -64,12 +60,11 @@ export const authApi = {
   // Login existing user
   login: async (data: LoginRequest) => {
     try {
-      
       const response = await axiosInstance.post<AuthResponse | { success: boolean; data: AuthResponse }>(
         endpoints.auth.login,
-        data
+        data,
+        { withCredentials: true }
       );
-      
       
       // Handle both response formats: direct or wrapped in data
       const authData = 'data' in response.data && response.data.data 
@@ -100,6 +95,7 @@ export const authApi = {
       useAuthStore.getState().clearAuth();
     }
   },
+
   resetPassword: async (data : ResetPasswordRequest) =>{
     try {
       await axiosInstance.post(endpoints.auth.resetPassword,data)

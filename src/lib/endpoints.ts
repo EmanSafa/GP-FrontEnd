@@ -45,14 +45,22 @@ export const endpoints = {
     detail: (id: number) => `/brands/${id}/products`,
   },
   user: {
-    profile: "/user",
-    update: "/user",
+    profile: (id:number) => `/user/${id}`,
+    update: (id:number) => `/user/${id}`,
+    orders: (id:number) => `/user/${id}/orders`,
+    reviews: (id:number) => `/user/${id}/reviews`,
+    
   },
   search: {
     query: `/products/search`,
   },
   test: {
-    ping: "/test",
+    public: "/test/public",
+    protected: "/test/protected",
+    admin: "/test/admin",
+    session: "/test/session",
+    ownership: (id: number)=> `/test/ownership/${id}`,
+    
   },
 };
 
