@@ -1,5 +1,5 @@
 import { userApi } from "@/lib/apiClient";
-import type { User, UpdateUserProfileRequest } from "@/types/types";
+import type { User, UpdateUserProfileRequest, Order } from "@/types/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -28,6 +28,21 @@ export const useUpdateUserProfile = (options?: { enabled?: boolean }) => {
                 return response.data.user;
             }
             throw new Error("Failed to update user profile: Invalid response format");
+        },
+    });
+}
+
+export const useGetUserOrders = (userId: number, options?: { enabled?: boolean }) => {
+    return useQuery<Order[], Error>({
+        ...options,
+        queryKey: ["user order", userId],
+        queryFn: async () => {
+            const response = await userApi.orders(userId);
+            if (response.data && response.data.success && response.data.orders) {
+                return response.data.orders;
+            }
+
+            throw new Error("Failed to fetch user orders: Invalid response format");
         },
     });
 }

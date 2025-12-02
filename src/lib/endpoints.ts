@@ -47,8 +47,8 @@ export const endpoints = {
   user: {
     update: (id:number) => `/user/${id}`,
     profile: (id:number) => `/user/${id}`,
-    orders: (id:number) => `/user/${id}/orders`,
-    reviews: (id:number) => `/user/${id}/reviews`,
+    orders: (id:number) => `/users/${id}/orders`,
+    reviews: (id:number) => `/users/${id}/reviews`,
     
   },
   search: {

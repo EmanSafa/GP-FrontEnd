@@ -127,7 +127,7 @@ const PersonalInfoEditDialog = () => {
                             done.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4">
+                    <div className="grid gap-4 mt-5">
 
                         <div className="grid gap-3">
                             <Label htmlFor="username-1">Username</Label>
@@ -228,7 +228,7 @@ const PersonalInfoEditDialog = () => {
 
                         )}
                     </div>
-                    <DialogFooter>
+                    <DialogFooter className="mt-5">
                         <DialogClose asChild>
                             <Button variant="outline" type="button">Cancel</Button>
                         </DialogClose>

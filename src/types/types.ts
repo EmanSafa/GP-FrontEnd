@@ -100,16 +100,23 @@ export interface UpdateUserProfileRequest {
   address: string;
 }
 
-export interface UpdateUserProfileApiResponse {
+export interface Order {
+  id: string;
+  order_number: string;
+  user_id: string;
+  total: string;
+  status: string;
+  payment_method: string;
+  payment_status: string;
+  shipping_address: string;
+  notes: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserOrdersResponse {
   success: boolean;
-  message: string;
-  data: {
-    user: {
-      id: number;
-      name: string;
-      email: string;
-      phone: string;
-      address: string;
-    };
-  };
+  orders: Order[];
+  total_orders: number;
+  pagination: PaginationData;
 }
