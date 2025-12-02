@@ -24,9 +24,8 @@ interface AuthResponse {
     name: string;
     role: 'admin' | 'customer';
     phone?: string;
+
   };
-  token: string;
-  session_id?: string;
 }
  export interface ResetPasswordRequest {
   email: string;
@@ -63,7 +62,8 @@ export const authApi = {
     try {
       const response = await axiosInstance.post<AuthResponse | { success: boolean; data: AuthResponse }>(
         endpoints.auth.login,
-        data
+        data,
+        { withCredentials: true }
       );
       
       // Handle both response formats: direct or wrapped in data
@@ -72,7 +72,7 @@ export const authApi = {
         : response.data as AuthResponse;
       
       // Store user and token in Zustand
-      useAuthStore.getState().setUser(authData.user, authData.session_id );
+      useAuthStore.getState().setUser(authData.user);
       toast.success("Login successful!");
 
       return authData;

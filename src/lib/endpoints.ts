@@ -55,7 +55,12 @@ export const endpoints = {
     query: `/products/search`,
   },
   test: {
-    ping: "/test",
+    public: "/test/public",
+    protected: "/test/protected",
+    admin: "/test/admin",
+    session: "/test/session",
+    ownership: (id: number)=> `/test/ownership/${id}`,
+    
   },
 };
 

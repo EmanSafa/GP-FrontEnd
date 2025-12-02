@@ -43,7 +43,7 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="mt-20">
+    <Sidebar className=" overflow-y-auto sticky top-20 h-[calc(100vh-13rem)]">
       <SidebarContent>
         <SidebarGroup className="bg-[#F8E8E8] p-5 ">
           <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">

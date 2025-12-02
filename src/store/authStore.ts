@@ -12,22 +12,22 @@ interface User {
 interface AuthState {
   user: User | null;
   // token: string | null;
-  sessionId?: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, sessionId?: string) => void;
   clearAuth: () => void;
-  setUser: (user: User , session_id?: string) => void;
+  setUser: (user: User ) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
-      sessionId: null,
+      user: null,  
       isAuthenticated: false,
-      setAuth: (user, sessionId) => set({ user, sessionId, isAuthenticated: true }),
-      clearAuth: () => set({ user: null,  sessionId: null, isAuthenticated: false }),
-      setUser: (user, sessionId) => set({ user, sessionId, isAuthenticated: true }),
+      clearAuth: () => {
+        set({ user: null,  isAuthenticated: false });
+      },
+      setUser: (user) => {
+        set({ user, isAuthenticated: true });
+      },
     }),
     {
       name: "auth-storage", // name of the item in the storage (must be unique)

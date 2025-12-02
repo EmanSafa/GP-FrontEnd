@@ -5,17 +5,17 @@ import OrderHistory from "./OrderHistory";
 import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
-import { usetGetUserProfile } from "@/hooks/useAccount";
 import { useAuthStore } from "@/store/authStore";
+import { usetGetUserProfile } from "@/hooks/useAccount";
 
 
 const AccountPage = () => {  
 
   const { user } = useAuthStore();
   const id = user ? Number(user.id) : 0;
-  const { data: userData } = usetGetUserProfile(id, { enabled: !!user });
+  const { data: userData } = usetGetUserProfile(id , {enabled: !!user});
   console.log('user data' , userData)
-  console.log('user ' , user)
+  console.log('user of auth store ' , user)
 
   if (!userData) return <div>Loading...</div>;
 
@@ -27,7 +27,7 @@ const AccountPage = () => {
   return (
     <div className="mt-7 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
-      <div className="flex items-center gap-4 mb-8">
+     <div className="flex items-center gap-4 mb-8">
         <div className="relative">
           <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
           <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1">

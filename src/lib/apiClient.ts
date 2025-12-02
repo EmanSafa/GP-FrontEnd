@@ -4,7 +4,7 @@ import endpoints from "./endpoints";
 
 export const authApi = {
   register: (data: {email : string , password : string , name : string }) => axiosInstance.post(endpoints.auth.register, data),
-  login: (data: {email : string , password : string}) => axiosInstance.post(endpoints.auth.login, data),
+  login: (data: {email : string , password : string}) => axiosInstance.post(endpoints.auth.login, data , { withCredentials: true }),
   logout: () => axiosInstance.post(endpoints.auth.logout),
   resetPassword:(data:{email : string , newPass : string})=> axiosInstance.post(endpoints.auth.resetPassword , data)
 };
@@ -55,7 +55,7 @@ export const reviewsApi = {
 };
 
 export const categoriesApi = {
-  list: () => axiosInstance.get(endpoints.categories.list),
+  list: () => axiosInstance.get(endpoints.categories.list , { withCredentials: true }),
   getById: (id: number) => axiosInstance.get(endpoints.categories.detail(id)),
 };
 
@@ -65,7 +65,7 @@ export const brandsApi = {
 };
 
 export const userApi = {
-  profile: (id:number) => axiosInstance.get(endpoints.user.profile(id)),
+  profile: (id:number) => axiosInstance.get(endpoints.user.profile(id) , { withCredentials: true }),
   update: (id:number, data: {name : string , phone : string , address : string}) => axiosInstance.put(endpoints.user.update(id), data),
   orders: (id:number) => axiosInstance.get(endpoints.user.orders(id)),
   reviews: (id:number) => axiosInstance.get(endpoints.user.reviews(id)),
@@ -74,7 +74,11 @@ export const userApi = {
 
 
 export const testApi = {
-  ping: () => axiosInstance.get(endpoints.test.ping),
+  public: () => axiosInstance.get(endpoints.test.public),
+  protected: () => axiosInstance.get(endpoints.test.protected),
+  admin: () => axiosInstance.get(endpoints.test.admin),
+  session: () => axiosInstance.get(endpoints.test.session),
+  ownership: (id: number) => axiosInstance.get(endpoints.test.ownership(id)),
 };
 
 

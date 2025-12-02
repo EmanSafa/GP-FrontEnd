@@ -98,7 +98,7 @@ const ShopPage = ({
   return (
     <>
       <SidebarProvider>
-        <div className="relative z-40">
+        <div className="relative z-40 sticky top-20 h-[calc(60vh-6rem)]">
            <AppSidebar />
         </div>
         <main className=" w-full mt-10">
