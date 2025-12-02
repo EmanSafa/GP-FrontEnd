@@ -2,11 +2,12 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface User {
-  id: string;
+  id: number;
   name?: string;
   email: string;
   role?: 'admin' | 'customer';
   phone?: string;
+  address?:string;
 }
 
 interface AuthState {

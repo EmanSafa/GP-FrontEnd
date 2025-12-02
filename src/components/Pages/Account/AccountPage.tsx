@@ -1,21 +1,19 @@
 import { UserRound, Pencil } from "lucide-react";
-import PersonalInfoEditDialog from "./personalInfoEditDialog";
 import ShippingInfoEditDialog from "./ShippingInfoEditDialog";
 import OrderHistory from "./OrderHistory";
 import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
 import { useAuthStore } from "@/store/authStore";
-import { usetGetUserProfile } from "@/hooks/useAccount";
+import { useGetUserProfile } from "@/hooks/useAccount";
+import PersonalInfoEditDialog from "./personalInfoEditDialog";
 
 
 const AccountPage = () => {  
 
   const { user } = useAuthStore();
   const id = user ? Number(user.id) : 0;
-  const { data: userData } = usetGetUserProfile(id , {enabled: !!user});
-  console.log('user data' , userData)
-  console.log('user of auth store ' , user)
+  const { data: userData } = useGetUserProfile(id , {enabled: !!user});
 
   if (!userData) return <div>Loading...</div>;
 
@@ -68,7 +66,7 @@ const AccountPage = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="capitalize">
-              <InfoField label="Role" value={userData.role || "Customer"} />
+              <InfoField label="Role" value={userData.role } />
             </div>
           </div>
         </InfoSection>

@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/store/authStore";
 import axios from "axios";
 
 // Base URL is taken from Vite environment variable VITE_API_BASE_URL if set.
