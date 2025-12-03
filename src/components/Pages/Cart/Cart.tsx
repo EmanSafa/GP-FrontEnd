@@ -47,7 +47,7 @@ const Cart = () => {
             title={item.product_name}
             price={item.subtotal}
             quantity={item.quantity}
-            imgSrc={item.product_image}
+            imgSrc={item.product_image_url}
           />
         ))}
         <SheetFooter>

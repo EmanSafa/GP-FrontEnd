@@ -99,7 +99,7 @@ const ShopPage = ({
     <>
       <SidebarProvider>
         <div className="relative z-40 sticky top-20 h-[calc(60vh-6rem)]">
-           <AppSidebar />
+          <AppSidebar />
         </div>
         <main className=" w-full mt-10">
           <div className="flex items-center justify-start">
@@ -107,39 +107,40 @@ const ShopPage = ({
             <h1 className="font-bold text-4xl ">{categoryTitle}</h1>
           </div>
           <div className="flex items-end justify-end ">
-            <GlobalSort 
-              className="mr-5" 
-              sort={sort} 
-              order={order} 
+            <GlobalSort
+              className="mr-5"
+              sort={sort}
+              order={order}
               onSortChange={handleSortChange}
             />
           </div>
           <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
             {isLoading ? (
-               // Render skeletons
-               Array.from({ length: 10 }).map((_, i) => (
-                 <ProductSkeleton key={i} />
-               ))
+              // Render skeletons
+              Array.from({ length: 10 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))
             ) : (
               products?.map((product: Product) => (
-              <ProductCard
-                key={product.id}
-                id={Number(product.id)}
-                title={product.name}
-                price={`$${product.price}`}
-                oldPrice={`$${parseFloat(product.price) + 240}`} 
-                rating={parseFloat(product.rating || "0")}
-                imgSrc={product.main_image_url || product.main_image || ""}
-                discount={20} 
-              />
-            )))}
+                <ProductCard
+                  key={product.id}
+                  id={Number(product.id)}
+                  title={product.name}
+                  price={`$${product.price}`}
+                  oldPrice={`$${parseFloat(product.price) + 240}`}
+                  rating={parseFloat(product.rating || "0")}
+                  imgSrc={product.main_image_url || product.main_image || ""}
+                  discount={20}
+
+                />
+              )))}
           </div>
           {children}
           {!isLoading && (
-            <GlobalPagination 
-              currentPage={currentPage} 
-              totalPages={totalPages} 
-              onPageChange={handlePageChange} 
+            <GlobalPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
             />
           )}
         </main>

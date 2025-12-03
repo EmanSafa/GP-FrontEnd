@@ -5,7 +5,7 @@ export interface Product {
   name: string;
   description?: string;
   price: string;
-  stock?: string;
+  stock?: number;
   brand_id?: string;
   category_id?: string;
   specifications?: string; // JSON string
@@ -153,4 +153,16 @@ export interface Cart {
   product_image: string;
   product_stock: string;
   product_available: string;
+  product_image_url: string;
+}
+
+export interface CheckoutData {
+  payment_method: string;
+  shipping_address: string;
+  notes: string;
+  card_details?: {
+    card_number: string;
+    cvv: string;
+    expiry: string;
+  };
 }

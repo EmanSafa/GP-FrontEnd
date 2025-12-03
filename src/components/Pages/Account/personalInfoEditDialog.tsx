@@ -95,6 +95,7 @@ const PersonalInfoEditDialog = () => {
         const formData = new FormData(e.currentTarget);
         const name = formData.get("username") as string;
         const phone = formData.get("phone") as string;
+        const address = formData.get("address") as string;
 
         updateProfile(
             {
@@ -102,7 +103,7 @@ const PersonalInfoEditDialog = () => {
                 data: {
                     name,
                     phone,
-                    address: user.address || "N/A",
+                    address,
                 },
             },
             {
@@ -141,6 +142,11 @@ const PersonalInfoEditDialog = () => {
                         <div className="grid gap-3">
                             <Label htmlFor="phone">Phone Number</Label>
                             <Input id="phone" name="phone" defaultValue={userData?.phone || ''} />
+                        </div>
+
+                        <div className="grid gap-3">
+                            <Label htmlFor="address">Address</Label>
+                            <Input id="address" name="address" defaultValue={userData?.address || ''} />
                         </div>
 
                         <Label htmlFor="pass">Password</Label>

@@ -11,6 +11,7 @@ type ProductCardProps = {
   imgSrc: string;
   discount?: number;
   className?: string;
+  stock?:number
 };
 
 const ProductCard = ({
@@ -22,6 +23,7 @@ const ProductCard = ({
   imgSrc,
   discount,
   className = "",
+  stock
 }: ProductCardProps) => {
   const navigate = useNavigate();
   return (
@@ -39,6 +41,7 @@ const ProductCard = ({
           </span>
         ) : null}
       </div>
+
 
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">

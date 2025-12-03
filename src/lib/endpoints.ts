@@ -1,3 +1,5 @@
+import type { CheckoutData } from "@/types/types";
+
 export const endpoints = {
   auth: {
     register: "/register",
@@ -27,9 +29,12 @@ export const endpoints = {
     clear: "/cart/clear", // Inferred
   },
   orders: {
-    list: "/orders",
-    detail: (id: number) => `/orders/${id}`,
-    create: "/orders",
+    checkout: `/checkout`,
+    orders: "/orders",
+    singleOrder: (id: number) => `/orders/${id}`,
+    items:(id:number) => `/orders/${id}/items`,
+    status:(id:number) => `/orders/${id}/status`,
+    cancel:(id:number) => `/orders/${id}/cancel`,
   },
   reviews: {
     list: "/reviews",

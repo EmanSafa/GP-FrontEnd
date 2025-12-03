@@ -19,14 +19,13 @@ const CartItem = ({
 }: IProps) => {
   const [counter, setCounter] = useState(Number(quantity));
   const { mutate: updateCartItem } = useUpdateCartItem(id);
-  const { mutate: deleteCartItem } = useDeleteCartItem(id);
-
+  const { mutate: deleteCartItem } = useDeleteCartItem();
 
   return (
     <div key={id} className="m-4 ">
       <div className="flex items-start justify-start gap-3  mb-5 ">
-        <div className="f border-1  border-[#DEDEDE] shadow-md rounded-md max-h-[120px] max-w-[150px] flex items-center justify-center  p-2">
-          <img src={imgSrc} alt={title} className="  rounded" />
+        <div className="f border-1  border-[#DEDEDE] shadow-md rounded-md max-h-[120px] w-[120px] flex items-center justify-center  p-2">
+          <img src={imgSrc} alt={title} className="max-h-[100px]  rounded" />
         </div>
         <div className="flex flex-1 flex-col  items-stretch gap-2   ">
           <h3 className="text-lg font-semibold">{title}</h3>
@@ -54,7 +53,7 @@ const CartItem = ({
                 <Plus className="w-4 h-4" />
               </div>
             </div>
-            <button onClick={() => deleteCartItem()} className="text-[#880909] hover:text-[#5D0505] mr-5 cursor-pointer text-sm">
+            <button onClick={() => deleteCartItem(id)} className="text-[#880909] hover:text-[#5D0505] mr-5 cursor-pointer text-sm">
               <Trash2 />
             </button>
           </div>

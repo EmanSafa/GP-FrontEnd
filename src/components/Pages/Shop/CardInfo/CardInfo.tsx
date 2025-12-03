@@ -16,7 +16,7 @@ interface CardInfoProps {
 
 
 const CardInfo = ({ id }: CardInfoProps) => {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(1);
   const { data: product, isLoading } = usegetSingleProduct(id);
   const { data: singleProductImages } = useGetSingleProductImages(id)
   const { mutateAsync: addCart } = useAddCartItem();
@@ -89,6 +89,9 @@ const CardInfo = ({ id }: CardInfoProps) => {
               <li>Mental Pin</li>
               <li>User Manual</li>
             </ul>
+            {Number(product?.stock) === 0 && (
+              <div className="w-full p-2 flex items-center justify-center bg-yellow-500 rounded-md"><span className="text-[#F8E8E8] font-semibold text-lg ">Out of stock</span></div>
+            )}
           </div>
           <div className="flex items-start justify-start gap-5 mx-auto w-full flex-col lg:flex-row">
             <div className="flex items-center justify-center gap-4 border-1 border-[#D79898] h-[50px] lg:w-1/3 md:w-[90%] w-[98%] rounded-full">
@@ -106,6 +109,7 @@ const CardInfo = ({ id }: CardInfoProps) => {
               variant={"auth"}
               className="rounded-full lg:w-2/3 md:w-[90%] w-[98%] sm:h-[50px] h-[50px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
               onClick={handleAddCart}
+              disabled={counter === 0 || isLoading || Number(product?.stock) === 0}
             >
               Add to Cart
               {/*Todo:Add to cart functionality*/}

@@ -53,6 +53,7 @@ const AccountPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoField label="Email Address" value={userData.email} />
             <InfoField label="Phone Number" value={userData.phone} />
+            <InfoField label="Address" value={userData.address} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoField label="User Name" value={userData.name} />

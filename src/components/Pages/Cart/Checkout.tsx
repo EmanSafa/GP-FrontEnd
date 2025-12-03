@@ -16,7 +16,6 @@ import {
   Gift,
   Lock,
   Shield,
-  Tag,
   Trash2,
   Truck,
 } from "lucide-react";
@@ -25,8 +24,16 @@ import { Label } from "@/components/ui/label";
 import StepContact from "../CheckoutSteps/StepContact";
 import StepShipping from "../CheckoutSteps/StepShipping";
 import StepPayment from "../CheckoutSteps/StepPayment";
+import { useCheckoutOrder } from "@/hooks/useOrders";
+import { useDeleteCartItem, useGetCart, useGetCartTotal } from "@/hooks/useCart";
+import type { Cart } from "@/types/types";
 
 const Checkout = () => {
+  const { data: orderSummary } = useGetCart()
+  const { data: orderTotal } = useGetCartTotal()
+  const { mutate: deleteCartItem } = useDeleteCartItem()
+  const { mutate: checkout, isPending: isCheckoutLoading } = useCheckoutOrder()
+
   const [step, setStep] = useState(1);
   const [showCvv, setShowCvv] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,8 +49,10 @@ const Checkout = () => {
     governorate: "",
     zipCode: "",
     country: "US",
+    notes: "",
 
     // Payment
+    paymentMethod: "cash",
     cardNumber: "",
     expiryDate: "",
     cvv: "",
@@ -56,32 +65,6 @@ const Checkout = () => {
     promoCode: "",
   });
 
-  const [orderSummary] = useState({
-    items: [
-      {
-        id: 1,
-        name: "Premium Wireless Headphones",
-        variant: "Midnight Black",
-        price: 299.99,
-        quantity: 1,
-        image:
-          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&auto=format&fit=crop&q=60",
-      },
-      {
-        id: 2,
-        name: "Leather Laptop Sleeve",
-        variant: "Brown, 13-inch",
-        price: 89.99,
-        quantity: 1,
-        image:
-          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=100&auto=format&fit=crop&q=60",
-      },
-    ],
-    shipping: 15.99,
-    tax: 27.54,
-    discount: 0,
-    promoDiscount: 0,
-  });
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -102,19 +85,38 @@ const Checkout = () => {
     handleInputChange("expiryDate", formatted);
   };
 
-  const subtotal = orderSummary.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const total =
-    subtotal +
-    orderSummary.shipping +
-    orderSummary.tax -
-    orderSummary.discount -
-    orderSummary.promoDiscount;
+  const handleCompleteOrder = () => {
+    const shippingAddress = `${formData.address}, ${formData.city}, ${formData.governorate}, ${formData.zipCode}, Egypt`;
+
+    const checkoutData: any = {
+      payment_method: formData.paymentMethod,
+      shipping_address: shippingAddress,
+      notes: formData.notes,
+    };
+
+    if (formData.paymentMethod !== 'cash' && formData.paymentMethod !== 'bank_transfer' && formData.paymentMethod !== 'paypal') {
+      checkoutData.card_details = {
+        card_number: formData.cardNumber.replace(/\s/g, ""),
+        cvv: formData.cvv,
+        expiry: formData.expiryDate
+      }
+    }
+
+    checkout(checkoutData);
+  };
 
   const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
+
+  const isFormValid = () => {
+    // Basic validation
+    if (!formData.email || !formData.firstName || !formData.lastName || !formData.phone) return false;
+    if (!formData.address || !formData.city || !formData.governorate || !formData.zipCode) return false;
+    if (formData.paymentMethod !== 'cash' && formData.paymentMethod !== 'bank_transfer' && formData.paymentMethod !== 'paypal') {
+      if (!formData.cardNumber || !formData.expiryDate || !formData.cvv || !formData.cardName) return false;
+    }
+    return true;
+  }
 
   return (
     <div className="bg-muted/30">
@@ -135,19 +137,17 @@ const Checkout = () => {
             {[1, 2, 3].map((stepNumber) => (
               <div key={stepNumber} className="flex items-center">
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-1 border-[#5D0505]  text-sm font-medium transition-colors ${
-                    stepNumber <= step
-                      ? "bg-[#5D0505] text-white"
-                      : "bg-muted text-[#5D0505]"
-                  }`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border-1 border-[#5D0505]  text-sm font-medium transition-colors ${stepNumber <= step
+                    ? "bg-[#5D0505] text-white"
+                    : "bg-muted text-[#5D0505]"
+                    }`}
                 >
                   {stepNumber}
                 </div>
                 {stepNumber < 3 && (
                   <div
-                    className={`mx-4  h-1 w-16 rounded transition-colors ${
-                      stepNumber < step ? "bg-[#5D0505] " : "bg-muted"
-                    }`}
+                    className={`mx-4  h-1 w-16 rounded transition-colors ${stepNumber < step ? "bg-[#5D0505] " : "bg-muted"
+                      }`}
                   />
                 )}
               </div>
@@ -226,9 +226,15 @@ const Checkout = () => {
                     <Button
                       variant={"auth"}
                       className="flex cursor-pointer items-center gap-2"
+                      onClick={handleCompleteOrder}
+                      disabled={!isFormValid() || isCheckoutLoading}
                     >
-                      <Lock className="size-4" />
-                      Complete Order
+                      {isCheckoutLoading ? "Processing..." : (
+                        <>
+                          <Lock className="size-4" />
+                          Complete Order
+                        </>
+                      )}
                     </Button>
                   )}
                 </div>
@@ -245,14 +251,16 @@ const Checkout = () => {
               <CardContent className="space-y-4">
                 {/* Items */}
                 <div className="space-y-4 ">
-                  {orderSummary.items.map((item) => (
+                  {Array.isArray(orderSummary) && orderSummary.map((item: Cart) => (
                     <div key={item.id} className="flex gap-4">
                       <div className="relative">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="h-16 w-16 rounded-lg object-cover"
-                        />
+                        <div className="p-5 h-[100px] w-[100px]">
+                          <img
+                            src={item.product_image_url}
+                            alt={item.product_name}
+                            className="h-16 w-16 rounded-lg h-auto w-auto object-cover"
+                          />
+                        </div>
                         <Badge
                           variant="secondary"
                           className="absolute -end-2 -top-2 size-6 rounded-full p-0 text-xs"
@@ -262,16 +270,16 @@ const Checkout = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <h4 className="truncate text-sm font-medium">
-                          {item.name}
+                          {item.product_name}
                         </h4>
-                        <p className="text-muted-foreground text-xs">
+                        {/* <p className="text-muted-foreground text-xs">
                           {item.variant}
-                        </p>
+                        </p> */}
                         <p className="mt-1 text-sm font-medium">
                           ${item.price}
                         </p>
                       </div>
-                      <Trash2 />
+                      <button onClick={() => deleteCartItem(item.id)}><Trash2 /></button>
                     </div>
                   ))}
                 </div>
@@ -304,36 +312,28 @@ const Checkout = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>${orderTotal?.toFixed(2) || '0.00'}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground flex items-center gap-1">
                       <Truck className="size-3" />
                       Shipping
                     </span>
-                    <span>${orderSummary.shipping.toFixed(2)}</span>
+                    <span>Free</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Tax</span>
-                    <span>${orderSummary.tax.toFixed(2)}</span>
+                    <span>$0.00</span>
                   </div>
-                  {orderSummary.promoDiscount > 0 && (
-                    <div className="flex justify-between text-sm text-green-600">
-                      <span className="flex items-center gap-1">
-                        <Tag className="size-3" />
-                        Promo discount
-                      </span>
-                      <span>-${orderSummary.promoDiscount.toFixed(2)}</span>
-                    </div>
-                  )}
+
                 </div>
 
                 <Separator />
 
-                <div className="flex justify-between font-semibold">
+                {/* <div className="flex justify-between font-semibold">
                   <span>Total</span>
                   <span>${total.toFixed(2)}</span>
-                </div>
+                </div> */}
 
                 {/* Trust Indicators */}
                 <div className="space-y-3 pt-4">

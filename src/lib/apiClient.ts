@@ -1,4 +1,8 @@
-import type { AddCartItemData, UpdateUserProfileRequest } from "@/types/types";
+import type {
+  AddCartItemData,
+  CheckoutData,
+  UpdateUserProfileRequest,
+} from "@/types/types";
 import axiosInstance from "./axiosInstance";
 import endpoints from "./endpoints";
 
@@ -58,9 +62,14 @@ export const cartApi = {
 };
 
 export const ordersApi = {
-  list: () => axiosInstance.get(endpoints.orders.list),
-  getById: (id: number) => axiosInstance.get(endpoints.orders.detail(id)),
-  create: (data: unknown) => axiosInstance.post(endpoints.orders.create, data),
+  checkout: (data: CheckoutData) =>
+    axiosInstance.post(endpoints.orders.checkout, data),
+  singleOrder: (id: number) =>
+    axiosInstance.get(endpoints.orders.singleOrder(id)),
+  orders: () => axiosInstance.get(endpoints.orders.orders),
+  items: (id: number) => axiosInstance.get(endpoints.orders.items(id)),
+  status: (id: number) => axiosInstance.get(endpoints.orders.status(id)),
+  cancel: (id: number) => axiosInstance.put(endpoints.orders.cancel(id)),
 };
 
 export const reviewsApi = {

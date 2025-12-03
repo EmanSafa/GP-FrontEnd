@@ -96,10 +96,10 @@ export const useUpdateCartItem = (id: number) => {
         }
     })
 }
-export const useDeleteCartItem = (id: number) => {
+export const useDeleteCartItem = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async () => {
+        mutationFn: async (id: number) => {
             const response = await cartApi.remove(id);
             if (response.data && response.data.success) {
                 toast.success(response.data.message || 'Item removed from cart successfully')

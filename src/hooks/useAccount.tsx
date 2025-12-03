@@ -1,6 +1,6 @@
 import { userApi } from "@/lib/apiClient";
 import type { User, UpdateUserProfileRequest, Order } from "@/types/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useGetUserProfile = (userId: number, options?: { enabled?: boolean }) => {
@@ -19,6 +19,8 @@ export const useGetUserProfile = (userId: number, options?: { enabled?: boolean 
 }
 
 export const useUpdateUserProfile = (options?: { enabled?: boolean }) => {
+        const queryClient = useQueryClient();
+
     return useMutation<User, Error, { userId: number, data: UpdateUserProfileRequest }>({
         ...options,
         mutationFn: async ({ userId, data }) => {
@@ -29,6 +31,9 @@ export const useUpdateUserProfile = (options?: { enabled?: boolean }) => {
             }
             throw new Error("Failed to update user profile: Invalid response format");
         },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["user"] });
+        }
     });
 }
 
