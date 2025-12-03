@@ -67,6 +67,7 @@ const ShopPage = ({
     { q: q || "", limit: 20 },
     { enabled: isSearch }
   );
+  console.log(searchData)
   const { data: listData, isLoading: isListLoading } = useGetProducts(filters, {
     enabled: !isSearch,
   });
@@ -75,6 +76,7 @@ const ShopPage = ({
   const isLoading = isSearch ? isSearchLoading : isListLoading;
 
   const products = responseData?.products || [];
+
 
   const totalPages = responseData?.pagination.totalPages || 1;
   const currentPage = responseData?.pagination.page || page;
@@ -120,8 +122,8 @@ const ShopPage = ({
               Array.from({ length: 10 }).map((_, i) => (
                 <ProductSkeleton key={i} />
               ))
-            ) : (
-              products?.map((product: Product) => (
+            ) : products.length > 0 ? (
+              products.map((product: Product) => (
                 <ProductCard
                   key={product.id}
                   id={Number(product.id)}
@@ -131,9 +133,13 @@ const ShopPage = ({
                   rating={parseFloat(product.rating || "0")}
                   imgSrc={product.main_image_url || product.main_image || ""}
                   discount={20}
-
                 />
-              )))}
+              ))
+            ) : (
+              <div className="col-span-full flex justify-center items-center h-40 text-gray-500">
+                No products found
+              </div>
+            )}
           </div>
           {children}
           {!isLoading && (

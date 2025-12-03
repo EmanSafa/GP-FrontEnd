@@ -11,7 +11,6 @@ type ProductCardProps = {
   imgSrc: string;
   discount?: number;
   className?: string;
-  stock?:number
 };
 
 const ProductCard = ({
@@ -23,7 +22,6 @@ const ProductCard = ({
   imgSrc,
   discount,
   className = "",
-  stock
 }: ProductCardProps) => {
   const navigate = useNavigate();
   return (
