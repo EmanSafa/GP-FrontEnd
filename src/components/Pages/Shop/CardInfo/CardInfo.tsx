@@ -8,6 +8,7 @@ import CardTable from "./CardTable";
 import YouMightLike from "../YouMightLike";
 import { usegetSingleProduct, useGetSingleProductImages } from "@/hooks/useProducts";
 import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
+import { useAddCartItem } from "@/hooks/useCart";
 interface CardInfoProps {
   id?: number;
 }
@@ -18,6 +19,15 @@ const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(0);
   const { data: product, isLoading } = usegetSingleProduct(id);
   const { data: singleProductImages } = useGetSingleProductImages(id)
+  const { mutateAsync: addCart } = useAddCartItem();
+
+  const handleAddCart = () => {
+    if (!id) return;
+    addCart({
+      product_id: id,
+      quantity: counter,
+    });
+  };
 
   if (isLoading) {
     return <CardInfoSkeleton />;
@@ -81,30 +91,24 @@ const CardInfo = ({ id }: CardInfoProps) => {
             </ul>
           </div>
           <div className="flex items-start justify-start gap-5 mx-auto w-full flex-col lg:flex-row">
-            <div className="flex items-center justify-center gap-3 border-1 border-[#D79898] h-[50px] w-[130px] rounded-full">
+            <div className="flex items-center justify-center gap-4 border-1 border-[#D79898] h-[50px] lg:w-1/3 md:w-[90%] w-[98%] rounded-full">
               <div onClick={() => setCounter((prev) => prev - 1)}>
                 <Minus />
               </div>
-              {counter > 0 ? <span>{counter}</span> : <span>0</span>}
+              <div className="w-[20px] h-[20px] flex items-center justify-center">
+                {counter > 0 ? <span>{counter}</span> : <span>0</span>}
+              </div>
               <div onClick={() => setCounter((prev) => prev + 1)}>
                 <Plus />
               </div>
             </div>
             <Button
               variant={"auth"}
-              className="rounded-full lg:w-[355px] sm:w-[90%]   sm:h-[50px] h-[40px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
+              className="rounded-full lg:w-2/3 md:w-[90%] w-[98%] sm:h-[50px] h-[50px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
+              onClick={handleAddCart}
             >
               Add to Cart
               {/*Todo:Add to cart functionality*/}
-            </Button>
-          </div>
-          <div className="flex items-start justify-start mt-2 ">
-            <Button
-              variant={"authOutline"}
-              className="rounded-full lg:w-[500px]  w-[90%] sm:h-[50px] h-[35px] py-[16px] px-[24px] font-semibold text-[18px] "
-            >
-              Buy Now
-              {/*Todo:Buy now functionality*/}
             </Button>
           </div>
           <div className="flex flex-col max-md:mt-4 gap-3 items-start justify-start">

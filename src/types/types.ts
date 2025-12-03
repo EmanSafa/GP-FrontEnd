@@ -120,3 +120,37 @@ export interface UserOrdersResponse {
   total_orders: number;
   pagination: PaginationData;
 }
+
+export interface AddCartItemData {
+  product_id: number;
+  quantity: number;
+}
+
+export interface AddCartResponse {
+  success: boolean;
+  message: string;
+  data: {
+    cart_item: {
+      id: number;
+      product_id: number;
+      quantity: number;
+      subtotal: number;
+    };
+  };
+}
+
+export interface Cart {
+  id: number;
+  subtotal: number;
+  cart_id: number;
+  product_id: number;
+  quantity: number;
+  price: number;
+  created_at: string;
+  updated_at: string;
+  product_name: string;
+  product_price: string;
+  product_image: string;
+  product_stock: string;
+  product_available: string;
+}
