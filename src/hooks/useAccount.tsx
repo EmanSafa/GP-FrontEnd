@@ -1,6 +1,6 @@
 import { userApi } from "@/lib/apiClient";
 import type { User, UpdateUserProfileRequest, Order } from "@/types/types";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useGetUserProfile = (userId: number, options?: { enabled?: boolean }) => {
