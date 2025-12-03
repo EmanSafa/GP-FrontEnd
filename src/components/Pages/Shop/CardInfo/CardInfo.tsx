@@ -1,4 +1,4 @@
-import { Heart, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
 import { Button } from "../../../ui/button";
@@ -8,6 +8,9 @@ import CardTable from "./CardTable";
 import YouMightLike from "../YouMightLike";
 import { usegetSingleProduct, useGetSingleProductImages } from "@/hooks/useProducts";
 import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
+import { useAddCartItem } from "@/hooks/useCart";
+import ReviewSection from "./ReviewSection";
+import ReviewsList from "./ReviewsList";
 interface CardInfoProps {
   id?: number;
 }
@@ -15,16 +18,25 @@ interface CardInfoProps {
 
 
 const CardInfo = ({ id }: CardInfoProps) => {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(1);
   const { data: product, isLoading } = usegetSingleProduct(id);
-  const { data:singleProductImages} = useGetSingleProductImages(id)
-  
+  const { data: singleProductImages } = useGetSingleProductImages(id)
+  const { mutateAsync: addCart } = useAddCartItem();
+
+  const handleAddCart = () => {
+    if (!id) return;
+    addCart({
+      product_id: id,
+      quantity: counter,
+    });
+  };
+
   if (isLoading) {
     return <CardInfoSkeleton />;
   }
 
   if (!product && !isLoading) {
-     return <div className="flex items-center justify-center h-screen">Product not found</div>;
+    return <div className="flex items-center justify-center h-screen">Product not found</div>;
   }
 
   return (
@@ -52,20 +64,14 @@ const CardInfo = ({ id }: CardInfoProps) => {
           <h1 className=" text-start text-xl font-bold text-[#777777] ">
             {product?.brand_name || "Brand"}
           </h1>
-          <div className="flex items-center justify-between">
-            <h2 className="sm:text-3xl text-lg  font-bold text-[#404040] max-w-[438px] ">
-              {product?.name}
-            </h2>
-            <Heart className="text-[#5D0505] md:mr-20 sm:mr-6 lg:mr-1" />
-            {/*Todo:Heart icon is clickble to add to favourites*/}
-          </div>
+
           <div className="flex items-center flex-wrap justify-start gap-2">
             <span className="sm:text-[24px]/[171%] font-normal text-[20px]  ">
               {product?.price}
             </span>
             <span className="text-[#9D0000] text-[16px]/[171%] font-normal line-through">
-             {product?.price ? Number(product.price) + 1000 : ''}
-            </span> 
+              {product?.price ? Number(product.price) + 1000 : ''}
+            </span>
             <span className="h-[26px] bg-black w-[1px]"></span>
             {Array.from({ length: Math.round(Number(product?.rating || 0)) }).map((_, i) => (
               <FaStar key={i} className="text-[#D50000] w-3 h-3" />
@@ -73,10 +79,10 @@ const CardInfo = ({ id }: CardInfoProps) => {
             <span className="text-[#9D0000]">{`(${product?.rating})` || 0} Ratings</span>
           </div>
           <div className="text-[#414141] font-normal sm:text-[24px] text-[15px]">
-           {product?.description}
+            {product?.description}
           </div>
           <div className="h-[1px] w-[85%] bg-[#5D0505] my-3"></div>
-          
+
           <div className="flex flex-col items-start justify-start text-[15px] font-normal text-[#414141]">
             <label htmlFor=""> Whats in the box?</label>
             <ul className="list-disc ml-6">
@@ -85,32 +91,30 @@ const CardInfo = ({ id }: CardInfoProps) => {
               <li>Mental Pin</li>
               <li>User Manual</li>
             </ul>
+            {Number(product?.stock) === 0 && (
+              <div className="w-full p-2 flex items-center justify-center bg-yellow-500 rounded-md"><span className="text-[#F8E8E8] font-semibold text-lg ">Out of stock</span></div>
+            )}
           </div>
           <div className="flex items-start justify-start gap-5 mx-auto w-full flex-col lg:flex-row">
-            <div className="flex items-center justify-center gap-3 border-1 border-[#D79898] h-[50px] w-[130px] rounded-full">
+            <div className="flex items-center justify-center gap-4 border-1 border-[#D79898] h-[50px] lg:w-1/3 md:w-[90%] w-[98%] rounded-full">
               <div onClick={() => setCounter((prev) => prev - 1)}>
                 <Minus />
               </div>
-              {counter > 0 ? <span>{counter}</span> : <span>0</span>}
+              <div className="w-[20px] h-[20px] flex items-center justify-center">
+                {counter > 0 ? <span>{counter}</span> : <span>0</span>}
+              </div>
               <div onClick={() => setCounter((prev) => prev + 1)}>
                 <Plus />
               </div>
             </div>
             <Button
               variant={"auth"}
-              className="rounded-full lg:w-[355px] sm:w-[90%]   sm:h-[50px] h-[40px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
+              className="rounded-full lg:w-2/3 md:w-[90%] w-[98%] sm:h-[50px] h-[50px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
+              onClick={handleAddCart}
+              disabled={counter === 0 || isLoading || Number(product?.stock) === 0}
             >
               Add to Cart
               {/*Todo:Add to cart functionality*/}
-            </Button>
-          </div>
-          <div className="flex items-start justify-start mt-2 ">
-            <Button
-              variant={"authOutline"}
-              className="rounded-full lg:w-[500px]  w-[90%] sm:h-[50px] h-[35px] py-[16px] px-[24px] font-semibold text-[18px] "
-            >
-              Buy Now
-              {/*Todo:Buy now functionality*/}
             </Button>
           </div>
           <div className="flex flex-col max-md:mt-4 gap-3 items-start justify-start">
@@ -130,7 +134,13 @@ const CardInfo = ({ id }: CardInfoProps) => {
         </div>
       </div>
       <CardTable id={id} />
-      <YouMightLike />
+      {id && <ReviewSection productId={id} />}
+      {id && <ReviewsList productId={id} />}
+      <YouMightLike
+        categoryId={Number(product?.category_id)}
+        brandId={product?.brand_id}
+        currentProductId={id}
+      />
     </>
   );
 };

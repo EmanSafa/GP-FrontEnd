@@ -5,7 +5,7 @@ export interface Product {
   name: string;
   description?: string;
   price: string;
-  stock?: string;
+  stock?: number;
   brand_id?: string;
   category_id?: string;
   specifications?: string; // JSON string
@@ -66,6 +66,7 @@ export interface ProductParams {
 export interface SearchParams {
   q: string;
   limit: number;
+  // ...
 }
 export interface SingleProductResponse {
   success: boolean;
@@ -119,4 +120,71 @@ export interface UserOrdersResponse {
   orders: Order[];
   total_orders: number;
   pagination: PaginationData;
+}
+
+export interface AddCartItemData {
+  product_id: number;
+  quantity: number;
+}
+
+export interface AddCartResponse {
+  success: boolean;
+  message: string;
+  data: {
+    cart_item: {
+      id: number;
+      product_id: number;
+      quantity: number;
+      subtotal: number;
+      // ...
+    };
+  };
+}
+
+export interface Cart {
+  id: number;
+  subtotal: number;
+  cart_id: number;
+  product_id: number;
+  quantity: number;
+  price: number;
+  created_at: string;
+  updated_at: string;
+  product_name: string;
+  product_price: string;
+  product_image: string;
+  product_stock: string;
+  product_available: string;
+  product_image_url: string;
+}
+
+export interface CheckoutData {
+  payment_method: string;
+  shipping_address: string;
+  notes: string;
+  card_details?: {
+    card_number: string;
+    cvv: string;
+    expiry: string;
+  };
+}
+
+export interface ReivewData {
+  rating: number;
+  title: string;
+  comment: string;
+}
+
+export interface Review {
+  id: number;
+  product_id: number;
+  user_id: number;
+  user_name: string;
+  user_email: string;
+  rating: number;
+  title: string;
+  comment: string;
+  is_verified_purchase: boolean;
+  helpful_count: number;
+  created_at: string;
 }

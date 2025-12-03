@@ -1,7 +1,5 @@
 import { UserRound, Pencil } from "lucide-react";
-import ShippingInfoEditDialog from "./ShippingInfoEditDialog";
 import OrderHistory from "./OrderHistory";
-import PaymentInfoEditDialog from "./PaymentInfoEditDialog";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
 import { useAuthStore } from "@/store/authStore";
@@ -9,12 +7,11 @@ import { useGetUserProfile } from "@/hooks/useAccount";
 import PersonalInfoEditDialog from "./personalInfoEditDialog";
 
 
-const AccountPage = () => {  
+const AccountPage = () => {
 
   const { user } = useAuthStore();
   const id = user ? Number(user.id) : 0;
-  const { data: userData } = useGetUserProfile(id , {enabled: !!user});
-
+  const { data: userData } = useGetUserProfile(id, { enabled: !!user });
   if (!userData) return <div>Loading...</div>;
 
   // Split name into first and last name
@@ -25,7 +22,7 @@ const AccountPage = () => {
   return (
     <div className="mt-7 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
-     <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 mb-8">
         <div className="relative">
           <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
           <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1">
@@ -46,7 +43,7 @@ const AccountPage = () => {
       </div>
 
       {/* Information Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="w-full">
         {/* Personal Information */}
         <InfoSection title="Personal Information" editDialog={<PersonalInfoEditDialog />}>
           <div className="grid grid-cols-2 gap-4">
@@ -56,47 +53,23 @@ const AccountPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoField label="Email Address" value={userData.email} />
             <InfoField label="Phone Number" value={userData.phone} />
+            <InfoField label="Address" value={userData.address} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoField label="User Name" value={userData.name} />
-            <InfoField 
-              label="Password" 
-              value={ "***********"} 
+            <InfoField
+              label="Password"
+              value={"***********"}
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="capitalize">
-              <InfoField label="Role" value={userData.role } />
+              <InfoField label="Role" value={userData.role} />
             </div>
           </div>
         </InfoSection>
-
-        {/* Shipping Information */}
-        <InfoSection title="Shipping Information" editDialog={<ShippingInfoEditDialog />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InfoField label="City/Town" value="Zagazig" />
-            <InfoField label="Postcode/Zip" value="171717" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InfoField label="Permanent Address" value="5 Saied Street, Farouk Street, Floor 4" />
-            <InfoField label="Governorate" value="El Sharqia" />
-            <InfoField label="Country" value="Egypt" />
-          </div>
-        </InfoSection>
-
-        {/* Payment Information */}
-        <InfoSection title="Payment Information" editDialog={<PaymentInfoEditDialog />}>
-          <div className="grid grid-cols-2 gap-4">
-            <InfoField label="Name on Card" value={userData.name} />
-            <InfoField label="Card Number" value="************" />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <InfoField label="Valid Through" value="12/4" />
-            <InfoField label="CVV" value="***" />
-          </div>
-        </InfoSection>
       </div>
-      <OrderHistory/>
+      <OrderHistory />
     </div>
   );
 };

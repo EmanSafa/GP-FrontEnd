@@ -1,4 +1,4 @@
-import { Heart, Plus } from "lucide-react";
+import {  Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -40,6 +40,7 @@ const ProductCard = ({
         ) : null}
       </div>
 
+
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1">
@@ -62,12 +63,6 @@ const ProductCard = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              aria-label="wishlist"
-              className="p-1 rounded-md hover:bg-gray-100"
-            >
-              <Heart className="text-[#880909] " />
-            </button>
             <button
               aria-label="add"
               className="p-1 rounded-md bg-[#FFEAEA] hover:bg-[#ffdcdc]"

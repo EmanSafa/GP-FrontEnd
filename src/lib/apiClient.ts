@@ -1,4 +1,9 @@
-import type { UpdateUserProfileRequest } from "@/types/types";
+import type {
+  AddCartItemData,
+  CheckoutData,
+  ReivewData,
+  UpdateUserProfileRequest,
+} from "@/types/types";
 import axiosInstance from "./axiosInstance";
 import endpoints from "./endpoints";
 
@@ -48,23 +53,38 @@ export const productsApi = {
 
 export const cartApi = {
   items: () => axiosInstance.get(endpoints.cart.items),
-  add: (data: unknown) => axiosInstance.post(endpoints.cart.add, data),
-  update: (id: number, data: unknown) =>
+  add: (data: AddCartItemData) => axiosInstance.post(endpoints.cart.add, data),
+  total: () => axiosInstance.get(endpoints.cart.total),
+  count: () => axiosInstance.get(endpoints.cart.count),
+  update: (id: number, data: { quantity: number }) =>
     axiosInstance.put(endpoints.cart.update(id), data),
   remove: (id: number) => axiosInstance.delete(endpoints.cart.remove(id)),
-  clear: () => axiosInstance.post(endpoints.cart.clear),
+  clear: () => axiosInstance.delete(endpoints.cart.clear),
 };
 
 export const ordersApi = {
-  list: () => axiosInstance.get(endpoints.orders.list),
-  getById: (id: number) => axiosInstance.get(endpoints.orders.detail(id)),
-  create: (data: unknown) => axiosInstance.post(endpoints.orders.create, data),
+  checkout: (data: CheckoutData) =>
+    axiosInstance.post(endpoints.orders.checkout, data),
+  singleOrder: (id: number) =>
+    axiosInstance.get(endpoints.orders.singleOrder(id)),
+  orders: () => axiosInstance.get(endpoints.orders.orders),
+  items: (id: number) => axiosInstance.get(endpoints.orders.items(id)),
+  status: (id: number) => axiosInstance.get(endpoints.orders.status(id)),
+  cancel: (id: number) => axiosInstance.put(endpoints.orders.cancel(id)),
 };
 
 export const reviewsApi = {
-  list: () => axiosInstance.get(endpoints.reviews.list),
-  create: (data: unknown) => axiosInstance.post(endpoints.reviews.create, data),
+  list: (id: number) => axiosInstance.get(endpoints.reviews.list(id)),
+  create: (id: number, data: ReivewData) =>
+    axiosInstance.post(endpoints.reviews.create(id), data),
   delete: (id: number) => axiosInstance.delete(endpoints.reviews.delete(id)),
+  productReview: (id: number, params?: any) =>
+    axiosInstance.get(endpoints.reviews.productReviews(id), { params }),
+  rating: (id: number) => axiosInstance.get(endpoints.reviews.rating(id)),
+  update: (id: number, data: unknown) =>
+    axiosInstance.put(endpoints.reviews.update(id), data),
+  helpful: (id: number, data: unknown) =>
+    axiosInstance.post(endpoints.reviews.helpful(id), data),
 };
 
 export const categoriesApi = {

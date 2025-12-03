@@ -67,6 +67,7 @@ const ShopPage = ({
     { q: q || "", limit: 20 },
     { enabled: isSearch }
   );
+  console.log(searchData)
   const { data: listData, isLoading: isListLoading } = useGetProducts(filters, {
     enabled: !isSearch,
   });
@@ -75,6 +76,7 @@ const ShopPage = ({
   const isLoading = isSearch ? isSearchLoading : isListLoading;
 
   const products = responseData?.products || [];
+
 
   const totalPages = responseData?.pagination.totalPages || 1;
   const currentPage = responseData?.pagination.page || page;
@@ -99,7 +101,7 @@ const ShopPage = ({
     <>
       <SidebarProvider>
         <div className="relative z-40 sticky top-20 h-[calc(60vh-6rem)]">
-           <AppSidebar />
+          <AppSidebar />
         </div>
         <main className=" w-full mt-10">
           <div className="flex items-center justify-start">
@@ -107,39 +109,44 @@ const ShopPage = ({
             <h1 className="font-bold text-4xl ">{categoryTitle}</h1>
           </div>
           <div className="flex items-end justify-end ">
-            <GlobalSort 
-              className="mr-5" 
-              sort={sort} 
-              order={order} 
+            <GlobalSort
+              className="mr-5"
+              sort={sort}
+              order={order}
               onSortChange={handleSortChange}
             />
           </div>
           <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
             {isLoading ? (
-               // Render skeletons
-               Array.from({ length: 10 }).map((_, i) => (
-                 <ProductSkeleton key={i} />
-               ))
+              // Render skeletons
+              Array.from({ length: 10 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))
+            ) : products.length > 0 ? (
+              products.map((product: Product) => (
+                <ProductCard
+                  key={product.id}
+                  id={Number(product.id)}
+                  title={product.name}
+                  price={`$${product.price}`}
+                  oldPrice={`$${parseFloat(product.price) + 240}`}
+                  rating={parseFloat(product.rating || "0")}
+                  imgSrc={product.main_image_url || product.main_image || ""}
+                  discount={20}
+                />
+              ))
             ) : (
-              products?.map((product: Product) => (
-              <ProductCard
-                key={product.id}
-                id={Number(product.id)}
-                title={product.name}
-                price={`$${product.price}`}
-                oldPrice={`$${parseFloat(product.price) + 240}`} 
-                rating={parseFloat(product.rating || "0")}
-                imgSrc={product.main_image_url || product.main_image || ""}
-                discount={20} 
-              />
-            )))}
+              <div className="col-span-full flex justify-center items-center h-40 text-gray-500">
+                No products found
+              </div>
+            )}
           </div>
           {children}
           {!isLoading && (
-            <GlobalPagination 
-              currentPage={currentPage} 
-              totalPages={totalPages} 
-              onPageChange={handlePageChange} 
+            <GlobalPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
             />
           )}
         </main>

@@ -1,11 +1,11 @@
-
+import type { CheckoutData } from "@/types/types";
 
 export const endpoints = {
   auth: {
     register: "/register",
     login: "/login",
     logout: "/logout",
-    resetPassword: 'password/reset'
+    resetPassword: "password/reset",
   },
   products: {
     list: "/products",
@@ -16,25 +16,34 @@ export const endpoints = {
     singleProduct: (id: number) => `/products/${id}`,
     singleProductImages: (id: number) => `/products/${id}/images`,
     // categories and brands are not explicitly in the paths but mentioned in the NOTE
-    categories: "/categories", 
+    categories: "/categories",
     brands: "/brands",
   },
   cart: {
     items: "/cart",
-    add: "/cart",
-    update: (id: number) => `/cart/${id}`,
-    remove: (id: number) => `/cart/${id}`,
+    add: "/cart/add",
+    total: "/cart/total",
+    count: "/cart/count",
+    update: (id: number) => `/cart/items/${id}`,
+    remove: (id: number) => `/cart/items/${id}`,
     clear: "/cart/clear", // Inferred
   },
   orders: {
-    list: "/orders",
-    detail: (id: number) => `/orders/${id}`,
-    create: "/orders",
+    checkout: `/checkout`,
+    orders: "/orders",
+    singleOrder: (id: number) => `/orders/${id}`,
+    items:(id:number) => `/orders/${id}/items`,
+    status:(id:number) => `/orders/${id}/status`,
+    cancel:(id:number) => `/orders/${id}/cancel`,
   },
   reviews: {
-    list: "/reviews",
-    create: "/reviews",
-    delete: (id: number) => `/reviews/${id}`,
+    productReviews:(id:number) => `/products/${id}/reviews`,
+    rating:(id:number) => `/products/${id}/rating`,
+    list:(id:number) => `/reviews/${id}`,
+    create:(id:number) =>`/products/${id}/reviews`,
+    update:(id:number) => `reviews/${id}`,
+    delete:(id:number) => `reviews/${id}`,
+    helpful:(id:number) => `reviews/${id}/helpful`,
   },
   categories: {
     list: "/categories",
@@ -45,11 +54,10 @@ export const endpoints = {
     detail: (id: number) => `/brands/${id}/products`,
   },
   user: {
-    update: (id:number) => `/user/${id}`,
-    profile: (id:number) => `/user/${id}`,
-    orders: (id:number) => `/users/${id}/orders`,
-    reviews: (id:number) => `/users/${id}/reviews`,
-    
+    update: (id: number) => `/user/${id}`,
+    profile: (id: number) => `/user/${id}`,
+    orders: (id: number) => `/users/${id}/orders`,
+    reviews: (id: number) => `/users/${id}/reviews`,
   },
   search: {
     query: `/products/search`,
@@ -59,8 +67,7 @@ export const endpoints = {
     protected: "/test/protected",
     admin: "/test/admin",
     session: "/test/session",
-    ownership: (id: number)=> `/test/ownership/${id}`,
-    
+    ownership: (id: number) => `/test/ownership/${id}`,
   },
 };
 

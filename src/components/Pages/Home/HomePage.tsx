@@ -113,9 +113,8 @@ const HomePage = () => {
               <div className="w-full">
                 <Card className={`${slide.bg}`}>
                   <CardContent
-                    className={`flex flex-col lg:flex-row min-h-[360px] justify-between px-6 lg:px-10 items-center gap-6 ${
-                      index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                    }`}
+                    className={`flex flex-col lg:flex-row min-h-[360px] justify-between px-6 lg:px-10 items-center gap-6 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                      }`}
                   >
                     <div
                       className={`flex flex-col gap-4 items-center text-center ${slide.textColor}`}

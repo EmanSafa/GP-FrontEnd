@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/apiClient";
-import type {  Product, ProductParams, ProductsResponse, SearchParams, SingleProductImagesResponse } from "@/types/types";
+import type { Product, ProductParams, ProductsResponse, SearchParams, SingleProductImagesResponse } from "@/types/types";
 
 export const useGetProducts = (params?: ProductParams, options?: { enabled?: boolean }) => {
   return useQuery<ProductsResponse, Error>({
@@ -16,7 +16,7 @@ export const useGetProducts = (params?: ProductParams, options?: { enabled?: boo
   });
 };
 
-export const useSearchProducts = (params?:SearchParams, options?: { enabled?: boolean }) => {
+export const useSearchProducts = (params?: SearchParams, options?: { enabled?: boolean }) => {
   return useQuery<ProductsResponse, Error>({
     ...options,
     queryKey: ["products-search", params],
@@ -24,12 +24,17 @@ export const useSearchProducts = (params?:SearchParams, options?: { enabled?: bo
       const response = await productsApi.search({ q: params?.q, limit: params?.limit });
       // Normalize search response to match ProductsResponse structure
       if (response.data && response.data.success) {
+        // API returns a single product object in 'results', wrap it in an array
+        const productsArray = Array.isArray(response.data.results)
+          ? response.data.results
+          : [response.data.results];
+
         return {
           success: true,
-          products: response.data.results,
+          products: productsArray,
           pagination: {
-            total: response.data.results.length,
-            perPage: response.data.results.length,
+            total: response.data.total || productsArray.length,
+            perPage: productsArray.length,
             page: 1,
             totalPages: 1,
           },
@@ -64,7 +69,7 @@ export const useGetSingleProductImages = (id: number | undefined, options?: { en
     queryFn: async () => {
       if (id === undefined) throw new Error("Product ID is required");
       const response = await productsApi.singleProductImages(id);
-      if (response.data ) {
+      if (response.data) {
         return response.data;
       }
       throw new Error("Failed to fetch product: Invalid response format");

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Heart, Search, Menu, X } from "lucide-react";
+import {  Search, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -130,9 +130,7 @@ const ActionIcons = ({
   return (
     <div className={style.container}>
       <div className={style.iconWrapper}>
-        <Link to="/favourits">
-          <Heart size={style.iconSize} />
-        </Link>
+        
         <Cart />
       </div>
     </div>

@@ -38,7 +38,7 @@ const CardTable = ({ id }: CardTableProps) => {
   if (!product) return null;
 
   return (
-    <Table className="mt-20 w-[95%]  mx-auto">
+    <Table className="mt-20 w-[95%] max-w-[85%]  mx-auto">
       <TableBody>
         {tableData.map((item, index) => (
           <TableRow
