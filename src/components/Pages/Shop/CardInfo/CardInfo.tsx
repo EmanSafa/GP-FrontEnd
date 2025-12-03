@@ -1,4 +1,4 @@
-import { Heart, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
 import { Button } from "../../../ui/button";
@@ -17,14 +17,14 @@ interface CardInfoProps {
 const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(0);
   const { data: product, isLoading } = usegetSingleProduct(id);
-  const { data:singleProductImages} = useGetSingleProductImages(id)
-  
+  const { data: singleProductImages } = useGetSingleProductImages(id)
+
   if (isLoading) {
     return <CardInfoSkeleton />;
   }
 
   if (!product && !isLoading) {
-     return <div className="flex items-center justify-center h-screen">Product not found</div>;
+    return <div className="flex items-center justify-center h-screen">Product not found</div>;
   }
 
   return (
@@ -52,20 +52,14 @@ const CardInfo = ({ id }: CardInfoProps) => {
           <h1 className=" text-start text-xl font-bold text-[#777777] ">
             {product?.brand_name || "Brand"}
           </h1>
-          <div className="flex items-center justify-between">
-            <h2 className="sm:text-3xl text-lg  font-bold text-[#404040] max-w-[438px] ">
-              {product?.name}
-            </h2>
-            <Heart className="text-[#5D0505] md:mr-20 sm:mr-6 lg:mr-1" />
-            {/*Todo:Heart icon is clickble to add to favourites*/}
-          </div>
+
           <div className="flex items-center flex-wrap justify-start gap-2">
             <span className="sm:text-[24px]/[171%] font-normal text-[20px]  ">
               {product?.price}
             </span>
             <span className="text-[#9D0000] text-[16px]/[171%] font-normal line-through">
-             {product?.price ? Number(product.price) + 1000 : ''}
-            </span> 
+              {product?.price ? Number(product.price) + 1000 : ''}
+            </span>
             <span className="h-[26px] bg-black w-[1px]"></span>
             {Array.from({ length: Math.round(Number(product?.rating || 0)) }).map((_, i) => (
               <FaStar key={i} className="text-[#D50000] w-3 h-3" />
@@ -73,10 +67,10 @@ const CardInfo = ({ id }: CardInfoProps) => {
             <span className="text-[#9D0000]">{`(${product?.rating})` || 0} Ratings</span>
           </div>
           <div className="text-[#414141] font-normal sm:text-[24px] text-[15px]">
-           {product?.description}
+            {product?.description}
           </div>
           <div className="h-[1px] w-[85%] bg-[#5D0505] my-3"></div>
-          
+
           <div className="flex flex-col items-start justify-start text-[15px] font-normal text-[#414141]">
             <label htmlFor=""> Whats in the box?</label>
             <ul className="list-disc ml-6">
@@ -130,7 +124,11 @@ const CardInfo = ({ id }: CardInfoProps) => {
         </div>
       </div>
       <CardTable id={id} />
-      <YouMightLike />
+      <YouMightLike
+        categoryId={Number(product?.category_id)}
+        brandId={product?.brand_id}
+        currentProductId={id}
+      />
     </>
   );
 };

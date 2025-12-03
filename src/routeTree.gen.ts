@@ -17,7 +17,6 @@ import { Route as AuthOtpRouteImport } from './routes/auth/otp'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
 import { Route as MainShopRouteImport } from './routes/_main/shop'
-import { Route as MainFavouritsRouteImport } from './routes/_main/favourits'
 import { Route as MainDashboardRouteImport } from './routes/_main/dashboard'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCheckoutRouteImport } from './routes/_main/checkout'
@@ -64,11 +63,6 @@ const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
 const MainShopRoute = MainShopRouteImport.update({
   id: '/shop',
   path: '/shop',
-  getParentRoute: () => MainRouteRoute,
-} as any)
-const MainFavouritsRoute = MainFavouritsRouteImport.update({
-  id: '/favourits',
-  path: '/favourits',
   getParentRoute: () => MainRouteRoute,
 } as any)
 const MainDashboardRoute = MainDashboardRouteImport.update({
@@ -122,7 +116,6 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
   '/dashboard': typeof MainDashboardRoute
-  '/favourits': typeof MainFavouritsRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -140,7 +133,6 @@ export interface FileRoutesByTo {
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
   '/dashboard': typeof MainDashboardRoute
-  '/favourits': typeof MainFavouritsRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -160,7 +152,6 @@ export interface FileRoutesById {
   '/_main/checkout': typeof MainCheckoutRoute
   '/_main/contact': typeof MainContactRoute
   '/_main/dashboard': typeof MainDashboardRoute
-  '/_main/favourits': typeof MainFavouritsRoute
   '/_main/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -180,7 +171,6 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/dashboard'
-    | '/favourits'
     | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
@@ -198,7 +188,6 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/dashboard'
-    | '/favourits'
     | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
@@ -217,7 +206,6 @@ export interface FileRouteTypes {
     | '/_main/checkout'
     | '/_main/contact'
     | '/_main/dashboard'
-    | '/_main/favourits'
     | '/_main/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
@@ -289,13 +277,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainShopRouteImport
       parentRoute: typeof MainRouteRoute
     }
-    '/_main/favourits': {
-      id: '/_main/favourits'
-      path: '/favourits'
-      fullPath: '/favourits'
-      preLoaderRoute: typeof MainFavouritsRouteImport
-      parentRoute: typeof MainRouteRoute
-    }
     '/_main/dashboard': {
       id: '/_main/dashboard'
       path: '/dashboard'
@@ -364,7 +345,6 @@ interface MainRouteRouteChildren {
   MainCheckoutRoute: typeof MainCheckoutRoute
   MainContactRoute: typeof MainContactRoute
   MainDashboardRoute: typeof MainDashboardRoute
-  MainFavouritsRoute: typeof MainFavouritsRoute
   MainShopRoute: typeof MainShopRoute
   MainIndexRoute: typeof MainIndexRoute
 }
@@ -378,7 +358,6 @@ const MainRouteRouteChildren: MainRouteRouteChildren = {
   MainCheckoutRoute: MainCheckoutRoute,
   MainContactRoute: MainContactRoute,
   MainDashboardRoute: MainDashboardRoute,
-  MainFavouritsRoute: MainFavouritsRoute,
   MainShopRoute: MainShopRoute,
   MainIndexRoute: MainIndexRoute,
 }

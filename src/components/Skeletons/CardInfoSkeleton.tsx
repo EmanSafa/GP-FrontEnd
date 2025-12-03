@@ -29,10 +29,9 @@ const CardInfoSkeleton = () => {
           {/* Brand */}
           <Skeleton className="h-6 w-24" />
           
-          {/* Name and Heart */}
+          {/* Name  */}
           <div className="flex items-center justify-between">
             <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-8 w-8 rounded-full" />
           </div>
 
           {/* Price and Rating */}
