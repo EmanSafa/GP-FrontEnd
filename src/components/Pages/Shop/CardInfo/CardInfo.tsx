@@ -9,6 +9,8 @@ import YouMightLike from "../YouMightLike";
 import { usegetSingleProduct, useGetSingleProductImages } from "@/hooks/useProducts";
 import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
 import { useAddCartItem } from "@/hooks/useCart";
+import ReviewSection from "./ReviewSection";
+import ReviewsList from "./ReviewsList";
 interface CardInfoProps {
   id?: number;
 }
@@ -132,6 +134,8 @@ const CardInfo = ({ id }: CardInfoProps) => {
         </div>
       </div>
       <CardTable id={id} />
+      {id && <ReviewSection productId={id} />}
+      {id && <ReviewsList productId={id} />}
       <YouMightLike
         categoryId={Number(product?.category_id)}
         brandId={product?.brand_id}

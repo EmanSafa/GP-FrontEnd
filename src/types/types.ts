@@ -66,6 +66,7 @@ export interface ProductParams {
 export interface SearchParams {
   q: string;
   limit: number;
+  // ...
 }
 export interface SingleProductResponse {
   success: boolean;
@@ -135,6 +136,7 @@ export interface AddCartResponse {
       product_id: number;
       quantity: number;
       subtotal: number;
+      // ...
     };
   };
 }
@@ -165,4 +167,24 @@ export interface CheckoutData {
     cvv: string;
     expiry: string;
   };
+}
+
+export interface ReivewData {
+  rating: number;
+  title: string;
+  comment: string;
+}
+
+export interface Review {
+  id: number;
+  product_id: number;
+  user_id: number;
+  user_name: string;
+  user_email: string;
+  rating: number;
+  title: string;
+  comment: string;
+  is_verified_purchase: boolean;
+  helpful_count: number;
+  created_at: string;
 }

@@ -37,9 +37,13 @@ export const endpoints = {
     cancel:(id:number) => `/orders/${id}/cancel`,
   },
   reviews: {
-    list: "/reviews",
-    create: "/reviews",
-    delete: (id: number) => `/reviews/${id}`,
+    productReviews:(id:number) => `/products/${id}/reviews`,
+    rating:(id:number) => `/products/${id}/rating`,
+    list:(id:number) => `/reviews/${id}`,
+    create:(id:number) =>`/products/${id}/reviews`,
+    update:(id:number) => `reviews/${id}`,
+    delete:(id:number) => `reviews/${id}`,
+    helpful:(id:number) => `reviews/${id}/helpful`,
   },
   categories: {
     list: "/categories",

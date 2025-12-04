@@ -54,7 +54,7 @@ const YouMightLike = ({
   if (relatedProducts.length === 0) return null;
 
   return (
-    <div>
+    <div className="max-w-[85%] mx-auto">
       <h1 className="font-bold text-[30px] text-[#404040] ml-10 mt-10">
         You may also like...
       </h1>

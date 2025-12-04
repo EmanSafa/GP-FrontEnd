@@ -1,6 +1,7 @@
 import type {
   AddCartItemData,
   CheckoutData,
+  ReivewData,
   UpdateUserProfileRequest,
 } from "@/types/types";
 import axiosInstance from "./axiosInstance";
@@ -73,9 +74,17 @@ export const ordersApi = {
 };
 
 export const reviewsApi = {
-  list: () => axiosInstance.get(endpoints.reviews.list),
-  create: (data: unknown) => axiosInstance.post(endpoints.reviews.create, data),
+  list: (id: number) => axiosInstance.get(endpoints.reviews.list(id)),
+  create: (id: number, data: ReivewData) =>
+    axiosInstance.post(endpoints.reviews.create(id), data),
   delete: (id: number) => axiosInstance.delete(endpoints.reviews.delete(id)),
+  productReview: (id: number, params?: any) =>
+    axiosInstance.get(endpoints.reviews.productReviews(id), { params }),
+  rating: (id: number) => axiosInstance.get(endpoints.reviews.rating(id)),
+  update: (id: number, data: unknown) =>
+    axiosInstance.put(endpoints.reviews.update(id), data),
+  helpful: (id: number, data: unknown) =>
+    axiosInstance.post(endpoints.reviews.helpful(id), data),
 };
 
 export const categoriesApi = {
