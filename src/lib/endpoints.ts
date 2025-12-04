@@ -1,5 +1,3 @@
-import type { CheckoutData } from "@/types/types";
-
 export const endpoints = {
   auth: {
     register: "/register",

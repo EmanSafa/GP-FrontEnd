@@ -1,7 +1,7 @@
 import { useGetUserOrders } from "@/hooks/useAccount";
 import { useAuthStore } from "@/store/authStore";
 import { useDeleteOrder } from "@/hooks/useOrders";
-import { Trash2, AlertCircle, Badge } from "lucide-react";
+import { Trash2, AlertCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,

@@ -1,8 +1,8 @@
 // src/api/authApi.ts
-import axiosInstance from '@/lib/axiosInstance';
-import { useAuthStore } from '../store/authStore';
-import endpoints from '@/lib/endpoints';
-import { toast } from 'sonner';
+import axiosInstance from "@/lib/axiosInstance";
+import { useAuthStore } from "../store/authStore";
+import endpoints from "@/lib/endpoints";
+import { toast } from "sonner";
 
 // Types for API requests/responses
 interface LoginRequest {
@@ -22,63 +22,66 @@ interface AuthResponse {
     id: string;
     email: string;
     name: string;
-    role: 'admin' | 'customer';
+    role: "admin" | "customer";
     phone?: string;
-
   };
 }
- export interface ResetPasswordRequest {
+export interface ResetPasswordRequest {
   email: string;
-  new_password:string
+  new_password: string;
 }
 
 export const authApi = {
   // Register new user
   register: async (data: RegisterRequest) => {
     try {
-      const response = await axiosInstance.post<AuthResponse | { success: boolean; data: AuthResponse }>(
-        endpoints.auth.register,
-        data
-      );
-      
+      const response = await axiosInstance.post<
+        AuthResponse | { success: boolean; data: AuthResponse }
+      >(endpoints.auth.register, data);
+
       // Handle both response formats: direct or wrapped in data
-      const authData = 'data' in response.data && response.data.data 
-        ? response.data.data 
-        : response.data as AuthResponse;
-      
+      const authData =
+        "data" in response.data && response.data.data
+          ? response.data.data
+          : (response.data as AuthResponse);
+
       // Store user and token in Zustand
       // useAuthStore.getState().setAuth(authData.user, authData.session_id);
       toast.success("Registration successful!");
-      
+
       return authData;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Registration failed');
-      throw new Error(error.response?.data?.message || 'Registration failed');
+      toast.error(error.response?.data?.message || "Registration failed");
+      throw new Error(error.response?.data?.message || "Registration failed");
     }
   },
 
   // Login existing user
   login: async (data: LoginRequest) => {
     try {
-      const response = await axiosInstance.post<AuthResponse | { success: boolean; data: AuthResponse }>(
-        endpoints.auth.login,
-        data,
-        { withCredentials: true }
-      );
-      
+      const response = await axiosInstance.post<
+        AuthResponse | { success: boolean; data: AuthResponse }
+      >(endpoints.auth.login, data, { withCredentials: true });
+
       // Handle both response formats: direct or wrapped in data
-      const authData = 'data' in response.data && response.data.data 
-        ? response.data.data 
-        : response.data as AuthResponse;
-      
+      const authData =
+        "data" in response.data && response.data.data
+          ? response.data.data
+          : (response.data as AuthResponse);
+
       // Store user and token in Zustand
-      useAuthStore.getState().setUser(authData.user);
+      if (authData?.user) {
+        useAuthStore.getState().setUser({
+          ...authData.user,
+          id: Number(authData.user.id),
+        });
+      }
       toast.success("Login successful!");
 
       return authData;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
-      throw new Error(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || "Login failed");
+      throw new Error(error.response?.data?.message || "Login failed");
     }
   },
 
@@ -96,13 +99,11 @@ export const authApi = {
     }
   },
 
-  resetPassword: async (data : ResetPasswordRequest) =>{
+  resetPassword: async (data: ResetPasswordRequest) => {
     try {
-      await axiosInstance.post(endpoints.auth.resetPassword,data)
-
+      await axiosInstance.post(endpoints.auth.resetPassword, data);
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Reset Password failed');
-
+      throw new Error(error.response?.data?.message || "Reset Password failed");
     }
-  }
+  },
 };
