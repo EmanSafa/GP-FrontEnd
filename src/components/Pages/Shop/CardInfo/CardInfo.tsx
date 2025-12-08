@@ -13,6 +13,7 @@ import ReviewSection from "./ReviewSection";
 import ReviewsList from "./ReviewsList";
 import { useDeleteProductImage, useUploadProductImage } from "@/hooks/Admin/useProductsAdmin";
 import { toast } from "sonner"; // Assuming sonner is used for toasts based on other files
+import { useAuthStore } from "@/store/authStore";
 
 interface CardInfoProps {
   id?: number;
@@ -27,6 +28,9 @@ const CardInfo = ({ id }: CardInfoProps) => {
 
   const { mutateAsync: deleteImage } = useDeleteProductImage();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadProductImage(id || 0);
+  const { user } = useAuthStore()
+  const isAdmin = user?.role === 'admin'
+
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -126,39 +130,43 @@ const CardInfo = ({ id }: CardInfoProps) => {
                   alt={`img${i + 1}`}
                   className="max-w-full max-h-full object-contain"
                 />
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // If we delete the active image, revert to main
-                    if (activeImage === img.url) setActiveImage(product?.main_image_url || null);
-                    handleDeleteImage(img.id);
-                  }}
-                  className="absolute top-2 right-2 p-2 bg-white/80 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {isAdmin && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // If we delete the active image, revert to main
+                      if (activeImage === img.url) setActiveImage(product?.main_image_url || null);
+                      handleDeleteImage(img.id);
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-white/80 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             ))}
 
             {/* Add Image Button */}
-            <div
-              onClick={handleUploadClick}
-              className="w-[150px] flex items-center justify-center h-[210px] bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors shrink-0"
-            >
-              {isUploading ? (
-                <span className="text-gray-400 text-sm">Uploading...</span>
-              ) : (
-                <FaPlus className="w-8 h-8 text-gray-400" />
-              )}
-              <input
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                multiple
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </div>
+            {isAdmin && (
+              <div
+                onClick={handleUploadClick}
+                className="w-[150px] flex items-center justify-center h-[210px] bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors shrink-0"
+              >
+                {isUploading ? (
+                  <span className="text-gray-400 text-sm">Uploading...</span>
+                ) : (
+                  <FaPlus className="w-8 h-8 text-gray-400" />
+                )}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  multiple
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </div>
+            )}
           </div>
           <div className=" lg:w-[70%] md:w-[60%] w-full p-4 h-auto flex items-center justify-center bg-[#F5F5F5]">
             <img src={activeImage || product?.main_image_url} alt={product?.name} className="max-w-full max-h-[500px] object-contain" />

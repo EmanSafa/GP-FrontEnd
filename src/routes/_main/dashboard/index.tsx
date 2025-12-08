@@ -1,4 +1,4 @@
-import Dashboard from '@/components/Pages/Dashboard/dashboard'
+import ProductsDashboard from '@/components/Pages/Dashboard/Products/ProductsDashboard';
 import { useAuthStore } from '@/store/authStore'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
@@ -13,6 +13,6 @@ export const Route = createFileRoute('/_main/dashboard/')({
       });
     }
   },
-  component: Dashboard,
+  component: ProductsDashboard,
 })
 

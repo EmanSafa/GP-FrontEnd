@@ -31,7 +31,7 @@ const AppSidebar = () => {
   const navigate = useNavigate();
   // @ts-ignore - We know the search params exist on this route
   const search = useSearch({ from: '/_main/shop' });
-  
+
   const updateFilter = (key: string, value: any) => {
     navigate({
       to: '/shop',
@@ -43,14 +43,14 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className=" overflow-y-auto sticky top-20 h-[calc(100vh-13rem)]">
+    <Sidebar className="mt-18" >
       <SidebarContent>
         <SidebarGroup className="bg-[#F8E8E8] p-5 ">
           <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">
             <span className="bg-[#9D1D1D] h-6 w-1 mr-3"></span> Categories
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="">
+            <SidebarMenu>
               <SidebarMenuItem className="text-normal text-[16px] ">
                 <SidebarMenuButton asChild isActive={!search.categoryId}>
                   <Link to="/shop" search={(prev: any) => ({ ...prev, categoryId: undefined })}>
@@ -80,12 +80,12 @@ const AppSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
               <SidebarMenuItem>
-                <div className="flex items-center justify-between ml-4 ">
+                <div className="flex items-center justify-between ml-2 mr-2">
                   <Label htmlFor="new" className="text-normal text-[16px] ">
                     New
                   </Label>
-                  <Switch 
-                    id="new" 
+                  <Switch
+                    id="new"
                     checked={search.sort === 'created_at' && search.order === 'desc'}
                     onCheckedChange={(checked) => {
                       if (checked) {
@@ -119,9 +119,9 @@ const AppSidebar = () => {
                       <SidebarGroupContent />
                       <div className="flex items-start justify-center flex-col gap-3 m-3">
                         <div className="flex items-center justify-center gap-2">
-                          <Checkbox 
-                            id="brand-all" 
-                            className="border-black" 
+                          <Checkbox
+                            id="brand-all"
+                            className="border-black"
                             checked={!search.brandId}
                             onCheckedChange={(checked) => {
                               if (checked) {
@@ -133,9 +133,9 @@ const AppSidebar = () => {
                         </div>
                         {brands?.map((brand: Brand) => (
                           <div key={brand.id} className="flex items-center  justify-center gap-2">
-                            <Checkbox 
-                              id={brand.id.toString()} 
-                              className="border-black" 
+                            <Checkbox
+                              id={brand.id.toString()}
+                              className="border-black"
                               checked={Number(search.brandId) === brand.id}
                               onCheckedChange={(checked) => {
                                 updateFilter('brandId', checked ? brand.id : undefined);
@@ -178,9 +178,9 @@ const AppSidebar = () => {
                           { label: "Above 60000 EGP", value: [60000, 1000000] },
                         ].map((range, index) => (
                           <div key={index} className="flex items-center space-x-2">
-                             <Checkbox 
-                              id={`price-${index}`} 
-                              className="border-black rounded-full" 
+                            <Checkbox
+                              id={`price-${index}`}
+                              className="border-black rounded-full"
                               checked={
                                 (search.minPrice === range.value[0] && search.maxPrice === range.value[1]) ||
                                 (!search.minPrice && !search.maxPrice && index === 0)
