@@ -1,8 +1,9 @@
 import { brandsApi } from "@/lib/apiClient";
+import type { Brand } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetAllBrands = () => {
-    return useQuery({
+    return useQuery<Brand[], Error>({
         queryKey: ["brands"],
         queryFn: async () => {
             const response = await brandsApi.list();
@@ -14,7 +15,7 @@ export const useGetAllBrands = () => {
     });
 }
 export const useGetProductsBrandsById = (brandId: number, options?: { enabled?: boolean }) => {
-    return useQuery({
+    return useQuery<Brand[], Error>({
         ...options,
         queryKey: ["brands", brandId],
         queryFn: async () => {

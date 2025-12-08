@@ -5,29 +5,34 @@ interface User {
   id: number;
   name?: string;
   email: string;
-  role?: 'admin' | 'customer';
+  role?: "admin" | "customer";
   phone?: string;
-  address?:string;
+  address?: string;
 }
 
 interface AuthState {
   user: User | null;
-  // token: string | null;
+  sessionId: string | null;
   isAuthenticated: boolean;
   clearAuth: () => void;
-  setUser: (user: User ) => void;
+  setUser: (user: User) => void;
+  setSessionId: (sessionId: string) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,  
+      user: null,
+      sessionId: null,
       isAuthenticated: false,
       clearAuth: () => {
-        set({ user: null,  isAuthenticated: false });
+        set({ user: null, sessionId: null, isAuthenticated: false });
       },
       setUser: (user) => {
         set({ user, isAuthenticated: true });
+      },
+      setSessionId: (sessionId) => {
+        set({ sessionId });
       },
     }),
     {

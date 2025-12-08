@@ -17,7 +17,6 @@ import { Route as AuthOtpRouteImport } from './routes/auth/otp'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
 import { Route as MainShopRouteImport } from './routes/_main/shop'
-import { Route as MainDashboardRouteImport } from './routes/_main/dashboard'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCheckoutRouteImport } from './routes/_main/checkout'
 import { Route as MainCartRouteImport } from './routes/_main/cart'
@@ -25,6 +24,13 @@ import { Route as MainCardInfoRouteImport } from './routes/_main/cardInfo'
 import { Route as MainAdminRouteImport } from './routes/_main/admin'
 import { Route as MainAccountRouteImport } from './routes/_main/account'
 import { Route as MainAboutRouteImport } from './routes/_main/about'
+import { Route as MainDashboardRouteRouteImport } from './routes/_main/dashboard/route'
+import { Route as MainDashboardIndexRouteImport } from './routes/_main/dashboard/index'
+import { Route as MainDashboardUsersRouteImport } from './routes/_main/dashboard/users'
+import { Route as MainDashboardProductRouteImport } from './routes/_main/dashboard/product'
+import { Route as MainDashboardOrdersRouteImport } from './routes/_main/dashboard/orders'
+import { Route as MainDashboardCategoriesRouteImport } from './routes/_main/dashboard/categories'
+import { Route as MainDashboardBrandsRouteImport } from './routes/_main/dashboard/brands'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
@@ -65,11 +71,6 @@ const MainShopRoute = MainShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => MainRouteRoute,
 } as any)
-const MainDashboardRoute = MainDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => MainRouteRoute,
-} as any)
 const MainContactRoute = MainContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -105,9 +106,45 @@ const MainAboutRoute = MainAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => MainRouteRoute,
 } as any)
+const MainDashboardRouteRoute = MainDashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => MainRouteRoute,
+} as any)
+const MainDashboardIndexRoute = MainDashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
+const MainDashboardUsersRoute = MainDashboardUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
+const MainDashboardProductRoute = MainDashboardProductRouteImport.update({
+  id: '/product',
+  path: '/product',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
+const MainDashboardOrdersRoute = MainDashboardOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
+const MainDashboardCategoriesRoute = MainDashboardCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
+const MainDashboardBrandsRoute = MainDashboardBrandsRouteImport.update({
+  id: '/brands',
+  path: '/brands',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof MainDashboardRouteRouteWithChildren
   '/about': typeof MainAboutRoute
   '/account': typeof MainAccountRoute
   '/admin': typeof MainAdminRoute
@@ -115,13 +152,18 @@ export interface FileRoutesByFullPath {
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
-  '/dashboard': typeof MainDashboardRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/otp': typeof AuthOtpRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof MainIndexRoute
+  '/dashboard/brands': typeof MainDashboardBrandsRoute
+  '/dashboard/categories': typeof MainDashboardCategoriesRoute
+  '/dashboard/orders': typeof MainDashboardOrdersRoute
+  '/dashboard/product': typeof MainDashboardProductRoute
+  '/dashboard/users': typeof MainDashboardUsersRoute
+  '/dashboard/': typeof MainDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
@@ -132,18 +174,24 @@ export interface FileRoutesByTo {
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
-  '/dashboard': typeof MainDashboardRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/otp': typeof AuthOtpRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof MainIndexRoute
+  '/dashboard/brands': typeof MainDashboardBrandsRoute
+  '/dashboard/categories': typeof MainDashboardCategoriesRoute
+  '/dashboard/orders': typeof MainDashboardOrdersRoute
+  '/dashboard/product': typeof MainDashboardProductRoute
+  '/dashboard/users': typeof MainDashboardUsersRoute
+  '/dashboard': typeof MainDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_main': typeof MainRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/_main/dashboard': typeof MainDashboardRouteRouteWithChildren
   '/_main/about': typeof MainAboutRoute
   '/_main/account': typeof MainAccountRoute
   '/_main/admin': typeof MainAdminRoute
@@ -151,18 +199,24 @@ export interface FileRoutesById {
   '/_main/cart': typeof MainCartRoute
   '/_main/checkout': typeof MainCheckoutRoute
   '/_main/contact': typeof MainContactRoute
-  '/_main/dashboard': typeof MainDashboardRoute
   '/_main/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/otp': typeof AuthOtpRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_main/': typeof MainIndexRoute
+  '/_main/dashboard/brands': typeof MainDashboardBrandsRoute
+  '/_main/dashboard/categories': typeof MainDashboardCategoriesRoute
+  '/_main/dashboard/orders': typeof MainDashboardOrdersRoute
+  '/_main/dashboard/product': typeof MainDashboardProductRoute
+  '/_main/dashboard/users': typeof MainDashboardUsersRoute
+  '/_main/dashboard/': typeof MainDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/auth'
+    | '/dashboard'
     | '/about'
     | '/account'
     | '/admin'
@@ -170,13 +224,18 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/contact'
-    | '/dashboard'
     | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/otp'
     | '/auth/signup'
     | '/'
+    | '/dashboard/brands'
+    | '/dashboard/categories'
+    | '/dashboard/orders'
+    | '/dashboard/product'
+    | '/dashboard/users'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -187,17 +246,23 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/contact'
-    | '/dashboard'
     | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/otp'
     | '/auth/signup'
     | '/'
+    | '/dashboard/brands'
+    | '/dashboard/categories'
+    | '/dashboard/orders'
+    | '/dashboard/product'
+    | '/dashboard/users'
+    | '/dashboard'
   id:
     | '__root__'
     | '/_main'
     | '/auth'
+    | '/_main/dashboard'
     | '/_main/about'
     | '/_main/account'
     | '/_main/admin'
@@ -205,13 +270,18 @@ export interface FileRouteTypes {
     | '/_main/cart'
     | '/_main/checkout'
     | '/_main/contact'
-    | '/_main/dashboard'
     | '/_main/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
     | '/auth/otp'
     | '/auth/signup'
     | '/_main/'
+    | '/_main/dashboard/brands'
+    | '/_main/dashboard/categories'
+    | '/_main/dashboard/orders'
+    | '/_main/dashboard/product'
+    | '/_main/dashboard/users'
+    | '/_main/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -277,13 +347,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainShopRouteImport
       parentRoute: typeof MainRouteRoute
     }
-    '/_main/dashboard': {
-      id: '/_main/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof MainDashboardRouteImport
-      parentRoute: typeof MainRouteRoute
-    }
     '/_main/contact': {
       id: '/_main/contact'
       path: '/contact'
@@ -333,10 +396,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainAboutRouteImport
       parentRoute: typeof MainRouteRoute
     }
+    '/_main/dashboard': {
+      id: '/_main/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof MainDashboardRouteRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
+    '/_main/dashboard/': {
+      id: '/_main/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof MainDashboardIndexRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
+    '/_main/dashboard/users': {
+      id: '/_main/dashboard/users'
+      path: '/users'
+      fullPath: '/dashboard/users'
+      preLoaderRoute: typeof MainDashboardUsersRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
+    '/_main/dashboard/product': {
+      id: '/_main/dashboard/product'
+      path: '/product'
+      fullPath: '/dashboard/product'
+      preLoaderRoute: typeof MainDashboardProductRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
+    '/_main/dashboard/orders': {
+      id: '/_main/dashboard/orders'
+      path: '/orders'
+      fullPath: '/dashboard/orders'
+      preLoaderRoute: typeof MainDashboardOrdersRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
+    '/_main/dashboard/categories': {
+      id: '/_main/dashboard/categories'
+      path: '/categories'
+      fullPath: '/dashboard/categories'
+      preLoaderRoute: typeof MainDashboardCategoriesRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
+    '/_main/dashboard/brands': {
+      id: '/_main/dashboard/brands'
+      path: '/brands'
+      fullPath: '/dashboard/brands'
+      preLoaderRoute: typeof MainDashboardBrandsRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
   }
 }
 
+interface MainDashboardRouteRouteChildren {
+  MainDashboardBrandsRoute: typeof MainDashboardBrandsRoute
+  MainDashboardCategoriesRoute: typeof MainDashboardCategoriesRoute
+  MainDashboardOrdersRoute: typeof MainDashboardOrdersRoute
+  MainDashboardProductRoute: typeof MainDashboardProductRoute
+  MainDashboardUsersRoute: typeof MainDashboardUsersRoute
+  MainDashboardIndexRoute: typeof MainDashboardIndexRoute
+}
+
+const MainDashboardRouteRouteChildren: MainDashboardRouteRouteChildren = {
+  MainDashboardBrandsRoute: MainDashboardBrandsRoute,
+  MainDashboardCategoriesRoute: MainDashboardCategoriesRoute,
+  MainDashboardOrdersRoute: MainDashboardOrdersRoute,
+  MainDashboardProductRoute: MainDashboardProductRoute,
+  MainDashboardUsersRoute: MainDashboardUsersRoute,
+  MainDashboardIndexRoute: MainDashboardIndexRoute,
+}
+
+const MainDashboardRouteRouteWithChildren =
+  MainDashboardRouteRoute._addFileChildren(MainDashboardRouteRouteChildren)
+
 interface MainRouteRouteChildren {
+  MainDashboardRouteRoute: typeof MainDashboardRouteRouteWithChildren
   MainAboutRoute: typeof MainAboutRoute
   MainAccountRoute: typeof MainAccountRoute
   MainAdminRoute: typeof MainAdminRoute
@@ -344,12 +478,12 @@ interface MainRouteRouteChildren {
   MainCartRoute: typeof MainCartRoute
   MainCheckoutRoute: typeof MainCheckoutRoute
   MainContactRoute: typeof MainContactRoute
-  MainDashboardRoute: typeof MainDashboardRoute
   MainShopRoute: typeof MainShopRoute
   MainIndexRoute: typeof MainIndexRoute
 }
 
 const MainRouteRouteChildren: MainRouteRouteChildren = {
+  MainDashboardRouteRoute: MainDashboardRouteRouteWithChildren,
   MainAboutRoute: MainAboutRoute,
   MainAccountRoute: MainAccountRoute,
   MainAdminRoute: MainAdminRoute,
@@ -357,7 +491,6 @@ const MainRouteRouteChildren: MainRouteRouteChildren = {
   MainCartRoute: MainCartRoute,
   MainCheckoutRoute: MainCheckoutRoute,
   MainContactRoute: MainContactRoute,
-  MainDashboardRoute: MainDashboardRoute,
   MainShopRoute: MainShopRoute,
   MainIndexRoute: MainIndexRoute,
 }

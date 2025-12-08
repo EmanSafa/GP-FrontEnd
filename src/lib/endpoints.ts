@@ -30,18 +30,18 @@ export const endpoints = {
     checkout: `/checkout`,
     orders: "/orders",
     singleOrder: (id: number) => `/orders/${id}`,
-    items:(id:number) => `/orders/${id}/items`,
-    status:(id:number) => `/orders/${id}/status`,
-    cancel:(id:number) => `/orders/${id}/cancel`,
+    items: (id: number) => `/orders/${id}/items`,
+    status: (id: number) => `/orders/${id}/status`,
+    cancel: (id: number) => `/orders/${id}/cancel`,
   },
   reviews: {
-    productReviews:(id:number) => `/products/${id}/reviews`,
-    rating:(id:number) => `/products/${id}/rating`,
-    list:(id:number) => `/reviews/${id}`,
-    create:(id:number) =>`/products/${id}/reviews`,
-    update:(id:number) => `reviews/${id}`,
-    delete:(id:number) => `reviews/${id}`,
-    helpful:(id:number) => `reviews/${id}/helpful`,
+    productReviews: (id: number) => `/products/${id}/reviews`,
+    rating: (id: number) => `/products/${id}/rating`,
+    list: (id: number) => `/reviews/${id}`,
+    create: (id: number) => `/products/${id}/reviews`,
+    update: (id: number) => `reviews/${id}`,
+    delete: (id: number) => `reviews/${id}`,
+    helpful: (id: number) => `reviews/${id}/helpful`,
   },
   categories: {
     list: "/categories",
@@ -67,6 +67,32 @@ export const endpoints = {
     session: "/test/session",
     ownership: (id: number) => `/test/ownership/${id}`,
   },
+  productsAdminApi: {
+    create: "/products",
+    update: (id: number) => `/products/${id}`,
+    delete: (id: number) => `/products/${id}`,
+    uploadImages: (id: number) => `/products/${id}/images`,
+    deleteImage: (id: number) => `/products/images/${id}`,
+    replaceImages: (id: number) => `/products/${id}/images/replace`,
+  },
+  categoriesAdminApi: {
+    create: "/categories",
+    update: (id: number) => `/categories/${id}`,
+    delete: (id: number) => `/categories/${id}`,
+  },
+  brandsAdminApi: {
+    create: "/brands",
+    update: (id: number) => `/brands/${id}`,
+    delete: (id: number) => `/brands/${id}`,
+  },
+  orderAdminApi: {
+    list:'/orders',
+    update: (id: number) => `/orders/${id}/status`,
+  },
+  userAdminApi:{
+    list:'/users',
+    delete:(id:number) => `users/${id}`
+  }
 };
 
 export default endpoints;

@@ -49,7 +49,7 @@ export interface ProductsResponse {
   success: boolean;
   products: Product[];
   pagination: PaginationData;
-  filters: any;
+  filters?: any;
 }
 export type CategoriesResponse = Category[];
 
@@ -187,4 +187,27 @@ export interface Review {
   is_verified_purchase: boolean;
   helpful_count: number;
   created_at: string;
+}
+export interface productsFormData {
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  brand_id: number;
+  category_id: number;
+  main_image: string | File;
+  additional_images?: (string | File)[];
+  specifications?: string;
+}
+export interface CategoryFormData {
+  name: string;
+  description: string;
+  cat_image: string | File;
+}
+export interface BrandFormData {
+  name: string;
+  logo: string | File;
+}
+export interface OrderFormData {
+  status: 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'processing';
 }

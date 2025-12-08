@@ -59,7 +59,6 @@ function PaginationLink({
           variant: isActive ? "outline" : "ghost",
           size,
         }),
-        "w-9 h-9 rounded-full border-[#5D0505] text-[#5D0505] hover:bg-[#5D0505] hover:text-white",
         className
       )}
       {...props}
@@ -75,10 +74,11 @@ function PaginationPrevious({
     <PaginationLink
       aria-label="Go to previous page"
       size="default"
-      className={cn("gap-1 px-2.5 sm:pl-2.5 bg-[#5D0505] text-white rounded-full w-9 h-9", className)}
+      className={cn("gap-1 pl-2.5", className)}
       {...props}
     >
-      <ChevronLeftIcon  />
+      <ChevronLeftIcon className="h-4 w-4" />
+      <span>Previous</span>
     </PaginationLink>
   );
 }
@@ -91,10 +91,11 @@ function PaginationNext({
     <PaginationLink
       aria-label="Go to next page"
       size="default"
-      className={cn("gap-1 px-2.5 sm:pl-2.5 bg-[#5D0505] text-white rounded-full w-9 h-9", className)}
+      className={cn("gap-1 pr-2.5", className)}
       {...props}
     >
-      <ChevronRightIcon />
+      <span>Next</span>
+      <ChevronRightIcon className="h-4 w-4" />
     </PaginationLink>
   );
 }

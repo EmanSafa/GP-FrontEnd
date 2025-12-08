@@ -1,6 +1,10 @@
 import type {
   AddCartItemData,
+  BrandFormData,
+  CategoryFormData,
   CheckoutData,
+  OrderFormData,
+  productsFormData,
   ReivewData,
   UpdateUserProfileRequest,
 } from "@/types/types";
@@ -113,4 +117,148 @@ export const testApi = {
   admin: () => axiosInstance.get(endpoints.test.admin),
   session: () => axiosInstance.get(endpoints.test.session),
   ownership: (id: number) => axiosInstance.get(endpoints.test.ownership(id)),
+};
+
+export const productsAdminApi = {
+  create: (data: productsFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.description) formData.append("description", data.description);
+    formData.append("price", data.price.toString());
+    formData.append("stock", data.stock.toString());
+    formData.append("category_id", data.category_id.toString());
+    formData.append("brand_id", data.brand_id.toString());
+
+    // Handle main_image
+    formData.append("main_image", data.main_image);
+
+    // Handle additional_images
+    if (data.additional_images && Array.isArray(data.additional_images)) {
+      data.additional_images.forEach((img) => {
+        formData.append("additional_images[]", img);
+      });
+    }
+
+    if (data.specifications)
+      formData.append("specifications", data.specifications);
+
+    return axiosInstance.post(endpoints.productsAdminApi.create, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  update: (id: number, data: productsFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.description) formData.append("description", data.description);
+    formData.append("price", data.price.toString());
+    formData.append("stock", data.stock.toString());
+    formData.append("category_id", data.category_id.toString());
+    formData.append("brand_id", data.brand_id.toString());
+
+    // Handle main_image
+    if (data.main_image instanceof File) {
+      formData.append("main_image", data.main_image);
+    }
+
+    // Handle additional_images
+    if (data.additional_images && Array.isArray(data.additional_images)) {
+      data.additional_images.forEach((img) => {
+        formData.append("additional_images[]", img);
+      });
+    }
+
+    if (data.specifications)
+      formData.append("specifications", data.specifications);
+
+    return axiosInstance.post(endpoints.productsAdminApi.update(id), formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  delete: (id: number) =>
+    axiosInstance.delete(endpoints.productsAdminApi.delete(id)),
+  uploadImages: (id: number, data: File[]) => {
+    const formData = new FormData();
+    data.forEach((img) => {
+      formData.append("images[]", img);
+    });
+    return axiosInstance.post(
+      endpoints.productsAdminApi.uploadImages(id),
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+  },
+  deleteImage: (id: number) =>
+    axiosInstance.delete(endpoints.productsAdminApi.deleteImage(id)),
+  replaceImages: (id: number, data: string[]) =>
+    axiosInstance.post(endpoints.productsAdminApi.replaceImages(id), data),
+};
+
+export const categoriesAdminApi = {
+  create: (data: CategoryFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("cat_image", data.cat_image);
+    return axiosInstance.post(endpoints.categoriesAdminApi.create, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  update: (id: number, data: CategoryFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    if (data.cat_image instanceof File) {
+      formData.append("cat_image", data.cat_image);
+    }
+    return axiosInstance.post(
+      endpoints.categoriesAdminApi.update(id),
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+  },
+  delete: (id: number) =>
+    axiosInstance.delete(endpoints.categoriesAdminApi.delete(id)),
+};
+
+export const brandsAdminApi = {
+  create: (data: BrandFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("logo", data.logo);
+    return axiosInstance.post(endpoints.brandsAdminApi.create, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  update: (id: number, data: BrandFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.logo instanceof File) {
+      formData.append("logo", data.logo);
+    }
+    return axiosInstance.post(endpoints.brandsAdminApi.update(id), formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  delete: (id: number) =>
+    axiosInstance.delete(endpoints.brandsAdminApi.delete(id)),
+};
+
+export const ordersAdminApi = {
+  update: (id: number, data: OrderFormData) => {
+    const formData = new FormData();
+    formData.append("status", data.status);
+    return axiosInstance.put(endpoints.orderAdminApi.update(id), formData);
+  },
+  list: () => axiosInstance.get(endpoints.orderAdminApi.list),
+};
+
+export const UserAdminApi = {
+  list: (params?: any) =>
+    axiosInstance.get(endpoints.userAdminApi.list, { params }),
+  delete: (id: number) =>
+    axiosInstance.delete(endpoints.userAdminApi.delete(id)),
 };
