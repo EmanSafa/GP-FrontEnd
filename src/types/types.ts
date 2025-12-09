@@ -204,3 +204,7 @@ export interface CategoryFormData {
   description: string;
   cat_image: string | File;
 }
+export interface BrandFormData {
+  name: string;
+  logo: string | File;
+}
