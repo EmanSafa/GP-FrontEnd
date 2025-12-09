@@ -208,3 +208,6 @@ export interface BrandFormData {
   name: string;
   logo: string | File;
 }
+export interface OrderFormData {
+  status: 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'processing';
+}

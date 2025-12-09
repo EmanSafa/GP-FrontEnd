@@ -3,6 +3,7 @@ import type {
   BrandFormData,
   CategoryFormData,
   CheckoutData,
+  OrderFormData,
   productsFormData,
   ReivewData,
   UpdateUserProfileRequest,
@@ -238,14 +239,19 @@ export const brandsAdminApi = {
     if (data.logo instanceof File) {
       formData.append("logo", data.logo);
     }
-    return axiosInstance.post(
-      endpoints.brandsAdminApi.update(id),
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    return axiosInstance.post(endpoints.brandsAdminApi.update(id), formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   },
   delete: (id: number) =>
     axiosInstance.delete(endpoints.brandsAdminApi.delete(id)),
+};
+
+export const ordersAdminApi = {
+  update: (id: number, data: OrderFormData) => {
+    const formData = new FormData();
+    formData.append("status", data.status);
+    return axiosInstance.put(endpoints.orderAdminApi.update(id), formData);
+  },
+  list: () => axiosInstance.get(endpoints.orderAdminApi.list),
 };
