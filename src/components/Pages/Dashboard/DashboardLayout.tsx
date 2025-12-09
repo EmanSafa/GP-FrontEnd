@@ -15,11 +15,6 @@ import { Link } from "@tanstack/react-router"
 // Menu items.
 const items = [
     {
-        title: "Dashboard",
-        url: "/dashboard",
-
-    },
-    {
         title: "Products",
         url: "/dashboard/product",
 
@@ -54,7 +49,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     <SidebarGroup>
                         <SidebarGroupLabel>Application</SidebarGroupLabel>
                         <SidebarGroupContent>
-                            <SidebarMenu>
+                            <SidebarMenu className="mt-10">
                                 {items.map((item) => (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild>

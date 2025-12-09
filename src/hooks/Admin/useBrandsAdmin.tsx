@@ -1,5 +1,5 @@
-import { brandsAdminApi, categoriesAdminApi } from "@/lib/apiClient"
-import type { BrandFormData, CategoryFormData } from "@/types/types"
+import { brandsAdminApi } from "@/lib/apiClient"
+import type { BrandFormData } from "@/types/types"
 import { useMutation } from "@tanstack/react-query"
 import { useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"

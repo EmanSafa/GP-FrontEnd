@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,10 +8,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel";
 import saleImg from "../../../assets/saleImg.png";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import ShippingIcon from "../../ui/icons/shippingIcon";
 import ReturnsIcon from "../../ui/icons/returnsIcon";
 import SecurityIcon from "../../ui/icons/securityIcon";
@@ -19,84 +18,55 @@ import PhoneCallIcon from "../../ui/icons/phoneIcon";
 import InfoCard from "./info-card";
 import phoneImg from "../../../assets/mobile.png";
 import ProductCard from "./product-card";
-import { FaAngleRight, FaStar } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 import appleLogo from "../../../assets/logos-brand/apple.png";
-import huwawiLogo from "../../../assets/logos-brand/huawai.png";
-import samsungLogo from "../../../assets/logos-brand/samsung.png";
-import realmeLogo from "../../../assets/logos-brand/Realme.png";
-import vivoLogo from "../../../assets/logos-brand/vivo.png";
+
 import CategoryCard from "./Category-card";
 import mobileIcon from "../../../assets/categories/mobile.png";
-import laptop from "../../../assets/laptop.png";
-import tablet from "../../../assets/tablet.png";
-import headphone from "../../../assets/headphoes.png";
-import accessors from "../../../assets/accessors.png";
-import watchIcon from "../../../assets/categories/watch.png";
-import newArrivalImg from "../../../assets/newarrival.png";
-import iphoneImg from "../../../assets/iphones.png";
+
 import hero2 from "../../../assets/hero2.png";
 import hero3 from "../../../assets/hero3.png";
 import hero32 from "../../../assets/hero32.png";
 import UserFeedback from "./UserFeedback";
+import { useGetAllCategories } from "@/hooks/useCategories";
+import { useGetAllBrands } from "@/hooks/useBrands";
+import { useGetProducts } from "@/hooks/useProducts";
+import { useGetProductReviews } from "@/hooks/useReviews";
+
+import Autoplay from "embla-carousel-autoplay";
 
 const HomePage = () => {
-  const [heroApi, setHeroApi] = React.useState<CarouselApi | null>(null);
-  const [isPaused, setIsPaused] = React.useState(false);
+  const navigate = useNavigate();
 
-  const testimonials = [
-    {
-      img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&h=600&fit=crop",
-      user: "Sagy Reda",
-      userComment:
-        "One of the best ecommerce product, easy to use & value of time i demand that's why i am recommanding",
-      userImg:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&h=600&fit=crop",
-      user: "Emma Wilson",
-      userComment:
-        "Outstanding quality and exceptional service! This product exceeded all my expectations and I highly recommend it to everyone",
-      userImg:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=600&fit=crop",
-      user: "James Anderson",
-      userComment:
-        "Amazing experience from start to finish. The attention to detail and customer support are second to none. Worth every penny",
-      userImg:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-    },
-  ];
 
-  React.useEffect(() => {
-    if (!heroApi) return;
+  const { data: categories } = useGetAllCategories();
+  const { data: brands } = useGetAllBrands();
+  const { data: productsData } = useGetProducts({
+    per_page: 5,
+    sort: "rating",
+    order: "desc",
+  });
 
-    const play = () => {
-      const selected = heroApi.selectedScrollSnap();
-      const snaps = heroApi.scrollSnapList();
-      if (snaps.length === 0) return;
-      if (selected >= snaps.length - 1) {
-        heroApi.scrollTo(0);
-      } else {
-        heroApi.scrollNext();
-      }
-    };
+  // Use the first product as a featured product for reviews
+  const featuredProductId = productsData?.products?.[0]?.id;
+  const { data: productReviews } = useGetProductReviews(
+    Number(featuredProductId),
+    { enabled: !!featuredProductId }
+  );
 
-    const interval = setInterval(() => {
-      if (!isPaused) play();
-    }, 3000);
+  // Note: heroApi is available if we need to control the carousel programmatically, 
+  // but now we use the Autoplay plugin for automatic sliding.
 
-    return () => clearInterval(interval);
-  }, [heroApi, isPaused]);
   return (
-    <div>
+    <div className="animate-in fade-in zoom-in duration-500">
       <Carousel
         className="w-[88%] mx-auto mt-7  "
-        setApi={setHeroApi}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+
+        plugins={[
+          Autoplay({
+            delay: 4000,
+          }),
+        ]}
       >
         <CarouselContent>
           {[
@@ -111,20 +81,20 @@ const HomePage = () => {
           ].map((slide, index) => (
             <CarouselItem key={index}>
               <div className="w-full">
-                <Card className={`${slide.bg}`}>
+                <Card className={`${slide.bg} transform transition-transform duration-500 hover:scale-[1.01]`}>
                   <CardContent
                     className={`flex flex-col lg:flex-row min-h-[360px] justify-between px-6 lg:px-10 items-center gap-6 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
                       }`}
                   >
                     <div
-                      className={`flex flex-col gap-4 items-center text-center ${slide.textColor}`}
+                      className={`flex flex-col gap-4 items-center text-center ${slide.textColor} animate-in slide-in-from-left duration-700 delay-100`}
                     >
                       <span className="text-sm font-light">Special Offer</span>
                       <span className="font-semibold text-5xl max-w-xs text-center">
                         SALE UP TO 40%
                       </span>
                       <Link to="/shop">
-                        <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-[#5D0505] text-white hover:bg-[#7a0707]">
+                        <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-[#5D0505] text-white hover:bg-[#7a0707] transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                           Shop Now
                         </Button>
                       </Link>
@@ -133,7 +103,7 @@ const HomePage = () => {
                     <img
                       src={slide.img}
                       alt={`hero-${index}`}
-                      className="w-44 sm:w-56 md:w-72 lg:w-96 object-contain"
+                      className="w-44 sm:w-56 md:w-72 lg:w-96 object-contain animate-in slide-in-from-right duration-700 delay-200 hover:scale-110 transition-transform duration-500"
                     />
                   </CardContent>
                 </Card>
@@ -147,7 +117,7 @@ const HomePage = () => {
           <CarouselDots />
         </div>
       </Carousel>
-      <div className="grid xl:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5  w-[88%] mx-auto mt-12 mb-10 info-grid">
+      <div className="grid xl:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5  w-[88%] mx-auto mt-12 mb-10 info-grid animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300">
         <InfoCard
           title="Free Shipping"
           description="Free shipping on orders over 10K EGP"
@@ -179,23 +149,26 @@ const HomePage = () => {
         </h1>
         <Button
           variant="auth"
-          className="group mt-5 text-md md:w-40 sm:w-20 sm:text-sm text-lg rounded-full flex items-center justify-center transition-all"
+          className="group mt-5 text-md md:w-40 sm:w-20 sm:text-sm text-lg rounded-full flex items-center justify-center transition-all hover:bg-[#880909] hover:text-white hover:scale-105 shadow-md active:scale-95"
+          onClick={() => navigate({ to: "/shop" })}
         >
           View All
-          <FaAngleRight className="transform transition-transform duration-300 group-hover:translate-x-3" />
+          <FaAngleRight className="transform transition-transform duration-300 group-hover:translate-x-2" />
         </Button>
       </div>
-      <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
-        {Array.from({ length: 5 }).map((_, i) => (
+      <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8 animate-in slide-in-from-bottom-5 fade-in duration-700 delay-500">
+        {productsData?.products?.map((product) => (
           <ProductCard
-            key={i}
-            id={i + 1}
-            title={`Galaxy Ultra ${i + 1}`}
-            price="$960"
-            oldPrice="$1200"
-            rating={5}
-            imgSrc={phoneImg}
-            discount={20}
+            key={product.id}
+            id={Number(product.id)}
+            title={product.name}
+            price={`$${product.price}`}
+            // oldPrice="$1200" // Assuming no old price in API for now, or calculate it
+            rating={Number(product.rating) || 5}
+            // Use local image fallback if url missing, or just a placeholder
+            imgSrc={product.main_image_url || phoneImg}
+            discount={product.stock && product.stock > 0 ? 0 : undefined} // Or some logic for discount
+            className="hover:scale-105 transition-all duration-300 hover:shadow-2xl"
           />
         ))}
       </div>
@@ -207,21 +180,16 @@ const HomePage = () => {
           <Carousel
             className="mt-5"
             opts={{ align: "start" }}
-            setApi={setHeroApi}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
           >
             <CarouselContent className=" gap-3">
-              {[
-                <CategoryCard title="Smartphones" image={mobileIcon} />,
-                <CategoryCard title="Smart Watch" image={watchIcon} />,
-                <CategoryCard title="Laptop" image={laptop} />,
-                <CategoryCard title="Tablet" image={tablet} />,
-                <CategoryCard title="HeadPhones" image={headphone} />,
-                <CategoryCard title="Accessories" image={accessors} />,
-              ].map((b, idx) => (
-                <CarouselItem key={idx} className="basis-auto">
-                  {b}
+              {categories?.map((cat) => (
+                <CarouselItem key={cat.id} className="basis-auto group">
+                  <div
+                    onClick={() => navigate({ to: "/shop", search: { categoryId: cat.id } })}
+                    className="transition-transform duration-300 group-hover:-translate-y-2"
+                  >
+                    <CategoryCard title={cat.name} image={cat.cat_image_url || mobileIcon} />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -236,21 +204,19 @@ const HomePage = () => {
             <Carousel
               className="mt-5"
               opts={{ align: "start" }}
-              setApi={setHeroApi}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
             >
               <CarouselContent className=" gap-4">
-                {[
-                  <img src={appleLogo} alt="apple_logo" />,
-                  <img src={huwawiLogo} alt="huwawi_logo" />,
-                  <img src={samsungLogo} alt="samsung_logo" />,
-                  <img src={realmeLogo} alt="realme_logo" />,
-                  <img src={vivoLogo} alt="vivo_logo" />,
-                ].map((b, idx) => (
-                  <CarouselItem key={idx} className="basis-auto">
-                    <div className=" rounded-lg w-60  h-18 bg-gray-200 flex items-center justify-center">
-                      {b}
+                {brands?.map((brand) => (
+                  <CarouselItem key={brand.id} className="basis-auto">
+                    <div
+                      onClick={() => navigate({ to: "/shop", search: { brandId: brand.id } })}
+                      className="cursor-pointer rounded-lg w-60 h-18 bg-gray-50 hover:bg-white transition-all duration-300 border border-transparent hover:border-gray-200 flex items-center justify-center p-4 hover:shadow-lg hover:scale-105"
+                    >
+                      <img
+                        src={brand.logo_url || appleLogo}
+                        alt={brand.name}
+                        className="max-h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 transform"
+                      />
                     </div>
                   </CarouselItem>
                 ))}
@@ -258,60 +224,25 @@ const HomePage = () => {
               <CarouselPrevious className="ml-7 " />
               <CarouselNext className="mr-7 " />
             </Carousel>
-            <h1 className="text-2xl font-semibold my-9">New Arrival</h1>
-            <div className="flex flex-col md:flex-row items-center justify-between ">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2  grid-rows-4 sm:grid-rows-2 gap-5 w-full ">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div className="flex items-center flex-wrap " key={i}>
-                    <img src={newArrivalImg} alt="" />
-                    <div className="h-[295px] boder-2 border-gray-200 flex-1">
-                      <span className="h-[60%] block bg-gray-100 rounded-md"></span>
-                      <div className="p-1  h-[40%]">
-                        <div className="flex items-start flex-col gap-1 ml-2 mt-2 justify-between">
-                          <div className="flex items-center gap-1">
-                            {Array.from({ length: 5 }).map((_, j) => (
-                              <FaStar
-                                key={j}
-                                className="text-[#880909] w-4 h-4 md:w-5 md:h-5"
-                              />
-                            ))}
-                          </div>
-                          <h4 className="text-base md:text-lg font-semibold truncate">
-                            Galaxy Ultra
-                          </h4>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold text-sm md:text-base">
-                                $900
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <img
-                src={iphoneImg}
-                alt=""
-                className=" hidden lg:block w-40 h-64 ml-6 sm:w-56 sm:h-80 md:w-72 md:h-[400px] lg:w-[303px] lg:h-[628px] object-contain"
-              />
-            </div>
           </div>
         </div>
         <div className="w-[88%] mx-auto mt-10 ">
           <h1 className="text-2xl font-semibold mb-10">User Feedback</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-            {testimonials.map((testimonial, index) => (
-              <UserFeedback
-                key={index}
-                img={testimonial.img}
-                user={testimonial.user}
-                userComment={testimonial.userComment}
-                userImg={testimonial.userImg}
-              />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
+            {/* Fallback to static if no reviews, or just map the first 3 reviews */}
+            {(productReviews?.reviews && productReviews.reviews.length > 0)
+              && productReviews.reviews.slice(0, 3).map((review: any, index: number) => (
+                <UserFeedback
+                  key={index}
+                  // Use product main image as background or a generic one if not available
+                  img={productsData?.products?.[0]?.main_image_url || "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&h=600&fit=crop"}
+                  user={review.user_name || "Anonymous"}
+                  userComment={review.comment}
+                  // Random user avatar or placeholder
+                  userImg={`https://api.dicebear.com/7.x/avataaars/svg?seed=${review.user_name || index}`}
+                />
+              ))
+            }
           </div>
         </div>
       </div>
