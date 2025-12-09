@@ -255,3 +255,10 @@ export const ordersAdminApi = {
   },
   list: () => axiosInstance.get(endpoints.orderAdminApi.list),
 };
+
+export const UserAdminApi = {
+  list: (params?: any) =>
+    axiosInstance.get(endpoints.userAdminApi.list, { params }),
+  delete: (id: number) =>
+    axiosInstance.delete(endpoints.userAdminApi.delete(id)),
+};

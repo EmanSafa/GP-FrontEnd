@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { type ColumnDef } from "@tanstack/react-table"
-import DataTable from "../DataTable"
+import DataTable from "../shared/DataTable"
 import type { Product, productsFormData } from "@/types/types"
 import { useGetProducts } from "@/hooks/useProducts"
 import { Badge } from "@/components/ui/badge"

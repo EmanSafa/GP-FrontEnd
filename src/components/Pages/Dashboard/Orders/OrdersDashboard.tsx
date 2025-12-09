@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { type ColumnDef } from "@tanstack/react-table"
-import DataTable from "../DataTable"
+import DataTable from "../shared/DataTable"
 import type { Order, OrderFormData, PaginationData } from "@/types/types"
 import { useGetAllOrders, useUpdateOrder } from "@/hooks/Admin/useOrdersAdmin"
 import { Button } from "@/components/ui/button"

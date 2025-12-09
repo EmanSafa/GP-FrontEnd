@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { type ColumnDef } from "@tanstack/react-table"
-import DataTable from "../DataTable"
+import DataTable from "../shared/DataTable"
 import type { Category, CategoryFormData, PaginationData } from "@/types/types"
 import { useGetAllCategories } from "@/hooks/useCategories"
 import { Button } from "@/components/ui/button"

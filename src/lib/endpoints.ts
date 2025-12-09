@@ -89,6 +89,10 @@ export const endpoints = {
     list:'/orders',
     update: (id: number) => `/orders/${id}/status`,
   },
+  userAdminApi:{
+    list:'/users',
+    delete:(id:number) => `users/${id}`
+  }
 };
 
 export default endpoints;
