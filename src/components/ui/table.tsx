@@ -52,22 +52,17 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
 
 function TableRow({
   className,
-  children,
   ...props
 }: React.ComponentProps<"tr">) {
   return (
     <tr
       data-slot="table-row"
-      className={cn("border-b transition-colors", className)}
+      className={cn(
+        "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+        className
+      )}
       {...props}
-    >
-      <td colSpan={999} className="p-0">
-        {/* This div handles layout (flex, responsive) */}
-        <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row w-full">
-          {children}
-        </div>
-      </td>
-    </tr>
+    />
   );
 }
 

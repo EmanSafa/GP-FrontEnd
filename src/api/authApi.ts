@@ -25,6 +25,7 @@ interface AuthResponse {
     role: "admin" | "customer";
     phone?: string;
   };
+  session_id?: string;
 }
 export interface ResetPasswordRequest {
   email: string;
@@ -40,13 +41,17 @@ export const authApi = {
       >(endpoints.auth.register, data);
 
       // Handle both response formats: direct or wrapped in data
+      const responseData = response.data as any;
       const authData =
-        "data" in response.data && response.data.data
-          ? response.data.data
-          : (response.data as AuthResponse);
+        "data" in responseData && responseData.data
+          ? responseData.data
+          : (responseData as AuthResponse);
 
       // Store user and token in Zustand
-      // useAuthStore.getState().setAuth(authData.user, authData.session_id);
+      const sessionId = responseData.session_id || authData.session_id;
+      if (sessionId) {
+        useAuthStore.getState().setSessionId(sessionId);
+      }
       toast.success("Registration successful!");
 
       return authData;
@@ -64,10 +69,11 @@ export const authApi = {
       >(endpoints.auth.login, data, { withCredentials: true });
 
       // Handle both response formats: direct or wrapped in data
+      const responseData = response.data as any;
       const authData =
-        "data" in response.data && response.data.data
-          ? response.data.data
-          : (response.data as AuthResponse);
+        "data" in responseData && responseData.data
+          ? responseData.data
+          : (responseData as AuthResponse);
 
       // Store user and token in Zustand
       if (authData?.user) {
@@ -75,6 +81,11 @@ export const authApi = {
           ...authData.user,
           id: Number(authData.user.id),
         });
+      }
+      const sessionId = responseData.session_id || authData.session_id;
+      if (sessionId) {
+        useAuthStore.getState().setSessionId(sessionId);
+        console.log("sessionId that getted from login", sessionId);
       }
       toast.success("Login successful!");
 

@@ -1,6 +1,6 @@
-import { Minus, Plus } from "lucide-react";
-import { FaStar } from "react-icons/fa";
-import { useState } from "react";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { FaStar, FaPlus } from "react-icons/fa";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "../../../ui/button";
 import ShippingsIcon from "../../../ui/icons/shippingsIcon";
 import DeliverIcon from "../../../ui/icons/deliverIcon";
@@ -11,17 +11,30 @@ import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
 import { useAddCartItem } from "@/hooks/useCart";
 import ReviewSection from "./ReviewSection";
 import ReviewsList from "./ReviewsList";
+import { useDeleteProductImage, useUploadProductImage } from "@/hooks/useProductsAdmin";
+import { toast } from "sonner"; // Assuming sonner is used for toasts based on other files
+
 interface CardInfoProps {
   id?: number;
 }
 
-
-
 const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(1);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
   const { data: product, isLoading } = usegetSingleProduct(id);
   const { data: singleProductImages } = useGetSingleProductImages(id)
   const { mutateAsync: addCart } = useAddCartItem();
+
+  const { mutateAsync: deleteImage } = useDeleteProductImage();
+  const { mutateAsync: uploadImage, isPending: isUploading } = useUploadProductImage(id || 0);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (product?.main_image_url && !activeImage) {
+      setActiveImage(product.main_image_url);
+    }
+  }, [product, activeImage]);
 
   const handleAddCart = () => {
     if (!id) return;
@@ -29,6 +42,45 @@ const CardInfo = ({ id }: CardInfoProps) => {
       product_id: id,
       quantity: counter,
     });
+  };
+
+  const handleDeleteImage = async (imageId: number) => {
+    try {
+      await deleteImage(imageId);
+    } catch (error) {
+      console.error("Failed to delete image:", error);
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const files = Array.from(e.target.files);
+
+      // Check for file size limit (approx 2MB common PHP default)
+      const MAX_SIZE = 2 * 1024 * 1024;
+      const validFiles = files.filter(f => {
+        if (f.size > MAX_SIZE) {
+          toast.error(`File ${f.name} is too large. Max size is 2MB.`);
+          return false;
+        }
+        return true;
+      });
+
+      if (validFiles.length > 0) {
+        try {
+          await uploadImage(validFiles);
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+        }
+      }
+
+      // Reset input
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   if (isLoading) {
@@ -43,21 +95,73 @@ const CardInfo = ({ id }: CardInfoProps) => {
     <>
       <div className="mt-[55px] lg:h-[627px] h-auto flex flex-col lg:flex-row gap-5 w-full items-start lg:items-center justify-between">
         <div className="flex flex-row gap-8 md:gap-3 w-full lg:w-1/2 items-center justify-center">
-          <div className="flex flex-col  items-center lg:w-[30%] w-1/3 justify-between gap-5 ml-0 lg:ml-9">
-            {Array.from({ length: 3 }).map((_, i) => (
+          <div className="flex flex-col items-center lg:w-[30%] w-1/3 justify-between gap-5 ml-0 lg:ml-9 max-h-[600px] overflow-y-auto">
+            {/* Existing Images */}
+            {singleProductImages?.images?.length === 0 && (
+              <div className="flex items-center justify-center bg-[#F5F5F5] relative group shrink-0 cursor-pointer">
+                <p className="text-gray-400">No images available</p>
+              </div>
+            )}{
+              product?.main_image_url && (
+                <div
+                  className="h-[194px] w-[141px] flex items-center justify-center bg-[#F5F5F5] relative group shrink-0 cursor-pointer"
+                  onClick={() => setActiveImage(product?.main_image_url || '')}
+                >
+                  <img
+                    src={product?.main_image_url}
+                    alt="main"
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
+              )
+            }
+            {singleProductImages?.images?.map((img, i) => (
               <div
-                key={singleProductImages?.images?.[i]?.id || i}
-                className="w-[150px] flex items-center justify-center h-[210px] bg-[#F5F5F5]"
+                key={img.id}
+                onClick={() => setActiveImage(img.url)}
+                className={`flex h-[194px] w-[141px] items-center justify-center bg-[#F5F5F5] relative group shrink-0 cursor-pointer ${activeImage === img.url ? 'border-2 border-black' : ''}`}
               >
                 <img
-                  src={singleProductImages?.images?.[i]?.url}
+                  src={img.url}
                   alt={`img${i + 1}`}
+                  className="max-w-full max-h-full object-contain"
                 />
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // If we delete the active image, revert to main
+                    if (activeImage === img.url) setActiveImage(product?.main_image_url || null);
+                    handleDeleteImage(img.id);
+                  }}
+                  className="absolute top-2 right-2 p-2 bg-white/80 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             ))}
+
+            {/* Add Image Button */}
+            <div
+              onClick={handleUploadClick}
+              className="w-[150px] flex items-center justify-center h-[210px] bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors shrink-0"
+            >
+              {isUploading ? (
+                <span className="text-gray-400 text-sm">Uploading...</span>
+              ) : (
+                <FaPlus className="w-8 h-8 text-gray-400" />
+              )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                multiple
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </div>
           </div>
           <div className=" lg:w-[70%] md:w-[60%] w-full p-4 h-auto flex items-center justify-center bg-[#F5F5F5]">
-            <img src={product?.main_image_url} alt="" />
+            <img src={activeImage || product?.main_image_url} alt={product?.name} className="max-w-full max-h-[500px] object-contain" />
           </div>
         </div>
         <div className="flex flex-col mx-5 gap-2 w-full lg:w-1/2 ">

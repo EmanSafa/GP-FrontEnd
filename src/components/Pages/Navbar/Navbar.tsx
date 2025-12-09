@@ -1,5 +1,5 @@
 import * as React from "react";
-import {  Search, Menu, X } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -41,7 +41,7 @@ const NavLinks = ({
       </nav>
     );
   }
-  const {data: categories} = useGetAllCategories()
+  const { data: categories } = useGetAllCategories()
 
   return (
     <NavigationMenu viewport={false}>
@@ -77,7 +77,7 @@ const NavLinks = ({
                     ? "Contact"
                     : item.label}
                 </Link>
-                </NavigationMenuLink>
+              </NavigationMenuLink>
             )}
           </NavigationMenuItem>
         ))}
@@ -130,7 +130,7 @@ const ActionIcons = ({
   return (
     <div className={style.container}>
       <div className={style.iconWrapper}>
-        
+
         <Cart />
       </div>
     </div>
@@ -180,13 +180,7 @@ const Navbar = () => {
             <UserDropDown />
           </div>
 
-          <button
-            aria-controls="user-dropdown"
-            className="bg-transparent border-0 p-0"
-            title="User menu"
-          >
-            <UserDropDown />
-          </button>
+          <UserDropDown />
         </div>
       </div>
 
