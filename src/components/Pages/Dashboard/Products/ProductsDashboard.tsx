@@ -17,7 +17,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, Edit2, Trash2, Star } from "lucide-react"
-import { useCreateProduct, useDeleteProduct, useUpdateProduct, useUploadProductImage } from "@/hooks/useProductsAdmin"
+import { useCreateProduct, useDeleteProduct, useUpdateProduct, useUploadProductImage } from "@/hooks/Admin/useProductsAdmin"
 import ProductDialog from "./ProductDialog"
 import DeleteProductDialog from "./DeleteProductDialog"
 import { productsAdminApi } from "@/lib/apiClient"

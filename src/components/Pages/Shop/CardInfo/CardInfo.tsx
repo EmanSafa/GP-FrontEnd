@@ -11,7 +11,7 @@ import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
 import { useAddCartItem } from "@/hooks/useCart";
 import ReviewSection from "./ReviewSection";
 import ReviewsList from "./ReviewsList";
-import { useDeleteProductImage, useUploadProductImage } from "@/hooks/useProductsAdmin";
+import { useDeleteProductImage, useUploadProductImage } from "@/hooks/Admin/useProductsAdmin";
 import { toast } from "sonner"; // Assuming sonner is used for toasts based on other files
 
 interface CardInfoProps {

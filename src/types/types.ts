@@ -199,3 +199,8 @@ export interface productsFormData {
   additional_images?: (string | File)[];
   specifications?: string;
 }
+export interface CategoryFormData {
+  name: string;
+  description: string;
+  cat_image: string | File;
+}

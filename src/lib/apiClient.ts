@@ -1,5 +1,6 @@
 import type {
   AddCartItemData,
+  CategoryFormData,
   CheckoutData,
   productsFormData,
   ReivewData,
@@ -190,4 +191,33 @@ export const productsAdminApi = {
     axiosInstance.delete(endpoints.productsAdminApi.deleteImage(id)),
   replaceImages: (id: number, data: string[]) =>
     axiosInstance.post(endpoints.productsAdminApi.replaceImages(id), data),
+};
+
+export const categoriesAdminApi = {
+  create: (data: CategoryFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("cat_image", data.cat_image);
+    return axiosInstance.post(endpoints.categoriesAdminApi.create, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  update: (id: number, data: CategoryFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    if (data.cat_image instanceof File) {
+      formData.append("cat_image", data.cat_image);
+    }
+    return axiosInstance.post(
+      endpoints.categoriesAdminApi.update(id),
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+  },
+  delete: (id: number) =>
+    axiosInstance.delete(endpoints.categoriesAdminApi.delete(id)),
 };

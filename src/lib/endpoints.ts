@@ -75,6 +75,11 @@ export const endpoints = {
     deleteImage: (id: number) => `/products/images/${id}`,
     replaceImages: (id: number) => `/products/${id}/images/replace`,
   },
+  categoriesAdminApi: {
+    create: "/categories",
+    update: (id: number) => `/categories/${id}`,
+    delete: (id: number) => `/categories/${id}`,
+  },
 };
 
 export default endpoints;
