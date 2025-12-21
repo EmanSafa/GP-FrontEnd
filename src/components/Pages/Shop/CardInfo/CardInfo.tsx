@@ -14,6 +14,7 @@ import ReviewsList from "./ReviewsList";
 import { useDeleteProductImage, useUploadProductImage } from "@/hooks/Admin/useProductsAdmin";
 import { toast } from "sonner"; // Assuming sonner is used for toasts based on other files
 import { useAuthStore } from "@/store/authStore";
+import { useNavigate } from "@tanstack/react-router";
 
 interface CardInfoProps {
   id?: number;
@@ -30,6 +31,9 @@ const CardInfo = ({ id }: CardInfoProps) => {
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadProductImage(id || 0);
   const { user } = useAuthStore()
   const isAdmin = user?.role === 'admin'
+  const { isAuthenticated } = useAuthStore.getState();
+  const navigate = useNavigate();
+
 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,6 +46,11 @@ const CardInfo = ({ id }: CardInfoProps) => {
 
   const handleAddCart = () => {
     if (!id) return;
+    if (!isAuthenticated) {
+      toast.error('Please login to add to cart');
+      navigate({ to: "/auth/login" });
+      return;
+    }
     addCart({
       product_id: id,
       quantity: counter,
@@ -222,11 +231,17 @@ const CardInfo = ({ id }: CardInfoProps) => {
             <Button
               variant={"auth"}
               className="rounded-full lg:w-2/3 md:w-[90%] w-[98%] sm:h-[50px] h-[50px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
-              onClick={handleAddCart}
+              onClick={() => {
+                if (isAuthenticated) {
+                  handleAddCart();
+                } else {
+                  toast.error('Please login to add to cart');
+                  navigate({ to: "/auth/login" });
+                }
+              }}
               disabled={counter === 0 || isLoading || Number(product?.stock) === 0}
             >
-              Add to Cart
-              {/*Todo:Add to cart functionality*/}
+              {isAuthenticated ? "Add to Cart" : "Login to Add to Cart"}
             </Button>
           </div>
           <div className="flex flex-col max-md:mt-4 gap-3 items-start justify-start">

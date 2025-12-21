@@ -26,11 +26,7 @@ const UserDashboard = () => {
     const [page, setPage] = useState(1)
     const [perPage] = useState(10)
     const { data: userData, isLoading } = useGetAllUsers(page, perPage)
-
-    // Extract users and pagination from the API response structure
-    // The hook returns { users: [...], pagination: {...} } or the response.data.data structure
-    // Based on the image, response.data.data has { users: [...], pagination: {...} }
-    // Our hook returns response.data.data
+  
     const users = userData?.users || []
     const pagination = userData?.pagination || {
         total: 0,

@@ -85,7 +85,6 @@ export const authApi = {
       const sessionId = responseData.session_id || authData.session_id;
       if (sessionId) {
         useAuthStore.getState().setSessionId(sessionId);
-        console.log("sessionId that getted from login", sessionId);
       }
       toast.success("Login successful!");
 

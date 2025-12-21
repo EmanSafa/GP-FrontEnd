@@ -15,25 +15,17 @@ import { useState } from "react";
 import { toast } from "sonner";
 import OrderDetailsDialog from "./OrderDetailsDialog";
 
+
 const getStatusStyles = (status: string) => {
-  switch (status.toLowerCase()) {
-    case 'completed':
-    case 'delivered':
-    case 'paid':
-      return 'bg-green-100 text-green-700 border border-green-200';
-    case 'processing':
-    case 'shipped':
-      return 'bg-blue-100 text-blue-700 border border-blue-200';
-    case 'pending':
-      return 'bg-amber-100 text-amber-700 border border-amber-200';
-    case 'cancelled':
-    case 'failed':
-    case 'refunded':
-      return 'bg-red-100 text-red-700 border border-red-200';
-    default:
-      return 'bg-gray-100 text-gray-700 border border-gray-200';
-  }
-};
+    switch (status.toLowerCase()) {
+        case 'pending': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100';
+        case 'processing': return 'bg-purple-100 text-purple-800 hover:bg-purple-100';
+        case 'shipped': return 'bg-blue-100 text-blue-800 hover:bg-blue-100';
+        case 'delivered': return 'bg-green-100 text-green-800 hover:bg-green-100';
+        case 'cancelled': return 'bg-red-100 text-red-800 hover:bg-red-100';
+        default: return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
+    }
+}
 
 const OrderHistory = () => {
   const { user } = useAuthStore();

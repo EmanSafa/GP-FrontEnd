@@ -104,18 +104,21 @@ const SearchBar = ({
   };
 
   return (
-    <form onSubmit={handleSearch} className={style.container}>
-      <input
-        type="text"
-        className={style.input}
-        placeholder={style.placeholder}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button type="submit" className={style.button}>
-        <Search className="text-white " size={style.iconSize} />
-      </button>
-    </form>
+    <div className="flex flex-col items-center gap-1">
+      <form onSubmit={handleSearch} className={style.container}>
+        <input
+          type="text"
+          className={style.input}
+          placeholder={style.placeholder}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button type="submit" className={style.button}>
+          <Search className="text-white " size={style.iconSize} />
+        </button>
+      </form>
+{query && <span className="">Searching for <span className="font-medium ">{query}</span> in products....</span>}
+    </div>
   );
 };
 
