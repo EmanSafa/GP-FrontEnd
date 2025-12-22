@@ -8,10 +8,11 @@ interface RawHtmlProps {
 
 /**
  * Renders raw HTML content.
- * WARNING: This bypasses React's XSS protection. Ensure the content is trusted or sanitized!
+ * WARNING: This bypasses React's XSS protection entirely.
+ * Any scripts in the 'html' prop WILL execute.
  * 
  * Usage:
- * <RawHtml html="<strong>Bold Text</strong>" />
+ * <RawHtml html="<script>alert('XSS')</script><strong>Bold Text</strong>" />
  */
 const RawHtml: React.FC<RawHtmlProps> = ({ html, className, as: Component = 'div' }) => {
     return (
