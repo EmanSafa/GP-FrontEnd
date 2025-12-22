@@ -8,8 +8,8 @@ export const useGetAllUsers = (page: number = 1, per_page: number = 10) => {
         queryKey: ["users", page, per_page],
         queryFn: async () => {
             const response = await UserAdminApi.list({ page, per_page })
-            if (response.data && response.data.success) {
-                return response.data.data;
+            if (response.data) {
+                return response.data;
             }
             return { users: [], pagination: { total: 0, perPage: per_page, page: page, totalPages: 0 } };
         },
@@ -21,7 +21,7 @@ export const useDeleteUser = (id: number) => {
     return useMutation({
         mutationFn: async () => {
             const response = await UserAdminApi.delete(id)
-            if (response.data && response.data.success) {
+            if (response.data) {
                 toast.success(response.data.message || 'user deleted successfully')
                 return response.data;
             }

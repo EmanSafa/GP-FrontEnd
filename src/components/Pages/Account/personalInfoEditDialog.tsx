@@ -151,7 +151,7 @@ const PersonalInfoEditDialog = () => {
 
                         <Label htmlFor="pass">Password</Label>
                         <div className="flex justify-between items-center gap-4">
-                            <Input id="pass" name="pass" defaultValue="**********" />
+                            <Input id="pass" name="pass" defaultValue="**********"  disabled/>
                             <Button
                                 variant={"auth"}
                                 type="button"

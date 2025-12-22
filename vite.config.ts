@@ -24,6 +24,7 @@ export default defineConfig({
       "/api": {
         target: "http://20.174.36.199",
         changeOrigin: true,
+        cookieDomainRewrite: "",
       },
     },
   },

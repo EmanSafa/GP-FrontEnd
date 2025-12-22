@@ -17,7 +17,6 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const sessionId = useAuthStore.getState().sessionId;
-    console.log("sessionId that wil be in request", sessionId);
     if (sessionId) {
       config.headers.Authorization = `${sessionId}`;
     }

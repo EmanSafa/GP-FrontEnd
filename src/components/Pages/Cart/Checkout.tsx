@@ -27,12 +27,14 @@ import StepPayment from "../CheckoutSteps/StepPayment";
 import { useCheckoutOrder } from "@/hooks/useOrders";
 import { useDeleteCartItem, useGetCart, useGetCartTotal } from "@/hooks/useCart";
 import type { Cart } from "@/types/types";
+import { useAuthStore } from "@/store/authStore";
 
 const Checkout = () => {
   const { data: orderSummary } = useGetCart()
   const { data: orderTotal } = useGetCartTotal()
   const { mutate: deleteCartItem } = useDeleteCartItem()
   const { mutate: checkout, isPending: isCheckoutLoading } = useCheckoutOrder()
+   const { isAuthenticated } = useAuthStore.getState();
 
   const [step, setStep] = useState(1);
   const [showCvv, setShowCvv] = useState(false);

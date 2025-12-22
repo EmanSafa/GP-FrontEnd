@@ -86,7 +86,7 @@ export const endpoints = {
     delete: (id: number) => `/brands/${id}`,
   },
   orderAdminApi: {
-    list:'/orders',
+    list:'/usersorders',
     update: (id: number) => `/orders/${id}/status`,
   },
   userAdminApi:{
