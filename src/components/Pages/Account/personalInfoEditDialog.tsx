@@ -227,6 +227,7 @@ const PersonalInfoEditDialog = () => {
                                         </span>
                                     </Button>
                                 </div>
+                                {passwordError && <p className="text-red-500 text-sm mt-2">{passwordError}</p>}
                                 <Button className="my-4" disabled={updatePasswordPending} variant={'authOutline'} type="button" onClick={handleUpdatePassword}>
                                     {updatePasswordPending ? 'Updating Password...' : 'Update Password'}
                                 </Button>
