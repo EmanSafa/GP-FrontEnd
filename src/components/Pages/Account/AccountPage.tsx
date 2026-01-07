@@ -5,7 +5,7 @@ import InfoField from "./InfoField";
 import { useAuthStore } from "@/store/authStore";
 import { useGetUserProfile } from "@/hooks/useAccount";
 import PersonalInfoEditDialog from "./personalInfoEditDialog";
-import { useHighlight } from "@/hooks/useHighlight";
+import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
 
 
 const AccountPage = () => {
@@ -13,7 +13,7 @@ const AccountPage = () => {
   const { user } = useAuthStore();
   const id = user ? Number(user.id) : 0;
   const { data: userData } = useGetUserProfile(id, { enabled: !!user });
-  const profilePicRef = useHighlight('profile-pic');
+
   if (!userData) return <div>Loading...</div>;
 
   // Split name into first and last name
@@ -25,12 +25,14 @@ const AccountPage = () => {
     <div className="mt-7 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
       <div className="flex items-center gap-4 mb-8">
-        <div ref={profilePicRef} className="relative">
-          <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
-          <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1">
-            <Pencil className="w-3 h-3 text-white" />
+        <BugHighlighter id="profile-pic" bugName="RCE - Remote code execution">
+          <div className="relative">
+            <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
+            <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1">
+              <Pencil className="w-3 h-3 text-white" />
+            </div>
           </div>
-        </div>
+        </BugHighlighter>
         <div>
           <h1 className="font-bold text-xl md:text-2xl">{userData.name}</h1>
           <h3 className="font-normal text-[#3D3D3D] text-sm md:text-base">
@@ -45,32 +47,34 @@ const AccountPage = () => {
       </div>
 
       {/* Information Sections */}
-      <div className="w-full">
-        {/* Personal Information */}
-        <InfoSection title="Personal Information" editDialog={<PersonalInfoEditDialog />}>
-          <div className="grid grid-cols-2 gap-4">
-            <InfoField label="First Name" value={firstName} />
-            <InfoField label="Last Name" value={lastName} />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InfoField label="Email Address" value={userData.email} />
-            <InfoField label="Phone Number" value={userData.phone} />
-            <InfoField label="Address" value={userData.address} />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InfoField label="User Name" value={userData.name} />
-            <InfoField
-              label="Password"
-              value={"***********"}
-            />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="capitalize">
-              <InfoField label="Role" value={userData.role} />
+      <BugHighlighter id="userdataCors" className="w-full" bugName="CORS - Cross-Origin Resource Sharing">
+        <div className="w-full">
+          {/* Personal Information */}
+          <InfoSection title="Personal Information" editDialog={<PersonalInfoEditDialog />}>
+            <div className="grid grid-cols-2 gap-4">
+              <InfoField label="First Name" value={firstName} />
+              <InfoField label="Last Name" value={lastName} />
             </div>
-          </div>
-        </InfoSection>
-      </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InfoField label="Email Address" value={userData.email} />
+              <InfoField label="Phone Number" value={userData.phone} />
+              <InfoField label="Address" value={userData.address} />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InfoField label="User Name" value={userData.name} />
+              <InfoField
+                label="Password"
+                value={"***********"}
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="capitalize">
+                <InfoField label="Role" value={userData.role} />
+              </div>
+            </div>
+          </InfoSection>
+        </div>
+      </BugHighlighter>
       <OrderHistory />
     </div>
   );

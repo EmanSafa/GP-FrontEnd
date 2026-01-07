@@ -15,9 +15,11 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod";
 import { authApi } from "@/api/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/authStore";
+import { useHighlightStore } from "@/store/highlightStore";
+import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
 
 export function LoginForm({
   className,
@@ -26,6 +28,8 @@ export function LoginForm({
   const [apiError, setApiError] = useState<string>("");
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+
+
 
   const { mutate: login, isPending } = useMutation({
     mutationFn: authApi.login,
@@ -38,6 +42,27 @@ export function LoginForm({
       setApiError(error.message);
     },
   });
+
+  const { triggerHighlight } = useHighlightStore();
+
+  useEffect(() => {
+    triggerHighlight('LoginBug', {
+      name: "(SQLi) - SQL Injection ",
+      description: "The login form is vulnerable to SQL injection attacks.",
+      originalCode: `<form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+    >`,
+      fixedCode: `<form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+    >`,
+    });
+  }, []);
 
   const schema = z.object({
     email: z
@@ -70,9 +95,9 @@ export function LoginForm({
         message: "Password must not contain spaces",
       }),
   });
-  
+
   type LoginFormData = z.infer<typeof schema>;
-  
+
   const {
     register,
     handleSubmit,
@@ -87,7 +112,6 @@ export function LoginForm({
     login(data);
   };
 
-
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
@@ -95,7 +119,9 @@ export function LoginForm({
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
+
       <FieldGroup>
+        <BugHighlighter id="LoginBug" bugName="SQLI - SQL Injection">
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
             Login to your account
@@ -109,6 +135,7 @@ export function LoginForm({
             </div>
           )}
         </div>
+        </BugHighlighter>
         <Field>
           <FieldLabel htmlFor="email" className="text-[#5D0505]">
             Email

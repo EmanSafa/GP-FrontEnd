@@ -150,8 +150,33 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { triggerHighlight } = useHighlightStore();
 
-  const handleScanBugs = () => {
-    triggerHighlight('profile-pic');
+  const handleprofileScanBug = () => {
+    triggerHighlight('profile-pic', {
+      name: "RCE - Remote code execution",
+      description: "The profile picture component lacks proper image optimization and fallback handling, potentially causing layout shifts.",
+      originalCode: `<img src={user.image} alt="Profile" />`,
+      fixedCode: `<Image 
+  src={user.image} 
+  alt="Profile" 
+  width={80} 
+  height={80} 
+  className="rounded-full object-cover"
+  onError={(e) => e.currentTarget.src = fallbackImage}
+/>`
+    });
+    triggerHighlight('userdataCors', {
+      name: 'CORS - Cross-Origin Resource Sharing',
+      description: 'The user data component is not using proper CORS headers, potentially allowing cross-origin requests.',
+      originalCode: `<UserDropDown > <UserDropDown> `,
+      fixedCode: `<UserDropDown > <UserDropDown>`
+    })
+    triggerHighlight('changePasswordBug', {
+      name: 'CSRF => Cross site request forgery',
+      description: 'The change password component is not using proper CORS headers, potentially allowing cross-origin requests.',
+      originalCode: `<form onSubmit={handleSubmit} className="space-y-4">`,
+      fixedCode: `<form onSubmit={handleSubmit} className="space-y-4">`
+    })
+
     navigate({ to: '/account' });
   };
 
@@ -199,7 +224,7 @@ const Navbar = () => {
 
         {/* Right Side: Scan Bugs Button */}
         <div>
-          <Button variant={'default'} onClick={handleScanBugs}>
+          <Button variant={'default'} onClick={handleprofileScanBug}>
             Scan Bugs
           </Button>
         </div>
