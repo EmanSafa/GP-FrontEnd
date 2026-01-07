@@ -35,12 +35,12 @@ export const navbarStyles = {
   // Search Bar Styles
   searchBar: {
     desktop: {
-      container: "flex items-center justify-center",
+      container: "flex items-center justify-center flex-1 max-w-2xl mx-auto", // Center and restrict width
       input:
-        "border-2 px-2 py-1 border-black rounded-l-2xl w-[20rem] xl:w-[28rem] h-[1.8rem]",
+        "border px-4 py-2 border-black rounded-l-full w-full h-[2.5rem] focus:outline-none",
       button:
-        "bg-black flex items-center justify-center rounded-r-2xl h-[1.8rem] w-[4rem] p-2",
-      iconSize: 16,
+        "bg-black flex items-center justify-center rounded-r-full h-[2.5rem] w-[4rem]", // rounded-full for pill shape
+      iconSize: 20,
       placeholder: "Search products...",
     },
     tablet: {
@@ -86,20 +86,21 @@ export const navbarStyles = {
   layout: {
     main: "bg-white fixed top-0 left-0 right-0 z-50 mb-3",
     topBar:
-      "bg-black w-full h-[2rem] py-1 justify-between px-2 md:px-5 flex items-center z-50",
-    desktop: "hidden xl:flex items-center justify-evenly bg-white",
+      "bg-gray-50/50 w-full justify-between px-2 md:px-5 flex items-center z-[60] relative",
+    desktop:
+      "hidden xl:flex items-center justify-between px-10 bg-transparent pb-3 z-40 relative",
     tablet:
-      "hidden md:flex xl:hidden items-center justify-between px-4 py-3 bg-white",
+      "hidden md:flex xl:hidden items-center justify-between px-4 py-3 bg-transparent z-40 relative",
     mobile: "md:hidden flex flex-col z-50",
     mobileMenu: "bg-white border-t shadow-lg z-50 relative",
   },
 
   // Top Bar Elements
   topBar: {
-    selectContainer: "hidden md:block",
-    mobileMenuButton: "md:hidden text-white",
-    logo: "text-white font-semibold",
-    userIcon: "text-white",
+    selectContainer: "hidden md:block scale-90",
+    mobileMenuButton: "md:hidden text-black",
+    logo: "h-10 w-auto object-contain",
+    userIcon: "text-black",
   },
 
   // Responsive Containers

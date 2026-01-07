@@ -34,7 +34,7 @@ const UserDropDown = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="bg-transparent ">
-              <CircleUserRound className="text-white" />
+              <CircleUserRound className="text-black " />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 " align="start">
@@ -74,7 +74,7 @@ const UserDropDown = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="bg-transparent ">
-              <CircleUserRound className="text-white" />
+              <CircleUserRound className="text-black" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 " align="start">

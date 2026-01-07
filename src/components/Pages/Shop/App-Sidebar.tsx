@@ -43,16 +43,16 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="mt-18" >
-      <SidebarContent>
-        <SidebarGroup className="bg-[#F8E8E8] p-5 ">
+    <Sidebar className="top-14 h-[calc(100svh-3.5rem)]! border-r border-gray-100 bg-white" >
+      <SidebarContent className="bg-white">
+        <SidebarGroup className="bg-[#F8E8E8] p-5">
           <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">
             <span className="bg-[#9D1D1D] h-6 w-1 mr-3"></span> Categories
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem className="text-normal text-[16px] ">
-                <SidebarMenuButton asChild isActive={!search.categoryId}>
+              <SidebarMenuItem className="text-normal text-[16px]">
+                <SidebarMenuButton asChild isActive={!search.categoryId} className="hover:bg-white/50 data-[active=true]:bg-white data-[active=true]:font-bold transition-colors rounded-md p-2">
                   <Link to="/shop" search={(prev: any) => ({ ...prev, categoryId: undefined })}>
                     <span>All</span>
                   </Link>
@@ -61,9 +61,9 @@ const AppSidebar = () => {
               {categories?.map((category: Category) => (
                 <SidebarMenuItem
                   key={category.id}
-                  className="text-normal text-[16px] "
+                  className="text-normal text-[16px]"
                 >
-                  <SidebarMenuButton asChild isActive={search.categoryId === category.id}>
+                  <SidebarMenuButton asChild isActive={search.categoryId === category.id} className="hover:bg-white/50 data-[active=true]:bg-white data-[active=true]:font-bold transition-colors rounded-md p-2">
                     <Link to="/shop" search={(prev: any) => ({ ...prev, categoryId: category.id })}>
                       <span>{category.name}</span>
                     </Link>
@@ -73,16 +73,17 @@ const AppSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup className="bg-[#F8E8E8] p-5 ">
+        
+        <SidebarGroup className="bg-[#F8E8E8] p-5  ">
           <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">
             <span className="bg-[#9D1D1D] h-6 w-1 mr-3"></span> Filter
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu className="space-y-4">
               <SidebarMenuItem>
-                <div className="flex items-center justify-between ml-2 mr-2">
-                  <Label htmlFor="new" className="text-normal text-[16px] ">
-                    New
+                <div className="flex items-center justify-between px-2">
+                  <Label htmlFor="new" className="text-normal text-[16px] cursor-pointer">
+                    New Arrivals
                   </Label>
                   <Switch
                     id="new"
@@ -108,20 +109,19 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Collapsible defaultOpen className="group/collapsible">
-                  <SidebarGroup>
-                    <SidebarGroupLabel asChild>
-                      <CollapsibleTrigger className="text-normal text-[16px] ">
+                  <SidebarGroup className="p-0">
+                    <SidebarGroupLabel asChild className="p-0 hover:bg-transparent">
+                      <CollapsibleTrigger className="text-normal text-[16px] flex w-full items-center justify-between p-2 hover:bg-white/50 rounded-md cursor-pointer text-[#2D2D2D]">
                         Brands
-                        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                        <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
                       </CollapsibleTrigger>
                     </SidebarGroupLabel>
                     <CollapsibleContent>
-                      <SidebarGroupContent />
-                      <div className="flex items-start justify-center flex-col gap-3 m-3">
-                        <div className="flex items-center justify-center gap-2">
+                      <div className="flex flex-col gap-3 px-2 py-3">
+                        <div className="flex items-center gap-2">
                           <Checkbox
                             id="brand-all"
-                            className="border-black"
+                            className="border-gray-500 data-[state=checked]:bg-[#9D1D1D] data-[state=checked]:border-[#9D1D1D]"
                             checked={!search.brandId}
                             onCheckedChange={(checked) => {
                               if (checked) {
@@ -129,13 +129,13 @@ const AppSidebar = () => {
                               }
                             }}
                           />
-                          <Label htmlFor="brand-all" className="text-normal text-[16px]">All</Label>
+                          <Label htmlFor="brand-all" className="text-normal text-[16px] cursor-pointer">All</Label>
                         </div>
                         {brands?.map((brand: Brand) => (
-                          <div key={brand.id} className="flex items-center  justify-center gap-2">
+                          <div key={brand.id} className="flex items-center gap-2">
                             <Checkbox
                               id={brand.id.toString()}
-                              className="border-black"
+                              className="border-gray-500 data-[state=checked]:bg-[#9D1D1D] data-[state=checked]:border-[#9D1D1D]"
                               checked={Number(search.brandId) === brand.id}
                               onCheckedChange={(checked) => {
                                 updateFilter('brandId', checked ? brand.id : undefined);
@@ -143,7 +143,7 @@ const AppSidebar = () => {
                             />
                             <Label
                               htmlFor={brand.id.toString()}
-                              className="text-normal text-[16px] "
+                              className="text-normal text-[16px] cursor-pointer"
                             >
                               {brand.name}
                             </Label>
@@ -157,18 +157,15 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Collapsible defaultOpen className="group/collapsible">
-                  <SidebarGroup>
-                    <SidebarGroupLabel asChild>
-                      <CollapsibleTrigger className="text-normal text-[16px] ">
+                  <SidebarGroup className="p-0">
+                    <SidebarGroupLabel asChild className="p-0 hover:bg-transparent">
+                      <CollapsibleTrigger className="text-normal text-[16px] flex w-full items-center justify-between p-2 hover:bg-white/50 rounded-md cursor-pointer text-[#2D2D2D]">
                         Price
-                        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                        <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
                       </CollapsibleTrigger>
                     </SidebarGroupLabel>
                     <CollapsibleContent>
-                      <Label className="text-normal text-[16px] m-3 text-[#414141] ">
-                        Price Range
-                      </Label>
-                      <div className="flex flex-col gap-3 m-3">
+                      <div className="flex flex-col gap-3 px-2 py-3">
                         {[
                           { label: "All Prices", value: [0, 1000000] },
                           { label: "6000 - 10000 EGP", value: [6000, 10000] },
@@ -180,7 +177,7 @@ const AppSidebar = () => {
                           <div key={index} className="flex items-center space-x-2">
                             <Checkbox
                               id={`price-${index}`}
-                              className="border-black rounded-full"
+                              className="border-gray-500 rounded-full data-[state=checked]:bg-[#9D1D1D] data-[state=checked]:border-[#9D1D1D]"
                               checked={
                                 (search.minPrice === range.value[0] && search.maxPrice === range.value[1]) ||
                                 (!search.minPrice && !search.maxPrice && index === 0)
@@ -198,7 +195,7 @@ const AppSidebar = () => {
                                 }
                               }}
                             />
-                            <Label htmlFor={`price-${index}`}>{range.label}</Label>
+                            <Label htmlFor={`price-${index}`} className="text-normal text-[16px] cursor-pointer">{range.label}</Label>
                           </div>
                         ))}
                       </div>

@@ -55,16 +55,15 @@ const CustomSelect = ({
       >
         <span>{selectedValue}</span>
         <ChevronDown
-          className={`w-3 h-3 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""
+            }`}
         />
       </button>
 
       {/* Dropdown Options */}
       {isOpen && (
         <div
-          className={`absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[120px] ${dropdownClassName}`}
+          className={`absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-[100] min-w-[120px] ${dropdownClassName}`}
         >
           {options.map((option) => (
             <button

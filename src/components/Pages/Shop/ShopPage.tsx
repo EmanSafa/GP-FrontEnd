@@ -99,12 +99,10 @@ const ShopPage = ({
 
   return (
     <>
-      <SidebarProvider>
-        <div className="relative z-40 sticky top-20 h-[calc(60vh-6rem)]">
-          <AppSidebar />
-        </div>
-        <main className=" w-full mt-10">
-          <div className="flex items-center justify-start">
+      <SidebarProvider className="pt-[2rem]">
+        <AppSidebar />
+        <main className="w-full mt-5">
+          <div className="flex items-center justify-start ml-4">
             <SidebarTrigger />
             <h1 className="font-bold text-4xl ">{categoryTitle}</h1>
           </div>
