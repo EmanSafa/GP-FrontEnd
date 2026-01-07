@@ -17,6 +17,7 @@ import { useGetAllCategories } from "@/hooks/useCategories";
 import logo from './../../../assets/logo.png'
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useHighlightStore } from "@/store/highlightStore";
 
 
 // Reusable Navigation Links Component
@@ -146,6 +147,13 @@ const ActionIcons = ({
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const { triggerHighlight } = useHighlightStore();
+
+  const handleScanBugs = () => {
+    triggerHighlight('profile-pic');
+    navigate({ to: '/account' });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -191,7 +199,7 @@ const Navbar = () => {
 
         {/* Right Side: Scan Bugs Button */}
         <div>
-          <Button variant={'default'}>
+          <Button variant={'default'} onClick={handleScanBugs}>
             Scan Bugs
           </Button>
         </div>
