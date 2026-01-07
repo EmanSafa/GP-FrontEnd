@@ -89,6 +89,12 @@ export interface User {
   is_active: string;
   created_at: string;
 }
+export interface UserProfilePic {
+  photo_url: string;
+  filename: string;
+  success: boolean;
+  has_photo: boolean;
+}
 
 export interface UserProfileResponse {
   success: boolean;
@@ -209,5 +215,11 @@ export interface BrandFormData {
   logo: string | File;
 }
 export interface OrderFormData {
-  status: 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'processing';
+  status: "pending" | "shipped" | "delivered" | "cancelled" | "processing";
+}
+export interface AddAdminFormData {
+  name: string;
+  email: string;
+  phone: string;
+  password?: string;
 }

@@ -15,9 +15,12 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod";
 import { authApi } from "@/api/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/authStore";
+import { useHighlightStore } from "@/store/highlightStore";
+import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
+import { LOGIN_BUG } from "@/constants/bugs";
 
 export function LoginForm({
   className,
@@ -26,6 +29,8 @@ export function LoginForm({
   const [apiError, setApiError] = useState<string>("");
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+
+
 
   const { mutate: login, isPending } = useMutation({
     mutationFn: authApi.login,
@@ -38,6 +43,12 @@ export function LoginForm({
       setApiError(error.message);
     },
   });
+
+  const { triggerHighlight } = useHighlightStore();
+
+  useEffect(() => {
+    triggerHighlight(LOGIN_BUG.id, LOGIN_BUG.details);
+  }, []);
 
   const schema = z.object({
     email: z
@@ -70,9 +81,9 @@ export function LoginForm({
         message: "Password must not contain spaces",
       }),
   });
-  
+
   type LoginFormData = z.infer<typeof schema>;
-  
+
   const {
     register,
     handleSubmit,
@@ -87,7 +98,6 @@ export function LoginForm({
     login(data);
   };
 
-
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
@@ -95,20 +105,23 @@ export function LoginForm({
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
+
       <FieldGroup>
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
-            Login to your account
-          </h1>
-          <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
-            Enter your email below to login to your account
-          </p>
-          {apiError && (
-            <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
-              {apiError}
-            </div>
-          )}
-        </div>
+        <BugHighlighter id={LOGIN_BUG.id} bugName="SQLI - SQL Injection">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
+              Login to your account
+            </h1>
+            <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
+              Enter your email below to login to your account
+            </p>
+            {apiError && (
+              <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                {apiError}
+              </div>
+            )}
+          </div>
+        </BugHighlighter>
         <Field>
           <FieldLabel htmlFor="email" className="text-[#5D0505]">
             Email

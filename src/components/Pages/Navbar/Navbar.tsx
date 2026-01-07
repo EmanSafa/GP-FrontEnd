@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Search, Menu, X } from "lucide-react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Search, Menu, X, Heart } from "lucide-react";
+import { Link, useNavigate, useLocation } from "@tanstack/react-router";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,10 +11,20 @@ import {
 } from "@/components/ui/navigation-menu";
 import CustomSelect from "../../ui/custom-select";
 import { navbarStyles, navigationConfig } from "../../ui/navbar-styles";
-import { useRef } from "react";
 import UserDropDown from "./UserDropDown";
 import Cart from "../Cart/Cart";
 import { useGetAllCategories } from "@/hooks/useCategories";
+import logo from './../../../assets/logo.png'
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { useHighlightStore } from "@/store/highlightStore";
+import {
+  PROFILE_PIC_BUG,
+  USER_DATA_CORS_BUG,
+  CHANGE_PASSWORD_BUG,
+  DASHBOARD_BUG,
+  LOGIN_BUG
+} from "@/constants/bugs";
 
 
 // Reusable Navigation Links Component
@@ -117,7 +127,7 @@ const SearchBar = ({
           <Search className="text-white " size={style.iconSize} />
         </button>
       </form>
-{query && <span className="">Searching for <span className="font-medium ">{query}</span> in products....</span>}
+      {query && <span className="">Searching for <span className="font-medium ">{query}</span> in products....</span>}
     </div>
   );
 };
@@ -133,8 +143,9 @@ const ActionIcons = ({
   return (
     <div className={style.container}>
       <div className={style.iconWrapper}>
-
+        <Heart className="cursor-pointer hover:text-gray-600 transition-colors" size={style.iconSize} />
         <Cart />
+        <UserDropDown />
       </div>
     </div>
   );
@@ -142,7 +153,32 @@ const ActionIcons = ({
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const userDropDownWrapperRef = useRef<HTMLDivElement | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const { triggerHighlight } = useHighlightStore();
+
+  // ...
+
+  const handleScanBugs = () => {
+    if (location.pathname.includes('/account')) {
+      triggerHighlight(PROFILE_PIC_BUG.id, PROFILE_PIC_BUG.details);
+      triggerHighlight(USER_DATA_CORS_BUG.id, USER_DATA_CORS_BUG.details);
+      triggerHighlight(CHANGE_PASSWORD_BUG.id, CHANGE_PASSWORD_BUG.details);
+    } else if (location.pathname.includes('/dashboard')) {
+      triggerHighlight(DASHBOARD_BUG.id, DASHBOARD_BUG.details);
+    } else if (location.pathname.includes('/auth/login')) {
+      triggerHighlight(LOGIN_BUG.id, LOGIN_BUG.details);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleLevelChange = (value: string) => {
     console.log("Selected level:", value);
@@ -153,37 +189,35 @@ const Navbar = () => {
   };
 
   return (
-    <div className={navbarStyles.layout.main}>
+    <div
+      className={`${navbarStyles.layout.main} transition-all duration-300 ${isScrolled ? "bg-[#F8E8E8]/95 backdrop-blur shadow-md py-0" : "bg-white"}`}
+    >
       {/* Top Bar - Same across all devices */}
-      <div className={navbarStyles.layout.topBar}>
-        <div className={navbarStyles.topBar.selectContainer}>
-          <CustomSelect
-            options={navigationConfig.levelOptions}
-            defaultValue="level-one"
-            onValueChange={handleLevelChange}
-          />
+      <div className={`${navbarStyles.layout.topBar} ${isScrolled ? "h-0 py-0 overflow-hidden opacity-0" : "h-[3.6rem] opacity-100"} transition-all duration-300`}>
+        <div className="flex items-center gap-4">
+          <img src={logo} alt="logo" className={navbarStyles.topBar.logo} />
+
+          <div className={navbarStyles.topBar.selectContainer}>
+            <CustomSelect
+              options={navigationConfig.levelOptions}
+              defaultValue="level-one"
+              onValueChange={handleLevelChange}
+            />
+          </div>
+          {/* Mobile: Show menu button instead of select */}
+          <button
+            className={navbarStyles.topBar.mobileMenuButton}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
 
-        {/* Mobile: Show menu button instead of select */}
-        <button
-          className={navbarStyles.topBar.mobileMenuButton}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-
-        <div className={navbarStyles.topBar.logo}>Logo</div>
-        <div className="relative">
-          {/* Keep the user's dropdown component intact and trigger it programmatically when the icon is pressed. */}
-          <div
-            ref={userDropDownWrapperRef}
-            style={{ display: "none" }}
-            aria-hidden="true"
-          >
-            <UserDropDown />
-          </div>
-
-          <UserDropDown />
+        {/* Right Side: Scan Bugs Button */}
+        <div>
+          <Button variant={'default'} onClick={handleScanBugs}>
+            Scan Bugs
+          </Button>
         </div>
       </div>
 
@@ -225,23 +259,5 @@ const Navbar = () => {
   );
 };
 
-// function ListItem({
-//   title,
-//   children,
-//   href,
-//   ...props
-// }: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
-//   return (
-//     <li {...props}>
-//       <NavigationMenuLink asChild>
-//         <Link to={href}>
-//           <div className="text-sm leading-none font-medium ">{title}</div>
-//           <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-//             {children}
-//           </p>
-//         </Link>
-//       </NavigationMenuLink>
-//     </li>
-//   );
-// }
+
 export default Navbar;

@@ -21,12 +21,17 @@ import { toast } from "sonner"
 import { useQueryClient } from "@tanstack/react-query"
 import { UserAdminApi } from "@/lib/apiClient"
 import DataTable from "../shared/DataTable"
+import { AddAdminDialog } from "../AddAdminDialog"
 
 const UserDashboard = () => {
     const [page, setPage] = useState(1)
     const [perPage] = useState(10)
     const { data: userData, isLoading } = useGetAllUsers(page, perPage)
-  
+    const [openAddDialog, setOpenAddDialog] = useState(false)
+    const handleAddAdmin = () => {
+        setOpenAddDialog(true)
+    }
+
     const users = userData?.users || []
     const pagination = userData?.pagination || {
         total: 0,
@@ -174,14 +179,17 @@ const UserDashboard = () => {
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold tracking-tight">Users Dashboard</h1>
-                <div className="flex items-center gap-2">
-                    {selectedUserIds.length > 0 && (
-                        <Button onClick={handleDeleteSelected}>
-                            Delete Selected ({selectedUserIds.length})
-                        </Button>
-                    )}
+                <div className="flex items-center gap-2 justify-center">
+                    <Button variant={'auth'}  onClick={handleAddAdmin}> Add Admin</Button>
+                      <div>  {selectedUserIds.length > 0 && (
+                            <Button onClick={handleDeleteSelected}>
+                                Delete Selected ({selectedUserIds.length})
+                            </Button>
+                        )}</div>
                 </div>
             </div>
+            <AddAdminDialog open={openAddDialog} onOpenChange={setOpenAddDialog} />
+
 
             <DataTable
                 columns={columns}

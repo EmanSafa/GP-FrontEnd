@@ -135,4 +135,23 @@
       opacity: 1;
     }
   }
+
+  .highlight-pulse {
+    animation: highlightPulse 2s cubic-bezier(0.4, 0, 0.6, 1);
+    position: relative;
+    z-index: 50;
+  }
+
+  @keyframes highlightPulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0px rgba(220, 38, 38, 0.7);
+      outline: 2px solid transparent;
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+      outline: 2px solid rgba(220, 38, 38, 0.8);
+      transform: scale(1.02);
+    }
+  }
 }

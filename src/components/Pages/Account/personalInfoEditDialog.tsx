@@ -19,6 +19,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/authApi";
 import { useUpdateUserProfile, useGetUserProfile } from "@/hooks/useAccount";
+import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
 
 
 const PersonalInfoEditDialog = () => {
@@ -148,18 +149,19 @@ const PersonalInfoEditDialog = () => {
                             <Label htmlFor="address">Address</Label>
                             <Input id="address" name="address" defaultValue={userData?.address || ''} />
                         </div>
+                        <BugHighlighter bugName="CSRF - Cross site request forgery" id="changePasswordBug"   >
 
-                        <Label htmlFor="pass">Password</Label>
-                        <div className="flex justify-between items-center gap-4">
-                            <Input id="pass" name="pass" defaultValue="**********"  disabled/>
-                            <Button
-                                variant={"auth"}
-                                type="button"
-                                onClick={() => setShowChangePass(!showChangePass)}
-                            >
-                                Change password
-                            </Button>
-                        </div>
+                            <div className="flex justify-between w-full items-center gap-4">
+                                <Label htmlFor="pass" className="text-lg">Password</Label>
+                                <Button
+                                    variant={"auth"}
+                                    type="button"
+                                    onClick={() => setShowChangePass(!showChangePass)}
+                                >
+                                    Change password
+                                </Button>
+                            </div>
+                        </BugHighlighter>
                         {/* Password */}
                         {showChangePass && (
                             <div className="w-full space-y-1">

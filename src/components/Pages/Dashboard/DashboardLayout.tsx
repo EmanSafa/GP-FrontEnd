@@ -1,3 +1,4 @@
+import { BugHighlighter } from "@/components/BugScanner/BugHighlighter"
 import {
     Sidebar,
     SidebarContent,
@@ -11,6 +12,7 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Link } from "@tanstack/react-router"
+
 
 // Menu items.
 const items = [
@@ -42,7 +44,11 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+
+
+
     return (
+
         <SidebarProvider>
             <Sidebar>
                 <SidebarContent>
@@ -67,7 +73,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <main className="w-full">
                 <SidebarTrigger />
                 <div className="p-4">
-                    {children}
+                    <BugHighlighter id="dashboardBug" className='w-full' bugName="Broken Access control">
+                        {children}
+                    </BugHighlighter>
                 </div>
             </main>
         </SidebarProvider>
