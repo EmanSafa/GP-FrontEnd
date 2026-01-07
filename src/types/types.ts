@@ -209,5 +209,11 @@ export interface BrandFormData {
   logo: string | File;
 }
 export interface OrderFormData {
-  status: 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'processing';
+  status: "pending" | "shipped" | "delivered" | "cancelled" | "processing";
+}
+export interface AddAdminFormData {
+  name: string;
+  email: string;
+  phone: string;
+  password?: string;
 }

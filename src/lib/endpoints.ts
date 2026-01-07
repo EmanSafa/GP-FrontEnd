@@ -67,6 +67,9 @@ export const endpoints = {
     session: "/test/session",
     ownership: (id: number) => `/test/ownership/${id}`,
   },
+  addAdmin : {
+     add:'admin/add'
+  },
   productsAdminApi: {
     create: "/products",
     update: (id: number) => `/products/${id}`,

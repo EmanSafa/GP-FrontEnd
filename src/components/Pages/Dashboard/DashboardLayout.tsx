@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Link } from "@tanstack/react-router"
 
+
 // Menu items.
 const items = [
     {
@@ -42,6 +43,8 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  
+
     return (
         <SidebarProvider>
             <Sidebar>

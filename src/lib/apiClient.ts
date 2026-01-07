@@ -1,4 +1,5 @@
 import type {
+  AddAdminFormData,
   AddCartItemData,
   BrandFormData,
   CategoryFormData,
@@ -262,3 +263,6 @@ export const UserAdminApi = {
   delete: (id: number) =>
     axiosInstance.delete(endpoints.userAdminApi.delete(id)),
 };
+export const AddAdmin = {
+  add :(data : AddAdminFormData) => axiosInstance.post(endpoints.addAdmin.add, data)
+}
