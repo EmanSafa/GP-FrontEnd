@@ -110,6 +110,17 @@ export const userApi = {
     axiosInstance.get(endpoints.user.profile(id), { withCredentials: true }),
   orders: (id: number) => axiosInstance.get(endpoints.user.orders(id)),
   reviews: (id: number) => axiosInstance.get(endpoints.user.reviews(id)),
+  addProfilePic: (id: number, photo: File) => {
+  const formData = new FormData();
+  formData.append("photo", photo); 
+  return axiosInstance.post(endpoints.user.addProfilePicture(id), formData, {
+    headers: { "Content-Type": "multipart/form-data" }, 
+  });
+},
+  getProfilePic: (id: number) =>
+    axiosInstance.get(endpoints.user.getProfilePicture(id)),
+  deleteProfilePic: (id: number) =>
+    axiosInstance.delete(endpoints.user.deleteProfilePicture(id)),
 };
 
 export const testApi = {
@@ -264,5 +275,6 @@ export const UserAdminApi = {
     axiosInstance.delete(endpoints.userAdminApi.delete(id)),
 };
 export const AddAdmin = {
-  add :(data : AddAdminFormData) => axiosInstance.post(endpoints.addAdmin.add, data)
-}
+  add: (data: AddAdminFormData) =>
+    axiosInstance.post(endpoints.addAdmin.add, data),
+};

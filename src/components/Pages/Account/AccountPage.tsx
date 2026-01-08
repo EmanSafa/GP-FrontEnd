@@ -3,16 +3,16 @@ import OrderHistory from "./OrderHistory";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
 import { useAuthStore } from "@/store/authStore";
-import { useGetUserProfile } from "@/hooks/useAccount";
+import { useGetUserProfile, useGetUserProfilePic } from "@/hooks/useAccount";
+import { ProfilePictureDialog } from "./ProfilePictureDialog";
 import PersonalInfoEditDialog from "./personalInfoEditDialog";
 import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
 
-
 const AccountPage = () => {
-
   const { user } = useAuthStore();
   const id = user ? Number(user.id) : 0;
-  const { data: userData } = useGetUserProfile(id, { enabled: !!user });
+  const { data: userData } = useGetUserProfile(id, { enabled: !!user && !!id });
+  const { data: userDataForPic } = useGetUserProfilePic(id);
 
   if (!userData) return <div>Loading...</div>;
 
@@ -22,16 +22,26 @@ const AccountPage = () => {
   const lastName = nameParts.slice(1).join(" ") || "";
 
   return (
-    <div className="mt-7 px-4 md:px-8 max-w-7xl mx-auto">
+    <div className="mt-9 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
       <div className="flex items-center gap-4 mb-8">
         <BugHighlighter id="profile-pic" bugName="RCE - Remote code execution">
-          <div className="relative">
-            <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
-            <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1">
-              <Pencil className="w-3 h-3 text-white" />
+          <ProfilePictureDialog currentImage={userDataForPic?.photo_url} userName={userData.name}>
+            <div className="relative cursor-pointer group">
+              {userDataForPic?.has_photo ? (
+                <img
+                  src={userDataForPic.photo_url}
+                  alt={userDataForPic.filename}
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-[#F8E8E8]"
+                />
+              ) : (
+                <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
+              )}
+              <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1 group-hover:bg-gray-500 transition-colors">
+                <Pencil className="w-3 h-3 text-white" />
+              </div>
             </div>
-          </div>
+          </ProfilePictureDialog>
         </BugHighlighter>
         <div>
           <h1 className="font-bold text-xl md:text-2xl">{userData.name}</h1>

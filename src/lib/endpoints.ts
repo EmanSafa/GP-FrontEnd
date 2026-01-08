@@ -56,6 +56,9 @@ export const endpoints = {
     profile: (id: number) => `/user/${id}`,
     orders: (id: number) => `/users/${id}/orders`,
     reviews: (id: number) => `/users/${id}/reviews`,
+    addProfilePicture: (id: number) => `users/${id}/photo`,
+    getProfilePicture: (id: number) => `users/${id}/photo`,
+    deleteProfilePicture: (id: number) => `users/${id}/photo`,
   },
   search: {
     query: `/products/search`,
@@ -67,8 +70,8 @@ export const endpoints = {
     session: "/test/session",
     ownership: (id: number) => `/test/ownership/${id}`,
   },
-  addAdmin : {
-     add:'admin/add'
+  addAdmin: {
+    add: "/admin/add",
   },
   productsAdminApi: {
     create: "/products",
@@ -89,13 +92,13 @@ export const endpoints = {
     delete: (id: number) => `/brands/${id}`,
   },
   orderAdminApi: {
-    list:'/usersorders',
+    list: "/usersorders",
     update: (id: number) => `/orders/${id}/status`,
   },
-  userAdminApi:{
-    list:'/users',
-    delete:(id:number) => `users/${id}`
-  }
+  userAdminApi: {
+    list: "/users",
+    delete: (id: number) => `users/${id}`,
+  },
 };
 
 export default endpoints;

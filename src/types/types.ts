@@ -89,6 +89,12 @@ export interface User {
   is_active: string;
   created_at: string;
 }
+export interface UserProfilePic {
+  photo_url: string;
+  filename: string;
+  success: boolean;
+  has_photo: boolean;
+}
 
 export interface UserProfileResponse {
   success: boolean;
