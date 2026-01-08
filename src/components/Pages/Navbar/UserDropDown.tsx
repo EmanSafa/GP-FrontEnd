@@ -46,11 +46,7 @@ const UserDropDown = () => {
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem>
-                Billing
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-              </DropdownMenuItem>
-
+           
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />

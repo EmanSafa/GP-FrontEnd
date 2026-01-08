@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Search, Menu, X, Heart } from "lucide-react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useLocation } from "@tanstack/react-router";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,6 +18,13 @@ import logo from './../../../assets/logo.png'
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useHighlightStore } from "@/store/highlightStore";
+import {
+  PROFILE_PIC_BUG,
+  USER_DATA_CORS_BUG,
+  CHANGE_PASSWORD_BUG,
+  DASHBOARD_BUG,
+  LOGIN_BUG
+} from "@/constants/bugs";
 
 
 // Reusable Navigation Links Component
@@ -147,37 +154,21 @@ const ActionIcons = ({
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const navigate = useNavigate();
+  const location = useLocation();
   const { triggerHighlight } = useHighlightStore();
 
-  const handleprofileScanBug = () => {
-    triggerHighlight('profile-pic', {
-      name: "RCE - Remote code execution",
-      description: "The profile picture component lacks proper image optimization and fallback handling, potentially causing layout shifts.",
-      originalCode: `<img src={user.image} alt="Profile" />`,
-      fixedCode: `<Image 
-  src={user.image} 
-  alt="Profile" 
-  width={80} 
-  height={80} 
-  className="rounded-full object-cover"
-  onError={(e) => e.currentTarget.src = fallbackImage}
-/>`
-    });
-    triggerHighlight('userdataCors', {
-      name: 'CORS - Cross-Origin Resource Sharing',
-      description: 'The user data component is not using proper CORS headers, potentially allowing cross-origin requests.',
-      originalCode: `<UserDropDown > <UserDropDown> `,
-      fixedCode: `<UserDropDown > <UserDropDown>`
-    })
-    triggerHighlight('changePasswordBug', {
-      name: 'CSRF => Cross site request forgery',
-      description: 'The change password component is not using proper CORS headers, potentially allowing cross-origin requests.',
-      originalCode: `<form onSubmit={handleSubmit} className="space-y-4">`,
-      fixedCode: `<form onSubmit={handleSubmit} className="space-y-4">`
-    })
+  // ...
 
-    navigate({ to: '/account' });
+  const handleScanBugs = () => {
+    if (location.pathname.includes('/account')) {
+      triggerHighlight(PROFILE_PIC_BUG.id, PROFILE_PIC_BUG.details);
+      triggerHighlight(USER_DATA_CORS_BUG.id, USER_DATA_CORS_BUG.details);
+      triggerHighlight(CHANGE_PASSWORD_BUG.id, CHANGE_PASSWORD_BUG.details);
+    } else if (location.pathname.includes('/dashboard')) {
+      triggerHighlight(DASHBOARD_BUG.id, DASHBOARD_BUG.details);
+    } else if (location.pathname.includes('/auth/login')) {
+      triggerHighlight(LOGIN_BUG.id, LOGIN_BUG.details);
+    }
   };
 
   useEffect(() => {
@@ -224,7 +215,7 @@ const Navbar = () => {
 
         {/* Right Side: Scan Bugs Button */}
         <div>
-          <Button variant={'default'} onClick={handleprofileScanBug}>
+          <Button variant={'default'} onClick={handleScanBugs}>
             Scan Bugs
           </Button>
         </div>

@@ -20,6 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/authStore";
 import { useHighlightStore } from "@/store/highlightStore";
 import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
+  import { LOGIN_BUG } from "@/constants/bugs";
 
 export function LoginForm({
   className,
@@ -46,22 +47,7 @@ export function LoginForm({
   const { triggerHighlight } = useHighlightStore();
 
   useEffect(() => {
-    triggerHighlight('LoginBug', {
-      name: "(SQLi) - SQL Injection ",
-      description: "The login form is vulnerable to SQL injection attacks.",
-      originalCode: `<form
-      className={cn("flex flex-col gap-6", className)}
-      {...props}
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-    >`,
-      fixedCode: `<form
-      className={cn("flex flex-col gap-6", className)}
-      {...props}
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-    >`,
-    });
+    triggerHighlight(LOGIN_BUG.id, LOGIN_BUG.details);
   }, []);
 
   const schema = z.object({
@@ -122,19 +108,19 @@ export function LoginForm({
 
       <FieldGroup>
         <BugHighlighter id="LoginBug" bugName="SQLI - SQL Injection">
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
-            Login to your account
-          </h1>
-          <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
-            Enter your email below to login to your account
-          </p>
-          {apiError && (
-            <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
-              {apiError}
-            </div>
-          )}
-        </div>
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
+              Login to your account
+            </h1>
+            <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
+              Enter your email below to login to your account
+            </p>
+            {apiError && (
+              <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                {apiError}
+              </div>
+            )}
+          </div>
         </BugHighlighter>
         <Field>
           <FieldLabel htmlFor="email" className="text-[#5D0505]">
