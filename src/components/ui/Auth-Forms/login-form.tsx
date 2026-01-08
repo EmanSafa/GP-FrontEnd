@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/authStore";
 import { useHighlightStore } from "@/store/highlightStore";
 import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
-  import { LOGIN_BUG } from "@/constants/bugs";
+import { LOGIN_BUG } from "@/constants/bugs";
 
 export function LoginForm({
   className,
@@ -107,7 +107,7 @@ export function LoginForm({
     >
 
       <FieldGroup>
-        <BugHighlighter id="LoginBug" bugName="SQLI - SQL Injection">
+        <BugHighlighter id={LOGIN_BUG.id} bugName="SQLI - SQL Injection">
           <div className="flex flex-col items-center gap-2 text-center">
             <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
               Login to your account
