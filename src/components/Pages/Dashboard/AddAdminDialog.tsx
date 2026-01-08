@@ -1,6 +1,4 @@
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import {
     Dialog,
@@ -10,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import {
     Field,
-    FieldError,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field";
