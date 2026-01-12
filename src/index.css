@@ -39,6 +39,14 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-plate-1: var(--plate-1);
+  --color-plate-2: var(--plate-2);
+  --color-plate-3: var(--plate-3);
+  --color-plate-4: var(--plate-4);
+  --color-plate-5: var(--plate-5);
+  --color-plate-6: var(--plate-6);
+  --color-plate-7: var(--plate-7);
+  --color-plate-8: var(--plate-8);
 }
 
 :root {
@@ -154,4 +162,79 @@
       transform: scale(1.02);
     }
   }
+}
+
+/* Color Plates & Theme Overrides */
+
+/* Red Palette */
+.red-box {
+  /* Plate 1-8 */
+  --plate-1: #f8e8e8;
+  --plate-2: #d95656;
+  --plate-3: #a34141;
+  --plate-4: #d50000;
+  --plate-5: #9d1616;
+  --plate-6: #9d1d1d;
+  --plate-7: #880909;
+  --plate-8: #5d0505;
+
+  /* Theme Overrides */
+  --primary: var(--plate-5);
+  --primary-foreground: #ffffff;
+  --ring: var(--plate-4);
+  --border: var(--plate-2);
+  --sidebar-primary: var(--plate-5);
+}
+
+/* Blue Palette */
+.blue-box {
+  /* Plate 1-8 */
+  --plate-1: #daf3ff;
+  --plate-2: #daf3ff; /* User repeated this color, keeping as requested */
+  --plate-3: #a2d5ff;
+  --plate-4: #00bbff;
+  --plate-5: #00a6ff;
+  --plate-6: #1a5aff;
+  --plate-7: #0022ff;
+  --plate-8: #000a4a;
+
+  /* Theme Overrides */
+  --primary: var(--plate-6); /* Using strong blue */
+  --primary-foreground: #ffffff;
+  --ring: var(--plate-5);
+  --border: var(--plate-3);
+  --sidebar-primary: var(--plate-6);
+}
+
+/* Green Palette */
+.green-box {
+  /* Plate 1-8 */
+  --plate-1: #caf595;
+  --plate-2: #a1f1c6;
+  --plate-3: #7bdbad;
+  --plate-4: #4bd498;
+  --plate-5: #4edc83;
+  --plate-6: #109d62;
+  --plate-7: #0e563e;
+  --plate-8: #084140;
+
+  /* Theme Overrides */
+  --primary: var(--plate-6); /* Using strong green */
+  --primary-foreground: #ffffff;
+  --ring: var(--plate-5);
+  --border: var(--plate-3);
+  --sidebar-primary: var(--plate-6);
+}
+
+/* Black Palette (Default/Base) - Explicit class if needed */
+.black-box {
+  /* Default oklch colors are used, but we map plate vars for consistency if used explicitly */
+  --plate-1: #ffffff;
+  --plate-2: #d9d9d9;
+  --plate-3: #949494;
+  --plate-4: #777777;
+  --plate-5: #5c5c5c;
+  --plate-6: #414141;
+  --plate-7: #2d2d2d;
+  --plate-8: #000000;
 }

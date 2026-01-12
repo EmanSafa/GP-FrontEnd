@@ -280,20 +280,20 @@ function StepperIndicator({ children, className }: React.ComponentProps<'div'>) 
       data-slot="stepper-indicator"
       data-state={state}
       className={cn(
-        'relative flex items-center overflow-hidden justify-center size-6 shrink-0 border-background bg-accent text-accent-foreground rounded-full text-xs  data-[state=completed]:text-primary-foreground data-[state=completed]:bg-[#5D0505] data-[state=active]:bg-[#5D0505] data-[state=active]:text-primary-foreground',
+        'relative flex items-center overflow-hidden justify-center size-6 shrink-0 border-background bg-accent text-accent-foreground rounded-full text-xs  data-[state=completed]:text-primary-foreground data-[state=completed]:bg-plate-8 data-[state=active]:bg-plate-8 data-[state=active]:text-primary-foreground',
         className,
       )}
     >
       <div className="absolute">
         {indicators &&
-        ((isLoading && indicators.loading) ||
-          (state === 'completed' && indicators.completed) ||
-          (state === 'active' && indicators.active) ||
-          (state === 'inactive' && indicators.inactive))
-          ? (isLoading && indicators.loading) ||
+          ((isLoading && indicators.loading) ||
             (state === 'completed' && indicators.completed) ||
             (state === 'active' && indicators.active) ||
-            (state === 'inactive' && indicators.inactive)
+            (state === 'inactive' && indicators.inactive))
+          ? (isLoading && indicators.loading) ||
+          (state === 'completed' && indicators.completed) ||
+          (state === 'active' && indicators.active) ||
+          (state === 'inactive' && indicators.inactive)
           : children}
       </div>
     </div>

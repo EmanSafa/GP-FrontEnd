@@ -47,7 +47,7 @@ const ForgetPasswordForm = () => {
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="userEmail" className="leading-5 text-[#5D0505]">
+          <FieldLabel htmlFor="userEmail" className="leading-5 text-plate-8">
             Email address*
           </FieldLabel>
           <Input
@@ -60,7 +60,7 @@ const ForgetPasswordForm = () => {
         </Field>
 
         <Button
-          className="w-full bg-[#5D0505] text-white hover:bg-[#5D0505]/90"
+          className="w-full bg-plate-8 text-white hover:bg-plate-8/90"
           type="submit"
           disabled={isSubmitting}
         >

@@ -17,14 +17,14 @@ import OrderDetailsDialog from "./OrderDetailsDialog";
 
 
 const getStatusStyles = (status: string) => {
-    switch (status.toLowerCase()) {
-        case 'pending': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100';
-        case 'processing': return 'bg-purple-100 text-purple-800 hover:bg-purple-100';
-        case 'shipped': return 'bg-blue-100 text-blue-800 hover:bg-blue-100';
-        case 'delivered': return 'bg-green-100 text-green-800 hover:bg-green-100';
-        case 'cancelled': return 'bg-red-100 text-red-800 hover:bg-red-100';
-        default: return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
-    }
+  switch (status.toLowerCase()) {
+    case 'pending': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100';
+    case 'processing': return 'bg-purple-100 text-purple-800 hover:bg-purple-100';
+    case 'shipped': return 'bg-blue-100 text-blue-800 hover:bg-blue-100';
+    case 'delivered': return 'bg-green-100 text-green-800 hover:bg-green-100';
+    case 'cancelled': return 'bg-red-100 text-red-800 hover:bg-red-100';
+    default: return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
+  }
 }
 
 const OrderHistory = () => {
@@ -68,7 +68,7 @@ const OrderHistory = () => {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Desktop Header */}
-        <div className="hidden lg:grid lg:grid-cols-6  bg-[#A34141] text-white font-medium text-sm border-b border-gray-100">
+        <div className="hidden lg:grid lg:grid-cols-6  bg-plate-3 text-white font-medium text-sm border-b border-gray-100">
           <div className="p-4">Order Number</div>
           <div className="p-4">Date</div>
           <div className="p-4">Status</div>
@@ -97,7 +97,7 @@ const OrderHistory = () => {
                     </span>
                   </div>
                   <div className="flex flex-col items-end gap-2">
-                    <span className="font-bold text-sm text-[#C71B1B]">{Number(order.total).toLocaleString()} EGP</span>
+                    <span className="font-bold text-sm text-plate-4">{Number(order.total).toLocaleString()} EGP</span>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -128,7 +128,7 @@ const OrderHistory = () => {
               {/* Desktop Layout */}
               <div className="hidden lg:grid lg:grid-cols-6 items-center">
                 <div className="p-4">
-                  <span className="text-gray-900 font-medium group-hover:text-[#C71B1B] transition-colors">
+                  <span className="text-gray-900 font-medium group-hover:text-plate-4 transition-colors">
                     {order.order_number}
                   </span>
                 </div>
@@ -155,7 +155,7 @@ const OrderHistory = () => {
                     className="text-red-500 hover:text-red-700 hover:bg-red-50"
                     onClick={(e) => handleDeleteClick(e, Number(order.id))}
                   >
-                    <Trash2 className="h-4 w-4 text-[#5D0505]" />
+                    <Trash2 className="h-4 w-4 text-plate-8" />
                   </Button>
                 </div>
               </div>

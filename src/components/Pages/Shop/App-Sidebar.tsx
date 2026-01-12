@@ -45,9 +45,9 @@ const AppSidebar = () => {
   return (
     <Sidebar className="top-14 h-[calc(100svh-3.5rem)]! border-r border-gray-100 bg-white" >
       <SidebarContent className="bg-white">
-        <SidebarGroup className="bg-[#F8E8E8] p-5">
-          <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">
-            <span className="bg-[#9D1D1D] h-6 w-1 mr-3"></span> Categories
+        <SidebarGroup className="bg-plate-1 p-5">
+          <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-plate-7">
+            <span className="bg-plate-6 h-6 w-1 mr-3"></span> Categories
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -73,10 +73,10 @@ const AppSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        
-        <SidebarGroup className="bg-[#F8E8E8] p-5  ">
-          <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-[#2D2D2D]">
-            <span className="bg-[#9D1D1D] h-6 w-1 mr-3"></span> Filter
+
+        <SidebarGroup className="bg-plate-1 p-5">
+          <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-plate-7">
+            <span className="bg-plate-6 h-6 w-1 mr-3"></span> Filter
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-4">
@@ -111,7 +111,7 @@ const AppSidebar = () => {
                 <Collapsible defaultOpen className="group/collapsible">
                   <SidebarGroup className="p-0">
                     <SidebarGroupLabel asChild className="p-0 hover:bg-transparent">
-                      <CollapsibleTrigger className="text-normal text-[16px] flex w-full items-center justify-between p-2 hover:bg-white/50 rounded-md cursor-pointer text-[#2D2D2D]">
+                      <CollapsibleTrigger className="text-normal text-[16px] flex w-full items-center justify-between p-2 hover:bg-white/50 rounded-md cursor-pointer text-plate-7">
                         Brands
                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
                       </CollapsibleTrigger>
@@ -121,7 +121,7 @@ const AppSidebar = () => {
                         <div className="flex items-center gap-2">
                           <Checkbox
                             id="brand-all"
-                            className="border-gray-500 data-[state=checked]:bg-[#9D1D1D] data-[state=checked]:border-[#9D1D1D]"
+                            className="border-gray-500 data-[state=checked]:bg-plate-6 data-[state=checked]:border-plate-6"
                             checked={!search.brandId}
                             onCheckedChange={(checked) => {
                               if (checked) {
@@ -135,7 +135,7 @@ const AppSidebar = () => {
                           <div key={brand.id} className="flex items-center gap-2">
                             <Checkbox
                               id={brand.id.toString()}
-                              className="border-gray-500 data-[state=checked]:bg-[#9D1D1D] data-[state=checked]:border-[#9D1D1D]"
+                              className="border-gray-500 data-[state=checked]:bg-plate-6 data-[state=checked]:border-plate-6"
                               checked={Number(search.brandId) === brand.id}
                               onCheckedChange={(checked) => {
                                 updateFilter('brandId', checked ? brand.id : undefined);
@@ -159,7 +159,7 @@ const AppSidebar = () => {
                 <Collapsible defaultOpen className="group/collapsible">
                   <SidebarGroup className="p-0">
                     <SidebarGroupLabel asChild className="p-0 hover:bg-transparent">
-                      <CollapsibleTrigger className="text-normal text-[16px] flex w-full items-center justify-between p-2 hover:bg-white/50 rounded-md cursor-pointer text-[#2D2D2D]">
+                      <CollapsibleTrigger className="text-normal text-[16px] flex w-full items-center justify-between p-2 hover:bg-white/50 rounded-md cursor-pointer text-plate-7">
                         Price
                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
                       </CollapsibleTrigger>
@@ -177,7 +177,7 @@ const AppSidebar = () => {
                           <div key={index} className="flex items-center space-x-2">
                             <Checkbox
                               id={`price-${index}`}
-                              className="border-gray-500 rounded-full data-[state=checked]:bg-[#9D1D1D] data-[state=checked]:border-[#9D1D1D]"
+                              className="border-gray-500 rounded-full data-[state=checked]:bg-plate-6 data-[state=checked]:border-plate-6"
                               checked={
                                 (search.minPrice === range.value[0] && search.maxPrice === range.value[1]) ||
                                 (!search.minPrice && !search.maxPrice && index === 0)
@@ -206,8 +206,8 @@ const AppSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+      </SidebarContent >
+    </Sidebar >
   );
 };
 export default AppSidebar;

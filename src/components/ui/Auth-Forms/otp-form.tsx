@@ -52,7 +52,7 @@ export function OTPForm({ ...props }: React.ComponentProps<typeof Card>) {
                 Didn&apos;t receive the code?{" "}
                 <a
                   href="#"
-                  className="ml-auto font-medium text-sm text-[#5D0505] underline-offset-4 hover:underline hover:text-[#5D0505]/90]"
+                  className="ml-auto font-medium text-sm text-plate-8 underline-offset-4 hover:underline hover:text-plate-8/90]"
                 >
                   Resend
                 </a>

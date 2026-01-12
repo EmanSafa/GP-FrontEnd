@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, Menu, X, Heart } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -12,6 +12,7 @@ import {
 import CustomSelect from "../../ui/custom-select";
 import { navbarStyles, navigationConfig } from "../../ui/navbar-styles";
 import UserDropDown from "./UserDropDown";
+import { useThemeStore } from "@/store/themeStore";
 import Cart from "../Cart/Cart";
 import { useGetAllCategories } from "@/hooks/useCategories";
 import logo from './../../../assets/logo.png'
@@ -143,7 +144,7 @@ const ActionIcons = ({
   return (
     <div className={style.container}>
       <div className={style.iconWrapper}>
-        <Heart className="cursor-pointer hover:text-gray-600 transition-colors" size={style.iconSize} />
+        {/* <Heart className="cursor-pointer hover:text-gray-600 transition-colors" size={style.iconSize} /> */}
         <Cart />
         <UserDropDown />
       </div>
@@ -180,9 +181,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLevelChange = (value: string) => {
-    console.log("Selected level:", value);
-  };
+
 
   const handleMobileLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -190,7 +189,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`${navbarStyles.layout.main} transition-all duration-300 ${isScrolled ? "bg-[#F8E8E8]/95 backdrop-blur shadow-md py-0" : "bg-white"}`}
+      className={`${navbarStyles.layout.main} transition-all duration-300 ${isScrolled ? "bg-plate-1/95 backdrop-blur shadow-md py-0" : "bg-white"}`}
     >
       {/* Top Bar - Same across all devices */}
       <div className={`${navbarStyles.layout.topBar} ${isScrolled ? "h-0 py-0 overflow-hidden opacity-0" : "h-[3.6rem] opacity-100"} transition-all duration-300`}>
@@ -200,8 +199,8 @@ const Navbar = () => {
           <div className={navbarStyles.topBar.selectContainer}>
             <CustomSelect
               options={navigationConfig.levelOptions}
-              defaultValue="level-one"
-              onValueChange={handleLevelChange}
+              value={useThemeStore((state) => state.currentLevel)}
+              onValueChange={(value) => useThemeStore.getState().setLevel(value)}
             />
           </div>
           {/* Mobile: Show menu button instead of select */}

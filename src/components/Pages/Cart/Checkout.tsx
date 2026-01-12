@@ -137,16 +137,16 @@ const Checkout = () => {
             {[1, 2, 3].map((stepNumber) => (
               <div key={stepNumber} className="flex items-center">
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-1 border-[#5D0505]  text-sm font-medium transition-colors ${stepNumber <= step
-                    ? "bg-[#5D0505] text-white"
-                    : "bg-muted text-[#5D0505]"
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border-1 border-plate-8  text-sm font-medium transition-colors ${stepNumber <= step
+                    ? "bg-plate-8 text-white"
+                    : "bg-muted text-plate-8"
                     }`}
                 >
                   {stepNumber}
                 </div>
                 {stepNumber < 3 && (
                   <div
-                    className={`mx-4  h-1 w-16 rounded transition-colors ${stepNumber < step ? "bg-[#5D0505] " : "bg-muted"
+                    className={`mx-4  h-1 w-16 rounded transition-colors ${stepNumber < step ? "bg-plate-8 " : "bg-muted"
                       }`}
                   />
                 )}

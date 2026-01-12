@@ -1,4 +1,4 @@
-import {  Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -31,10 +31,10 @@ const ProductCard = ({
       }}
       className={`w-full max-w-xs bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-3 hover:shadow-2xl duration-300 fade-up flex-wrap ${className}`}
     >
-      <div className="relative bg-gradient-to-b from-white to-gray-100 p-4 flex items-center justify-center">
+      <div className="relative bg-gradient-to-b from-white to-plate-1 p-4 flex items-center justify-center">
         <img src={imgSrc} alt={title} className="w-36 h-36 object-contain" />
         {discount ? (
-          <span className="absolute top-3 right-3 text-white text-xs px-2 py-0.5 rounded-md bg-[#D50000] font-medium">
+          <span className="absolute top-3 right-3 text-white text-xs px-2 py-0.5 rounded-md bg-plate-7 font-medium">
             -{discount}%
           </span>
         ) : null}
@@ -45,7 +45,7 @@ const ProductCard = ({
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1">
             {Array.from({ length: rating }).map((_, i) => (
-              <FaStar key={i} className="text-[#880909] w-3 h-3" />
+              <FaStar key={i} className="text-plate-8 w-3 h-3" />
             ))}
           </div>
         </div>
@@ -59,15 +59,15 @@ const ProductCard = ({
                 {oldPrice}
               </span>
             ) : null}
-            <span className="text-[#D50000] font-semibold">{price}</span>
+            <span className="text-plate-7 font-semibold">{price}</span>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               aria-label="add"
-              className="p-1 rounded-md bg-[#FFEAEA] hover:bg-[#ffdcdc]"
+              className="p-1 rounded-md bg-plate-1 hover:bg-plate-2"
             >
-              <Plus className="text-[#880909]" />
+              <Plus className="text-plate-8" />
             </button>
           </div>
         </div>

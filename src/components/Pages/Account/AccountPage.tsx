@@ -32,10 +32,10 @@ const AccountPage = () => {
                 <img
                   src={userDataForPic.photo_url}
                   alt={userDataForPic.filename}
-                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-[#F8E8E8]"
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-plate-1"
                 />
               ) : (
-                <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-[#F8E8E8] text-[#3D3D3D] rounded-full p-3" />
+                <UserRound className="w-16 h-16 md:w-20 md:h-20 bg-plate-1 text-plate-7 rounded-full p-3" />
               )}
               <div className="absolute bottom-0 right-0 bg-gray-400 rounded-full p-1 group-hover:bg-gray-500 transition-colors">
                 <Pencil className="w-3 h-3 text-white" />
@@ -45,7 +45,7 @@ const AccountPage = () => {
         </BugHighlighter>
         <div>
           <h1 className="font-bold text-xl md:text-2xl">{userData.name}</h1>
-          <h3 className="font-normal text-[#3D3D3D] text-sm md:text-base">
+          <h3 className="font-normal text-plate-7 text-sm md:text-base">
             {userData.email}
           </h3>
           {userData.role && (

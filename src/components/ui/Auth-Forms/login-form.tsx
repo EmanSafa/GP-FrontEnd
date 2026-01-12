@@ -9,7 +9,6 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import GoogleIcon from "../icons/googleIcon";
 import { Link, useNavigate } from "@tanstack/react-router";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -109,7 +108,7 @@ export function LoginForm({
       <FieldGroup>
         <BugHighlighter id={LOGIN_BUG.id} bugName="SQLI - SQL Injection">
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-3xl whitespace-nowrap font-bold text-[#5D0505] 3xl:text-4xl">
+            <h1 className="text-3xl whitespace-nowrap font-bold text-plate-8 3xl:text-4xl">
               Login to your account
             </h1>
             <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
@@ -123,7 +122,7 @@ export function LoginForm({
           </div>
         </BugHighlighter>
         <Field>
-          <FieldLabel htmlFor="email" className="text-[#5D0505]">
+          <FieldLabel htmlFor="email" className="text-plate-8">
             Email
           </FieldLabel>
           <Input
@@ -131,7 +130,7 @@ export function LoginForm({
             type="email"
             placeholder="m@example.com"
             className={cn(
-              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
               errors.email && "border-red-500 focus:ring-red-300"
             )}
             {...register("email")}
@@ -140,12 +139,12 @@ export function LoginForm({
         </Field>
         <Field>
           <div className="flex items-center">
-            <FieldLabel htmlFor="password" className="text-[#5D0505]">
+            <FieldLabel htmlFor="password" className="text-plate-8">
               Password
             </FieldLabel>
             <Link
               to="/auth/forgetPassword"
-              className="ml-auto font-medium text-sm text-[#5D0505] underline-offset-4 hover:underline"
+              className="ml-auto font-medium text-sm text-plate-8 underline-offset-4 hover:underline"
             >
               Forgot your password?
             </Link>
@@ -156,7 +155,7 @@ export function LoginForm({
             isPassword
             {...register("password")}
             className={cn(
-              "border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]/20",
+              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
               errors.password && "border-red-500 focus:ring-red-300"
             )}
           />
@@ -165,21 +164,21 @@ export function LoginForm({
           )} */}
         </Field>
         <Field>
-          <Button type="submit" variant={"auth"} disabled={isPending}>
+          <Button type="submit" variant={"default"} disabled={isPending}>
             {isPending ? "Logging in..." : "Login"}
           </Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>
-          <Button
+          {/* <Button
             variant="outline"
             type="button"
-            className="text-[#5D0505]  hover:text-[#5D0505]/90 hover:border-[#5D0505] transition-all duration-200 "
+            className="text-plate-8  hover:text-plate-8/90 hover:border-plate-8 transition-all duration-200 "
           >
-            <GoogleIcon className="text-[#5D0505]" />
+            <GoogleIcon className="text-plate-8" />
             Login with Google
-          </Button>
-          <FieldDescription className="text-center text-[#5D0505] hover:text-[#5D0505]/90">
+          </Button> */}
+          <FieldDescription className="text-center text-plate-8 hover:text-plate-8/90">
             Don&apos;t have an account?{" "}
             <Link
               to="/auth/signup"

@@ -43,7 +43,7 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col p-0 gap-0">
                 <DialogHeader className="p-6 pb-2">
-                    <DialogTitle className="text-2xl font-bold flex items-center gap-2 text-[#5D0505]">
+                    <DialogTitle className="text-2xl font-bold flex items-center gap-2 text-plate-8">
                         Order Details <span className="text-muted-foreground text-lg font-normal">#{order?.order_number}</span>
                     </DialogTitle>
                     <DialogDescription>
@@ -84,7 +84,7 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
 
                             {/* Items Section */}
                             <div className="space-y-3">
-                                <h3 className="font-semibold flex items-center gap-2 text-[#5D0505]">
+                                <h3 className="font-semibold flex items-center gap-2 text-plate-8">
                                     <Package className="h-4 w-4" /> Order Items
                                 </h3>
                                 <div className="border rounded-lg divide-y">
@@ -116,7 +116,7 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
                             <div className="grid md:grid-cols-2 gap-6">
                                 {/* Shipping Info */}
                                 <div className="space-y-3">
-                                    <h3 className="font-semibold flex items-center gap-2 text-[#5D0505]">
+                                    <h3 className="font-semibold flex items-center gap-2 text-plate-8">
                                         <Truck className="h-4 w-4" /> Shipping Information
                                     </h3>
                                     <div className="bg-muted/30 p-4 rounded-lg border text-sm space-y-2">
@@ -132,7 +132,7 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
 
                                 {/* Payment Info */}
                                 <div className="space-y-3">
-                                    <h3 className="font-semibold flex items-center gap-2 text-[#5D0505]">
+                                    <h3 className="font-semibold flex items-center gap-2 text-plate-8">
                                         <CreditCard className="h-4 w-4" /> Payment Details
                                     </h3>
                                     <div className="bg-muted/30 p-4 rounded-lg border text-sm space-y-2">
@@ -141,7 +141,7 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
                                             <span className="font-medium capitalize">{order.payment_method.replace('_', ' ')}</span>
                                         </div>
                                         <Separator className="my-2" />
-                                        <div className="flex justify-between text-lg font-bold text-[#5D0505]">
+                                        <div className="flex justify-between text-lg font-bold text-plate-8">
                                             <span>Total</span>
                                             <span>${Number(order.total).toFixed(2)}</span>
                                         </div>

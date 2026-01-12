@@ -165,7 +165,7 @@ const PersonalInfoEditDialog = () => {
                         {/* Password */}
                         {showChangePass && (
                             <div className="w-full space-y-1">
-                                <Label className="leading-5 text-[#5D0505]" htmlFor="password">
+                                <Label className="leading-5 text-plate-8" htmlFor="password">
                                     New Password*
                                 </Label>
                                 <div className="relative">
@@ -183,7 +183,7 @@ const PersonalInfoEditDialog = () => {
                                         onClick={() =>
                                             setIsPasswordVisible((prevState) => !prevState)
                                         }
-                                        className="text-[#5D0505] hover:text-[#5D0505]/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+                                        className="text-plate-8 hover:text-plate-8/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
                                     >
                                         {isPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
                                         <span className="sr-only">
@@ -199,7 +199,7 @@ const PersonalInfoEditDialog = () => {
                         {showChangePass && (
                             <div className="w-full space-y-1 ">
                                 <Label
-                                    className="leading-5 text-[#5D0505]"
+                                    className="leading-5 text-plate-8"
                                     htmlFor="confirmPassword"
                                 >
                                     Confirm Password*
@@ -219,7 +219,7 @@ const PersonalInfoEditDialog = () => {
                                         onClick={() =>
                                             setIsConfirmPasswordVisible((prevState) => !prevState)
                                         }
-                                        className="text-[#5D0505] hover:text-[#5D0505]/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+                                        className="text-plate-8 hover:text-plate-8/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
                                     >
                                         {isConfirmPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
                                         <span className="sr-only">

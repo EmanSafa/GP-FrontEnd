@@ -50,7 +50,7 @@ const ContactPage = () => {
         </div>
 
         {/* Right Column: Form */}
-        <div className="bg-[#FDF2F2] border border-pink-100 rounded-2xl p-6 md:p-8 shadow-sm">
+        <div className="bg-plate-1 border border-plate-1 rounded-2xl p-6 md:p-8 shadow-sm">
           <form className="space-y-6">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium text-gray-700 ml-1">
@@ -59,7 +59,7 @@ const ContactPage = () => {
               <Input
                 id="name"
                 placeholder="Enter your name"
-                className="bg-white border-pink-100 focus-visible:ring-pink-200 h-10 md:h-11"
+                className="bg-white border-plate-1 focus-visible:ring-plate-2 h-10 md:h-11"
               />
             </div>
 
@@ -71,7 +71,7 @@ const ContactPage = () => {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                className="bg-white border-pink-100 focus-visible:ring-pink-200 h-10 md:h-11"
+                className="bg-white border-plate-1 focus-visible:ring-plate-2 h-10 md:h-11"
               />
             </div>
 
@@ -83,7 +83,7 @@ const ContactPage = () => {
                 id="phone"
                 type="tel"
                 placeholder="Enter your phone"
-                className="bg-white border-pink-100 focus-visible:ring-pink-200 h-10 md:h-11"
+                className="bg-white border-plate-1 focus-visible:ring-plate-2 h-10 md:h-11"
               />
             </div>
 
@@ -94,13 +94,13 @@ const ContactPage = () => {
               <Textarea
                 id="message"
                 placeholder="Type something if you want"
-                className="bg-white border-pink-100 focus-visible:ring-pink-200 min-h-[120px] resize-none"
+                className="bg-white border-plate-1 focus-visible:ring-plate-2 min-h-[120px] resize-none"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-[#500000] hover:bg-[#3a0000] text-white rounded-full h-11 md:h-12 text-base font-medium shadow-md transition-all hover:scale-[1.01]"
+              className="w-full bg-plate-8 hover:bg-plate-7 text-white rounded-full h-11 md:h-12 text-base font-medium shadow-md transition-all hover:scale-[1.01]"
             >
               Send Message
             </Button>
