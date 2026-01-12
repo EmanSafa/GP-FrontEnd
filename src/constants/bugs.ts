@@ -5,14 +5,7 @@ export const PROFILE_PIC_BUG = {
     description:
       "The profile picture component lacks proper image optimization and fallback handling, potentially causing layout shifts.",
     originalCode: `<img src={user.image} alt="Profile" />`,
-    fixedCode: `<Image 
-  src={user.image} 
-  alt="Profile" 
-  width={80} 
-  height={80} 
-  className="rounded-full object-cover"
-  onError={(e) => e.currentTarget.src = fallbackImage}
-/>`,
+    fixedCode: ``,
   },
 };
 
@@ -23,7 +16,18 @@ export const USER_DATA_CORS_BUG = {
     description:
       "The user data component is not using proper CORS headers, potentially allowing cross-origin requests.",
     originalCode: `<UserDropDown > <UserDropDown> `,
-    fixedCode: `<UserDropDown > <UserDropDown>`,
+    fixedCode: ``,
+  },
+};
+
+export const PERSONAL_INFO_CSRF_BUG = {
+  id: "personalInfoCsrf",
+  details: {
+    name: "CSRF - Cross-Site Request Forgery",
+    description:
+      "The personal info update form lacks anti-CSRF tokens, allowing attackers to modify data on behalf of the user.",
+    originalCode: `<form method="POST" action="/update-info">`,
+    fixedCode: ``,
   },
 };
 
@@ -34,7 +38,7 @@ export const CHANGE_PASSWORD_BUG = {
     description:
       "The change password component is not using proper CORS headers, potentially allowing cross-origin requests.",
     originalCode: `<form onSubmit={handleSubmit} className="space-y-4">`,
-    fixedCode: `<form onSubmit={handleSubmit} className="space-y-4">`,
+    fixedCode: ``,
   },
 };
 
@@ -71,34 +75,7 @@ export const DASHBOARD_BUG = {
                 </div>
             </main>
         </SidebarProvider>`,
-    fixedCode: `<SidebarProvider>
-            <Sidebar>
-                <SidebarContent>
-                    <SidebarGroup>
-                        <SidebarGroupLabel>Application</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu className="mt-10">
-                                {items.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
-                                            <Link to={item.url}>
-                                                <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                ))}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                </SidebarContent>
-            </Sidebar>
-            <main className="w-full">
-                <SidebarTrigger />
-                <div className="p-4">
-                    {children}
-                </div>
-            </main>
-        </SidebarProvider>`,
+    fixedCode: ``,
   },
 };
 
@@ -113,11 +90,6 @@ export const LOGIN_BUG = {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >`,
-    fixedCode: `<form
-      className={cn("flex flex-col gap-6", className)}
-      {...props}
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-    >`,
+    fixedCode: ``,
   },
 };

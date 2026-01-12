@@ -1,4 +1,5 @@
 import { UserRound, Pencil } from "lucide-react";
+import { USER_DATA_CORS_BUG, PERSONAL_INFO_CSRF_BUG } from "@/constants/bugs";
 import OrderHistory from "./OrderHistory";
 import InfoSection from "./InfoSection";
 import InfoField from "./InfoField";
@@ -57,7 +58,7 @@ const AccountPage = () => {
       </div>
 
       {/* Information Sections */}
-      <BugHighlighter id="userdataCors" className="w-full" bugName="CORS - Cross-Origin Resource Sharing">
+      <BugHighlighter id="userdataCors" ids={[USER_DATA_CORS_BUG.id, PERSONAL_INFO_CSRF_BUG.id]} className="w-full" bugName="Security Vulnerabilities">
         <div className="w-full">
           {/* Personal Information */}
           <InfoSection title="Personal Information" editDialog={<PersonalInfoEditDialog />}>
