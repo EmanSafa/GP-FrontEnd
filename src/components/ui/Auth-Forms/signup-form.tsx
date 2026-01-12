@@ -38,54 +38,62 @@ export function SignupForm({
     },
   });
 
-  const schema = z
-    .object({
-      name: z
-        .string()
-        .min(2, { message: "Full Name is too short" })
-        .max(100, { message: "Full Name is too long" })
-        .nonempty({ message: "Full name is required" }),
+  // const schema = z
+  //   .object({
+  //     name: z
+  //       .string()
+  //       .min(2, { message: "Full Name is too short" })
+  //       .max(100, { message: "Full Name is too long" })
+  //       .nonempty({ message: "Full name is required" }),
+  //
+  //     email: z
+  //       .string()
+  //       .trim()
+  //       .nonempty({ message: "Email is required" })
+  //       .min(5, { message: "Email is too short" })
+  //       .max(50, { message: "Email is too long" })
+  //       .regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
+  //         message: "Please enter a valid email address",
+  //       }),
+  //
+  //     phone: z
+  //       .string()
+  //       .trim()
+  //       .optional(),
+  //
+  //
+  //     password: z
+  //       .string()
+  //       .trim()
+  //       .nonempty({ message: "Password is required" })
+  //       .min(8, { message: "Password must be at least 8 characters long" })
+  //       .max(50, { message: "Password must not exceed 50 characters" })
+  //       .regex(/[A-Z]/, { message: "At least one uppercase letter required" })
+  //       .regex(/[a-z]/, { message: "At least one lowercase letter required" })
+  //       .regex(/[0-9]/, { message: "At least one number required" })
+  //       .regex(/[^A-Za-z0-9]/, {
+  //         message: "At least one special character required",
+  //       })
+  //       .refine((val) => !val.includes("password"), {
+  //         message: "Password should not contain the word 'password'",
+  //       }),
+  //     confirmPassword: z
+  //       .string()
+  //       .trim()
+  //       .nonempty({ message: "Please confirm your password" }),
+  //   })
+  //   .refine((data) => data.password === data.confirmPassword, {
+  //     path: ["confirmPassword"],
+  //     message: "Passwords do not match",
+  //   });
 
-      email: z
-        .string()
-        .trim()
-        .nonempty({ message: "Email is required" })
-        .min(5, { message: "Email is too short" })
-        .max(50, { message: "Email is too long" })
-        .regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
-          message: "Please enter a valid email address",
-        }),
-
-      phone: z
-        .string()
-        .trim()
-        .optional(),
-
-
-      password: z
-        .string()
-        .trim()
-        .nonempty({ message: "Password is required" })
-        .min(8, { message: "Password must be at least 8 characters long" })
-        .max(50, { message: "Password must not exceed 50 characters" })
-        .regex(/[A-Z]/, { message: "At least one uppercase letter required" })
-        .regex(/[a-z]/, { message: "At least one lowercase letter required" })
-        .regex(/[0-9]/, { message: "At least one number required" })
-        .regex(/[^A-Za-z0-9]/, {
-          message: "At least one special character required",
-        })
-        .refine((val) => !val.includes("password"), {
-          message: "Password should not contain the word 'password'",
-        }),
-      confirmPassword: z
-        .string()
-        .trim()
-        .nonempty({ message: "Please confirm your password" }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      path: ["confirmPassword"],
-      message: "Passwords do not match",
-    });
+  const schema = z.object({
+    name: z.string(),
+    email: z.string(),
+    phone: z.string().optional(),
+    password: z.string(),
+    confirmPassword: z.string(),
+  });
 
   type SignupFormData = z.infer<typeof schema>;
 
