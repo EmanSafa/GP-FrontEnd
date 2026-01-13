@@ -24,7 +24,8 @@ import {
   USER_DATA_CORS_BUG,
   CHANGE_PASSWORD_BUG,
   DASHBOARD_BUG,
-  LOGIN_BUG
+  LOGIN_BUG,
+  PERSONAL_INFO_CSRF_BUG
 } from "@/constants/bugs";
 
 
@@ -164,6 +165,7 @@ const Navbar = () => {
     if (location.pathname.includes('/account')) {
       triggerHighlight(PROFILE_PIC_BUG.id, PROFILE_PIC_BUG.details);
       triggerHighlight(USER_DATA_CORS_BUG.id, USER_DATA_CORS_BUG.details);
+      triggerHighlight(PERSONAL_INFO_CSRF_BUG.id, PERSONAL_INFO_CSRF_BUG.details);
       triggerHighlight(CHANGE_PASSWORD_BUG.id, CHANGE_PASSWORD_BUG.details);
     } else if (location.pathname.includes('/dashboard')) {
       triggerHighlight(DASHBOARD_BUG.id, DASHBOARD_BUG.details);
