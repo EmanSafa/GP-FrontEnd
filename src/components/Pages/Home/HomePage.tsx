@@ -94,7 +94,7 @@ const HomePage = () => {
                         SALE UP TO 40%
                       </span>
                       <Link to="/shop">
-                        <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-plate-8 text-white hover:bg-plate-7 transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                        <Button variant={'default'} className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer   hover:bg-plate-7 transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                           Shop Now
                         </Button>
                       </Link>
