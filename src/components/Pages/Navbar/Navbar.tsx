@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, Menu, X, Heart } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "@tanstack/react-router";
 import {
   NavigationMenu,

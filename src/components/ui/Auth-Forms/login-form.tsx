@@ -9,7 +9,6 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import GoogleIcon from "../icons/googleIcon";
 import { Link, useNavigate } from "@tanstack/react-router";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
