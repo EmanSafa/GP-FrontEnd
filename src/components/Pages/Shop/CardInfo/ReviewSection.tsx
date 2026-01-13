@@ -46,7 +46,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 
     return (
         <div className="w-full mt-10 p-6 bg-white rounded-lg m-20 max-w-[85%] mx-auto shadow-lg">
-            <h3 className="text-2xl font-bold text-[#5D0505] mb-6">Write a Review</h3>
+            <h3 className="text-2xl font-bold text-plate-8 mb-6">Write a Review</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Rating */}
                 <div className="flex flex-col gap-2">
@@ -65,7 +65,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
                                     />
                                     <FaStar
                                         className="cursor-pointer transition-colors duration-200"
-                                        color={ratingValue <= (hover || rating) ? "#5D0505" : "#e4e5e9"}
+                                        color={ratingValue <= (hover || rating) ? "var(--plate-8)" : "#e4e5e9"}
                                         size={30}
                                         onMouseEnter={() => setHover(ratingValue)}
                                         onMouseLeave={() => setHover(0)}
@@ -86,7 +86,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
                         placeholder="Short description of your experience"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="border-gray-300 focus:border-[#5D0505] focus:ring-[#5D0505]"
+                        className="border-gray-300 focus:border-plate-8 focus:ring-plate-8"
                     />
                 </div>
 
@@ -101,14 +101,14 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
                         placeholder="Tell us more about what you liked or disliked"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5D0505] focus:border-transparent resize-none text-sm"
+                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-plate-8 focus:border-transparent resize-none text-sm"
                     />
                 </div>
 
                 <Button
                     type="submit"
                     disabled={isPending}
-                    className="w-full md:w-auto bg-[#5D0505] hover:bg-[#4a0404] text-white px-8 py-2"
+                    className="w-full md:w-auto bg-plate-8 hover:bg-plate-7 text-white px-8 py-2"
                 >
                     {isPending ? "Submitting..." : "Submit Review"}
                 </Button>

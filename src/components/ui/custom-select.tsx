@@ -9,6 +9,7 @@ export interface SelectOption {
 interface CustomSelectProps {
   options: SelectOption[];
   defaultValue?: string;
+  value?: string;
   placeholder?: string;
   className?: string;
   buttonClassName?: string;
@@ -20,6 +21,7 @@ interface CustomSelectProps {
 const CustomSelect = ({
   options,
   defaultValue,
+  value,
   placeholder = "Select an option",
   className = "",
   buttonClassName = "",
@@ -28,18 +30,19 @@ const CustomSelect = ({
   onValueChange,
 }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(() => {
-    if (defaultValue) {
-      const defaultOption = options.find(
-        (option) => option.value === defaultValue
-      );
-      return defaultOption ? defaultOption.label : placeholder;
-    }
-    return placeholder;
-  });
+  const [internalValue, setInternalValue] = React.useState(defaultValue || "");
+
+  const activeValue = value !== undefined ? value : internalValue;
+
+  const selectedLabel = React.useMemo(() => {
+    const option = options.find((opt) => opt.value === activeValue);
+    return option ? option.label : placeholder;
+  }, [activeValue, options, placeholder]);
 
   const handleSelect = (option: SelectOption) => {
-    setSelectedValue(option.label);
+    if (value === undefined) {
+      setInternalValue(option.value);
+    }
     setIsOpen(false);
     if (onValueChange) {
       onValueChange(option.value);
@@ -53,7 +56,7 @@ const CustomSelect = ({
         onClick={() => setIsOpen(!isOpen)}
         className={`bg-white border-0 shadow-2xl rounded-lg text-black px-2 py-1 text-xs font-medium min-w-[120px] flex items-center justify-between hover:bg-gray-50 transition-colors ${buttonClassName}`}
       >
-        <span>{selectedValue}</span>
+        <span>{selectedLabel}</span>
         <ChevronDown
           className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""
             }`}

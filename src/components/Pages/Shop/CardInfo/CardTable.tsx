@@ -43,7 +43,7 @@ const CardTable = ({ id }: CardTableProps) => {
         {tableData.map((item, index) => (
           <TableRow
             key={index}
-            className={`${index % 2 === 0 ? "bg-[#F8E8E8]" : "bg-white"}`}
+            className={`${index % 2 === 0 ? "bg-plate-1" : "bg-white"}`}
           >
             <TableCell className={`w-full  align-top `}>
               <div className="flex justify-between mx-5">

@@ -34,7 +34,7 @@ const CartItem = ({
             <p className="text-lg">${price}</p>
           </div>
           <div className="flex w-full flex-1   justify-between items-center">
-            <div className="flex items-center justify-between gap-2 border-1 p-1 border-[#5D0505] rounded-md ">
+            <div className="flex items-center justify-between gap-2 border-1 p-1 border-plate-8 rounded-md ">
               <div onClick={() => {
                 if (counter > 1) {
                   const newQuantity = Number(counter) - 1;
@@ -53,7 +53,7 @@ const CartItem = ({
                 <Plus className="w-4 h-4" />
               </div>
             </div>
-            <button onClick={() => deleteCartItem(id)} className="text-[#880909] hover:text-[#5D0505] mr-5 cursor-pointer text-sm">
+            <button onClick={() => deleteCartItem(id)} className="text-plate-7 hover:text-plate-8 mr-5 cursor-pointer text-sm">
               <Trash2 />
             </button>
           </div>

@@ -5,19 +5,19 @@ const CardInfoSkeleton = () => {
     <>
       {/* Main Card Info Section */}
       <div className="mt-[55px] lg:h-[627px] h-auto flex flex-col lg:flex-row gap-5 w-full items-start lg:items-center justify-between animate-pulse">
-        
+
         {/* Left Side - Images */}
         <div className="flex flex-row gap-8 md:gap-3 w-full lg:w-1/2 items-center justify-center">
           {/* Thumbnails Column */}
           <div className="flex flex-col items-center lg:w-[30%] w-1/3 justify-between gap-5 ml-0 lg:ml-9">
             {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton 
-                key={i} 
-                className="w-[150px] h-[210px] rounded-lg" 
+              <Skeleton
+                key={i}
+                className="w-[150px] h-[210px] rounded-lg"
               />
             ))}
           </div>
-          
+
           {/* Main Image */}
           <div className="lg:w-[70%] md:w-[60%] w-full lg:h-[627px] h-[400px] flex items-center justify-center bg-[#F5F5F5] rounded-lg">
             <Skeleton className="w-full h-full rounded-lg" />
@@ -28,7 +28,7 @@ const CardInfoSkeleton = () => {
         <div className="flex flex-col mx-5 gap-4 w-full lg:w-1/2">
           {/* Brand */}
           <Skeleton className="h-6 w-24" />
-          
+
           {/* Name  */}
           <div className="flex items-center justify-between">
             <Skeleton className="h-10 w-3/4" />
@@ -86,12 +86,12 @@ const CardInfoSkeleton = () => {
       {/* Card Table Skeleton */}
       <div className="mt-20 w-[95%] mx-auto border rounded-lg overflow-hidden">
         {Array.from({ length: 6 }).map((_, index) => (
-          <div 
-            key={index} 
-            className={`flex justify-between items-center p-4 ${index % 2 === 0 ? "bg-[#F8E8E8]" : "bg-white"}`}
+          <div
+            key={index}
+            className={`flex justify-between items-center p-4 ${index % 2 === 0 ? "bg-plate-1" : "bg-white"}`}
           >
-             <Skeleton className="h-5 w-1/4" />
-             <Skeleton className="h-5 w-1/3" />
+            <Skeleton className="h-5 w-1/4" />
+            <Skeleton className="h-5 w-1/3" />
           </div>
         ))}
       </div>

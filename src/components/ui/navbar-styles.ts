@@ -119,8 +119,9 @@ export const navigationConfig = {
   ],
 
   levelOptions: [
-    { value: "level-one", label: "Level one" },
-    { value: "level-two", label: "Level two" },
-    { value: "level-three", label: "Level three" },
+    { value: "black-box", label: "Normal" },
+    { value: "red-box", label: "Red Box" },
+    { value: "blue-box", label: "Blue Box" },
+    { value: "green-box", label: "Green Box" },
   ],
 };

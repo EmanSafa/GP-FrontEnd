@@ -70,14 +70,14 @@ const HomePage = () => {
       >
         <CarouselContent>
           {[
-            { img: saleImg, bg: "bg-[#FFEAEA]", textColor: "text-[#5B5B5B]" },
+            { img: saleImg, bg: "bg-plate-1/50", textColor: "text-plate-7" },
             {
               img: hero2,
-              bg: "bg-gradient-to-r from-[#F1C6D2] to-[#8F3B52]",
+              bg: "bg-gradient-to-r from-plate-2 to-plate-7",
               textColor: "text-white",
             },
-            { img: hero3, bg: "bg-[#E8F7FF]", textColor: "text-[#123456]" },
-            { img: hero32, bg: "bg-[#FFF4E6]", textColor: "text-[#5B5B5B]" },
+            { img: hero3, bg: "bg-plate-1", textColor: "text-plate-8" },
+            { img: hero32, bg: "bg-plate-2/30", textColor: "text-plate-6" },
           ].map((slide, index) => (
             <CarouselItem key={index}>
               <div className="w-full">
@@ -94,7 +94,7 @@ const HomePage = () => {
                         SALE UP TO 40%
                       </span>
                       <Link to="/shop">
-                        <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-[#5D0505] text-white hover:bg-[#7a0707] transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                        <Button className="mt-5 w-full md:w-40 text-lg rounded-sm cursor-pointer bg-plate-8 text-white hover:bg-plate-7 transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                           Shop Now
                         </Button>
                       </Link>
@@ -144,12 +144,12 @@ const HomePage = () => {
         />
       </div>
       <div className="flex items-center justify-between w-[88%] mx-auto mt-7">
-        <h1 className="lg:text-2xl sm:text-md md:text-lg font-semibold">
+        <h1 className="lg:text-2xl bg-background sm:text-md md:text-lg font-semibold">
           Grab your best deal
         </h1>
         <Button
           variant="auth"
-          className="group mt-5 text-md md:w-40 sm:w-20 sm:text-sm text-lg rounded-full flex items-center justify-center transition-all hover:bg-[#880909] hover:text-white hover:scale-105 shadow-md active:scale-95"
+          className="group mt-5 text-md md:w-40 sm:w-20 sm:text-sm text-lg rounded-full flex items-center justify-center transition-all hover:bg-plate-7 hover:text-white hover:scale-105 shadow-md active:scale-95"
           onClick={() => navigate({ to: "/shop" })}
         >
           View All

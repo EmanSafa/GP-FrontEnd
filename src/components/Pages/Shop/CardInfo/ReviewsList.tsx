@@ -78,7 +78,7 @@ const ReviewsList = ({ productId }: ReviewsListProps) => {
 
     return (
         <div className="w-full mt-10 max-w-[85%] mx-auto">
-            <h3 className="text-2xl font-bold text-[#5D0505] mb-6">Customer Reviews </h3>
+            <h3 className="text-2xl font-bold text-plate-8 mb-6">Customer Reviews </h3>
             <div className="space-y-6">
                 {reviews.map((review: Review) => {
                     const isMyReview = user?.email === review.user_email;
@@ -129,7 +129,7 @@ const ReviewsList = ({ productId }: ReviewsListProps) => {
                                                         <FaStar
                                                             key={i}
                                                             className="cursor-pointer"
-                                                            color={ratingValue <= (hoverRating || editForm.rating) ? "#5D0505" : "#e4e5e9"}
+                                                            color={ratingValue <= (hoverRating || editForm.rating) ? "var(--plate-8)" : "#e4e5e9"}
                                                             size={20}
                                                             onMouseEnter={() => setHoverRating(ratingValue)}
                                                             onMouseLeave={() => setHoverRating(0)}
@@ -144,7 +144,7 @@ const ReviewsList = ({ productId }: ReviewsListProps) => {
                                                     {[...Array(5)].map((_, i) => (
                                                         <FaStar
                                                             key={i}
-                                                            className={`w-3 h-3 ${i < review.rating ? "text-[#D50000]" : "text-gray-300"
+                                                            className={`w-3 h-3 ${i < review.rating ? "text-plate-4" : "text-gray-300"
                                                                 }`}
                                                         />
                                                     ))}
@@ -178,13 +178,13 @@ const ReviewsList = ({ productId }: ReviewsListProps) => {
                                             value={editForm.comment}
                                             onChange={(e) => setEditForm({ ...editForm, comment: e.target.value })}
                                             placeholder="Review Comment"
-                                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5D0505] focus:border-transparent resize-none text-sm min-h-[100px]"
+                                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-plate-8 focus:border-transparent resize-none text-sm min-h-[100px]"
                                         />
                                         <div className="flex justify-end gap-2">
                                             <Button variant="outline" size="sm" onClick={handleCancelEdit}>
                                                 <X className="w-4 h-4 mr-1" /> Cancel
                                             </Button>
-                                            <Button size="sm" onClick={() => handleSaveEdit(review.id)} className="bg-[#5D0505] hover:bg-[#4a0404] text-white">
+                                            <Button size="sm" onClick={() => handleSaveEdit(review.id)} className="bg-plate-8 hover:bg-plate-7 text-white">
                                                 <Check className="w-4 h-4 mr-1" /> Save
                                             </Button>
                                         </div>
@@ -202,7 +202,7 @@ const ReviewsList = ({ productId }: ReviewsListProps) => {
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="text-gray-500 hover:text-[#5D0505] gap-2"
+                                        className="text-gray-500 hover:text-plate-8 gap-2"
                                         onClick={() => markHelpful(review.id)}
                                     >
                                         <FaThumbsUp />
