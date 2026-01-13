@@ -51,14 +51,28 @@
 
 :root {
   --radius: 0.625rem;
+
+  /* Red Palette (Default) */
+  --plate-1: #f8e8e8;
+  --plate-2: #d95656;
+  --plate-3: #a34141;
+  --plate-4: #d50000;
+  --plate-5: #9d1616;
+  --plate-6: #9d1d1d;
+  --plate-7: #880909;
+  --plate-8: #5d0505;
+
+  /* Base Colors */
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
+
+  /* Theme Overrides (Red Default) */
+  --primary: var(--plate-5);
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);
@@ -66,17 +80,20 @@
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
+
+  --border: var(--plate-2);
   --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
+  --ring: var(--plate-4);
+
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary: var(--plate-5);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.967 0.001 286.375);
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
@@ -166,26 +183,6 @@
 
 /* Color Plates & Theme Overrides */
 
-/* Red Palette */
-.red-box {
-  /* Plate 1-8 */
-  --plate-1: #f8e8e8;
-  --plate-2: #d95656;
-  --plate-3: #a34141;
-  --plate-4: #d50000;
-  --plate-5: #9d1616;
-  --plate-6: #9d1d1d;
-  --plate-7: #880909;
-  --plate-8: #5d0505;
-
-  /* Theme Overrides */
-  --primary: var(--plate-5);
-  --primary-foreground: #ffffff;
-  --ring: var(--plate-4);
-  --border: var(--plate-2);
-  --sidebar-primary: var(--plate-5);
-}
-
 /* Blue Palette */
 .blue-box {
   /* Plate 1-8 */
@@ -224,17 +221,4 @@
   --ring: var(--plate-5);
   --border: var(--plate-3);
   --sidebar-primary: var(--plate-6);
-}
-
-/* Black Palette (Default/Base) - Explicit class if needed */
-.black-box {
-  /* Default oklch colors are used, but we map plate vars for consistency if used explicitly */
-  --plate-1: #ffffff;
-  --plate-2: #d9d9d9;
-  --plate-3: #949494;
-  --plate-4: #777777;
-  --plate-5: #5c5c5c;
-  --plate-6: #414141;
-  --plate-7: #2d2d2d;
-  --plate-8: #000000;
 }

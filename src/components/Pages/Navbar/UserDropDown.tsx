@@ -37,7 +37,7 @@ const UserDropDown = () => {
               <CircleUserRound className="text-black " />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 " align="start">
+          <DropdownMenuContent className="w-56 " align="end">
             <DropdownMenuLabel className="text-xl">My Account</DropdownMenuLabel>
             <DropdownMenuGroup>
               <Link to="/account" className="no-underline">
@@ -46,7 +46,7 @@ const UserDropDown = () => {
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </Link>
-           
+
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
@@ -73,7 +73,7 @@ const UserDropDown = () => {
               <CircleUserRound className="text-black" />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 " align="start">
+          <DropdownMenuContent className="w-56 " align="end">
             <DropdownMenuItem onClick={handleLogin} className="cursor-pointer">
               Log in
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
