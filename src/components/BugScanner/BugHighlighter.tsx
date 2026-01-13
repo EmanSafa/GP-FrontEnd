@@ -74,7 +74,7 @@ export const BugHighlighter: React.FC<BugHighlighterProps> = ({ id, ids, childre
                     <div className="space-y-4">
                         <div className="p-4 bg-muted/50 rounded-lg border">
                             <h3 className="text-sm font-semibold mb-2 text-muted-foreground flex items-center gap-2">
-                                <FileCode className="w-4 h-4" /> File Inclusion Source
+                                <FileCode className="w-4 h-4" /> Source code
                             </h3>
                             <div className="bg-slate-950 text-slate-50 p-4 rounded-md font-mono text-sm overflow-x-auto">
                                 <pre>{details.originalCode || '// Code source not available'}</pre>
