@@ -79,7 +79,7 @@ export const DASHBOARD_BUG = {
   details: {
     name: "BAC - Broken Access Control",
     description:
-      "The application relies solely on frontend routing to restrict access to the dashboard. Attackers can bypass this by modifying client-side code or sending direct API requests.",
+      "The application relies solely on frontend routing to restrict access to the dashboard. Attackers can bypass this by intercepting requests , modifying role to admin , bypass restrictions to admin dashboard",
     originalCode: `// Vulnerable: Access control relies ONLY on Frontend Router
 <Route path="/dashboard" element={
     <ProtectedRoute requiredRole="admin">
