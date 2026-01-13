@@ -55,7 +55,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     <SidebarGroup>
                         <SidebarGroupLabel>Application</SidebarGroupLabel>
                         <SidebarGroupContent>
-                            <SidebarMenu className="mt-10">
+                            <SidebarMenu className="mt-16">
                                 {items.map((item) => (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild>

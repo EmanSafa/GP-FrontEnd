@@ -1,9 +1,9 @@
 export const PROFILE_PIC_BUG = {
   id: "profile-pic",
   details: {
-    name: "Unrestricted File Upload Vulnerable Code",
+    name: "Unrestricted File Upload ",
     description:
-      "The profile picture upload vulnerability allows attackers to upload malicious executable files (e.g., PHP scripts), leading to Remote Code Execution (RCE).",
+      "The profile picture upload vulnerability allows attackers to upload malicious executable files (e.g., PHP scripts , SVG files), leading to Remote Code Execution (RCE) or Cross-Site Scripting (XSS) or other attacks .",
     originalCode: `
 $extension = pathinfo($file['name'], PATHINFO_EXTENSION); // attacker-controlled
 $filename = uniqid() . '.' . $extension;
@@ -50,7 +50,7 @@ $success = $this->userModel->updateProfile($id, $data);`,
 export const CHANGE_PASSWORD_BUG = {
   id: "changePasswordBug",
   details: {
-    name: "CSRF - Cross Site Request Forgery - Password Change",
+    name: "CSRF - Cross Site Request Forgery ",
     description:
       "The implementation allows changing the password without verifying the old password or including an anti-CSRF token, enabling attackers to reset usage credentials.",
     originalCode: `
@@ -96,7 +96,7 @@ export const DASHBOARD_BUG = {
 export const LOGIN_BUG = {
   id: "LoginBug",
   details: {
-    name: "SQLI - Vulnerable Code ",
+    name: "SQLI - SQL Injection ",
     description: "The login form is vulnerable to SQL injection attacks.",
     originalCode: `public function findByCredentials($email, $password)
     {
