@@ -13,10 +13,14 @@ interface User {
 interface AuthState {
   user: User | null;
   sessionId: string | null;
+  /** JWT token — only populated when using V2. Stored in localStorage via Zustand persist. */
+  token: string | null;
   isAuthenticated: boolean;
   clearAuth: () => void;
   setUser: (user: User) => void;
   setSessionId: (sessionId: string) => void;
+  /** Store the JWT token returned by V2 login/register */
+  setToken: (token: string) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -24,15 +28,19 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       sessionId: null,
+      token: null,
       isAuthenticated: false,
       clearAuth: () => {
-        set({ user: null, sessionId: null, isAuthenticated: false });
+        set({ user: null, sessionId: null, token: null, isAuthenticated: false });
       },
       setUser: (user) => {
         set({ user, isAuthenticated: true });
       },
       setSessionId: (sessionId) => {
         set({ sessionId });
+      },
+      setToken: (token) => {
+        set({ token });
       },
     }),
     {

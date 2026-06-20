@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, ChevronDown } from "lucide-react";
 import { Link, useNavigate, useLocation } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -9,24 +9,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import CustomSelect from "../../ui/custom-select";
 import { navbarStyles, navigationConfig } from "../../ui/navbar-styles";
 import UserDropDown from "./UserDropDown";
 import { useThemeStore } from "@/store/themeStore";
+import { useVersionStore } from "@/store/versionStore";
 import Cart from "../Cart/Cart";
 import { useGetAllCategories } from "@/hooks/useCategories";
 import logo from './../../../assets/logo.png'
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { useHighlightStore } from "@/store/highlightStore";
-import {
-  PROFILE_PIC_BUG,
-  USER_DATA_CORS_BUG,
-  CHANGE_PASSWORD_BUG,
-  DASHBOARD_BUG,
-  LOGIN_BUG,
-  PERSONAL_INFO_CSRF_BUG
-} from "@/constants/bugs";
+import { useScanBugs } from "@/hooks/useScanBugs";
 
 
 // Reusable Navigation Links Component
@@ -153,26 +145,115 @@ const ActionIcons = ({
   );
 };
 
+// ─── LogoSelect ───────────────────────────────────────────────────────────────
+// The app logo doubles as the box/version selector trigger.
+// Clicking the logo opens a dropdown showing available security levels.
+// Selecting a level updates both the visual theme (themeStore) and the
+// API version (versionStore) — Blue Box auto-selects V2.
+const LogoSelect = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const currentLevel = useThemeStore((state) => state.currentLevel);
+
+  const handleSelect = (value: string) => {
+    // Sync theme (visual)
+    useThemeStore.getState().setLevel(value);
+    // Sync API version — blue-box → v2, everything else → v1
+    const version = navigationConfig.levelToVersion[value] ?? "v1";
+    useVersionStore.getState().setVersion(version);
+    setIsOpen(false);
+  };
+
+ 
+
+  // Color accent per box
+  const accentColor: Record<string, string> = {
+    "red-box": "bg-red-500",
+    "blue-box": "bg-blue-500",
+    "green-box": "bg-green-500",
+  };
+
+  return (
+    <div className="relative flex items-center gap-2">
+      {/* Logo — acts as dropdown trigger */}
+      <button
+        onClick={() => setIsOpen((o) => !o)}
+        className="flex items-center gap-1.5 group focus:outline-none"
+        title="Switch security level"
+      >
+        <img
+          src={logo}
+          alt="Bugsy logo"
+          className={`${navbarStyles.topBar.logo} transition-transform group-hover:scale-105`}
+        />
+        {/* Small colored dot + chevron to hint it's clickable */}
+        <span
+          className={`hidden md:inline-block w-2 h-2 rounded-full ${accentColor[currentLevel] ?? "bg-gray-400"} ring-2 ring-white shadow`}
+        />
+        <ChevronDown
+          className={`hidden md:block w-3 h-3 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {/* Dropdown */}
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-[100] min-w-[170px] overflow-hidden">
+          <div className="px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-widest border-b">
+            Security Level
+          </div>
+          {navigationConfig.levelOptions.map((option) => {
+            const isActive = option.value === currentLevel;
+            const version = navigationConfig.levelToVersion[option.value] ?? "v1";
+            return (
+              <button
+                key={option.value}
+                onClick={() => handleSelect(option.value)}
+                className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2.5 transition-colors
+                  ${isActive ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"}`}
+              >
+                <span
+                  className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${accentColor[option.value] ?? "bg-gray-400"}`}
+                />
+                <span className="flex-1">{option.label}</span>
+                <span
+                  className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md
+                  ${version === "v2" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"}`}
+                >
+                  {version.toUpperCase()}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Click-outside overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+      )}
+    </div>
+  );
+};
+
+// ─── NavTopBar 
+export const NavTopBar = () => {
+  const { scanBugs } = useScanBugs();
+
+  return (
+    <div className="bg-gray-50/50 w-full justify-between px-2 md:px-5 flex items-center z-[60] relative h-[3.6rem] border-b border-gray-100">
+      <LogoSelect />
+      <div>
+        <Button variant={'default'} onClick={scanBugs}>
+          Scan Bugs
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
-  const { triggerHighlight } = useHighlightStore();
-
-  // ...
-
-  const handleScanBugs = () => {
-    if (location.pathname.includes('/account')) {
-      triggerHighlight(PROFILE_PIC_BUG.id, PROFILE_PIC_BUG.details);
-      triggerHighlight(USER_DATA_CORS_BUG.id, USER_DATA_CORS_BUG.details);
-      triggerHighlight(PERSONAL_INFO_CSRF_BUG.id, PERSONAL_INFO_CSRF_BUG.details);
-      triggerHighlight(CHANGE_PASSWORD_BUG.id, CHANGE_PASSWORD_BUG.details);
-    } else if (location.pathname.includes('/dashboard')) {
-      triggerHighlight(DASHBOARD_BUG.id, DASHBOARD_BUG.details);
-    } else if (location.pathname.includes('/auth/login')) {
-      triggerHighlight(LOGIN_BUG.id, LOGIN_BUG.details);
-    }
-  };
+  const { scanBugs } = useScanBugs();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -196,15 +277,9 @@ const Navbar = () => {
       {/* Top Bar - Same across all devices */}
       <div className={`${navbarStyles.layout.topBar} ${isScrolled ? "h-0 py-0 overflow-hidden opacity-0" : "h-[3.6rem] opacity-100"} transition-all duration-300`}>
         <div className="flex items-center gap-4">
-          <img src={logo} alt="logo" className={navbarStyles.topBar.logo} />
+          {/* Logo acts as the box/version selector trigger */}
+          <LogoSelect />
 
-          <div className={navbarStyles.topBar.selectContainer}>
-            <CustomSelect
-              options={navigationConfig.levelOptions}
-              value={useThemeStore((state) => state.currentLevel)}
-              onValueChange={(value) => useThemeStore.getState().setLevel(value)}
-            />
-          </div>
           {/* Mobile: Show menu button instead of select */}
           <button
             className={navbarStyles.topBar.mobileMenuButton}
@@ -216,7 +291,7 @@ const Navbar = () => {
 
         {/* Right Side: Scan Bugs Button */}
         <div>
-          <Button variant={'default'} onClick={handleScanBugs}>
+          <Button variant={'default'} onClick={scanBugs}>
             Scan Bugs
           </Button>
         </div>

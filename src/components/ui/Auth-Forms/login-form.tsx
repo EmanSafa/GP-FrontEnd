@@ -43,11 +43,7 @@ export function LoginForm({
     },
   });
 
-  const { triggerHighlight } = useHighlightStore();
-
-  useEffect(() => {
-    triggerHighlight(LOGIN_BUG.id, LOGIN_BUG.details);
-  }, []);
+ 
 
   const schema = z.object({
     email: z
