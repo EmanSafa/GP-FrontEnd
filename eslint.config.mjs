@@ -5,7 +5,7 @@ export default tseslint.config({
   files: ['**/*.ts', '**/*.tsx'],
   languageOptions: {
     parserOptions: {
-      project: ['./tsconfig.eslint.json'], //  Type-aware linting
+      project: ['./tsconfig.app.json', './tsconfig.node.json'], // Type-aware linting
       tsconfigRootDir: import.meta.dirname,
     },
   },

@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Search, Menu, X, ChevronDown } from "lucide-react";
-import { Link, useNavigate, useLocation } from "@tanstack/react-router";
+import * as React from 'react';
+import { Search, Menu, X, ChevronDown } from 'lucide-react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,28 +8,27 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { navbarStyles, navigationConfig } from "../../ui/navbar-styles";
-import UserDropDown from "./UserDropDown";
-import { useThemeStore } from "@/store/themeStore";
-import { useVersionStore } from "@/store/versionStore";
-import Cart from "../Cart/Cart";
-import { useGetAllCategories } from "@/hooks/useCategories";
-import logo from './../../../assets/logo.png'
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { useScanBugs } from "@/hooks/useScanBugs";
-
+} from '@/components/ui/navigation-menu';
+import { navbarStyles, navigationConfig } from '../../ui/navbar-styles';
+import UserDropDown from './UserDropDown';
+import { useThemeStore } from '@/store/themeStore';
+import { useVersionStore } from '@/store/versionStore';
+import Cart from '../Cart/Cart';
+import { useGetAllCategories } from '@/hooks/useCategories';
+import logo from './../../../assets/logo.png';
+import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
+import { useScanBugs } from '@/hooks/useScanBugs';
 
 // Reusable Navigation Links Component
 const NavLinks = ({
-  variant = "desktop",
+  variant = 'desktop',
   onLinkClick,
 }: {
-  variant?: "desktop" | "tablet" | "mobile";
+  variant?: 'desktop' | 'tablet' | 'mobile';
   onLinkClick?: () => void;
 }) => {
-  if (variant === "mobile") {
+  if (variant === 'mobile') {
     return (
       <nav className={navbarStyles.navMenuList.mobile}>
         {navigationConfig.items.map((item) => (
@@ -45,7 +44,7 @@ const NavLinks = ({
       </nav>
     );
   }
-  const { data: categories } = useGetAllCategories()
+  const { data: categories } = useGetAllCategories();
 
   return (
     <NavigationMenu viewport={false}>
@@ -54,19 +53,17 @@ const NavLinks = ({
           <NavigationMenuItem key={item.href}>
             {item.hasDropdown ? (
               <>
-                <NavigationMenuTrigger
-                  className={navbarStyles.navTriggers[variant]}
-                >
+                <NavigationMenuTrigger className={navbarStyles.navTriggers[variant]}>
                   {item.label}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className={navbarStyles.dropdownContent[variant]}>
                     {categories?.map((category) => (
-                      <NavigationMenuItem
-                        key={category.id}
-                        title={category.name}
-                      >
-                        <NavigationMenuLink href={`/shop?categoryId=${category.id}`} className={navbarStyles.navLinks[variant]}>
+                      <NavigationMenuItem key={category.id} title={category.name}>
+                        <NavigationMenuLink
+                          href={`/shop?categoryId=${category.id}`}
+                          className={navbarStyles.navLinks[variant]}
+                        >
                           {category.name}
                         </NavigationMenuLink>
                       </NavigationMenuItem>
@@ -77,9 +74,7 @@ const NavLinks = ({
             ) : (
               <NavigationMenuLink asChild>
                 <Link to={item.href} className={navbarStyles.navLinks[variant]}>
-                  {variant === "tablet" && item.label === "Contact us"
-                    ? "Contact"
-                    : item.label}
+                  {variant === 'tablet' && item.label === 'Contact us' ? 'Contact' : item.label}
                 </Link>
               </NavigationMenuLink>
             )}
@@ -91,19 +86,18 @@ const NavLinks = ({
 };
 
 // Reusable Search Bar Component
-const SearchBar = ({
-  variant = "desktop",
-}: {
-  variant?: "desktop" | "tablet" | "mobile";
-}) => {
+const SearchBar = ({ variant = 'desktop' }: { variant?: 'desktop' | 'tablet' | 'mobile' }) => {
   const style = navbarStyles.searchBar[variant];
   const navigate = useNavigate();
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = React.useState('');
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      navigate({ to: "/shop", search: (prev: any) => ({ ...prev, q: query }) });
+      void navigate({
+        to: '/shop',
+        search: (prev: Record<string, unknown>) => ({ ...prev, q: query }),
+      });
     }
   };
 
@@ -121,17 +115,17 @@ const SearchBar = ({
           <Search className="text-white " size={style.iconSize} />
         </button>
       </form>
-      {query && <span className="">Searching for <span className="font-medium ">{query}</span> in products....</span>}
+      {query && (
+        <span className="">
+          Searching for <span className="font-medium ">{query}</span> in products....
+        </span>
+      )}
     </div>
   );
 };
 
 // Reusable Icons Component
-const ActionIcons = ({
-  variant = "desktop",
-}: {
-  variant?: "desktop" | "tablet" | "mobile";
-}) => {
+const ActionIcons = ({ variant = 'desktop' }: { variant?: 'desktop' | 'tablet' | 'mobile' }) => {
   const style = navbarStyles.actionIcons[variant];
 
   return (
@@ -158,18 +152,16 @@ const LogoSelect = () => {
     // Sync theme (visual)
     useThemeStore.getState().setLevel(value);
     // Sync API version — blue-box → v2, everything else → v1
-    const version = navigationConfig.levelToVersion[value] ?? "v1";
+    const version = navigationConfig.levelToVersion[value] ?? 'v1';
     useVersionStore.getState().setVersion(version);
     setIsOpen(false);
   };
 
- 
-
   // Color accent per box
   const accentColor: Record<string, string> = {
-    "red-box": "bg-red-500",
-    "blue-box": "bg-blue-500",
-    "green-box": "bg-green-500",
+    'red-box': 'bg-red-500',
+    'blue-box': 'bg-blue-500',
+    'green-box': 'bg-green-500',
   };
 
   return (
@@ -187,10 +179,10 @@ const LogoSelect = () => {
         />
         {/* Small colored dot + chevron to hint it's clickable */}
         <span
-          className={`hidden md:inline-block w-2 h-2 rounded-full ${accentColor[currentLevel] ?? "bg-gray-400"} ring-2 ring-white shadow`}
+          className={`hidden md:inline-block w-2 h-2 rounded-full ${accentColor[currentLevel] ?? 'bg-gray-400'} ring-2 ring-white shadow`}
         />
         <ChevronDown
-          className={`hidden md:block w-3 h-3 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`hidden md:block w-3 h-3 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -202,21 +194,21 @@ const LogoSelect = () => {
           </div>
           {navigationConfig.levelOptions.map((option) => {
             const isActive = option.value === currentLevel;
-            const version = navigationConfig.levelToVersion[option.value] ?? "v1";
+            const version = navigationConfig.levelToVersion[option.value] ?? 'v1';
             return (
               <button
                 key={option.value}
                 onClick={() => handleSelect(option.value)}
                 className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2.5 transition-colors
-                  ${isActive ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"}`}
+                  ${isActive ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-50'}`}
               >
                 <span
-                  className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${accentColor[option.value] ?? "bg-gray-400"}`}
+                  className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${accentColor[option.value] ?? 'bg-gray-400'}`}
                 />
                 <span className="flex-1">{option.label}</span>
                 <span
                   className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md
-                  ${version === "v2" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"}`}
+                  ${version === 'v2' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}
                 >
                   {version.toUpperCase()}
                 </span>
@@ -227,14 +219,12 @@ const LogoSelect = () => {
       )}
 
       {/* Click-outside overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-      )}
+      {isOpen && <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />}
     </div>
   );
 };
 
-// ─── NavTopBar 
+// ─── NavTopBar
 export const NavTopBar = () => {
   const { scanBugs } = useScanBugs();
 
@@ -260,11 +250,9 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-
 
   const handleMobileLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -272,10 +260,12 @@ const Navbar = () => {
 
   return (
     <div
-      className={`${navbarStyles.layout.main} transition-all duration-300 ${isScrolled ? "bg-plate-1/95 backdrop-blur shadow-md py-0" : "bg-white"}`}
+      className={`${navbarStyles.layout.main} transition-all duration-300 ${isScrolled ? 'bg-plate-1/95 backdrop-blur shadow-md py-0' : 'bg-white'}`}
     >
       {/* Top Bar - Same across all devices */}
-      <div className={`${navbarStyles.layout.topBar} ${isScrolled ? "h-0 py-0 overflow-hidden opacity-0" : "h-[3.6rem] opacity-100"} transition-all duration-300`}>
+      <div
+        className={`${navbarStyles.layout.topBar} ${isScrolled ? 'h-0 py-0 overflow-hidden opacity-0' : 'h-[3.6rem] opacity-100'} transition-all duration-300`}
+      >
         <div className="flex items-center gap-4">
           {/* Logo acts as the box/version selector trigger */}
           <LogoSelect />
@@ -334,6 +324,5 @@ const Navbar = () => {
     </div>
   );
 };
-
 
 export default Navbar;
