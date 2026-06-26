@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface User {
   id: number;
   name?: string;
   email: string;
-  role?: "admin" | "customer";
+  role?: 'admin' | 'customer';
   phone?: string;
   address?: string;
 }
@@ -16,11 +16,13 @@ interface AuthState {
   /** JWT token — only populated when using V2. Stored in localStorage via Zustand persist. */
   token: string | null;
   isAuthenticated: boolean;
+  isReauthRequired: boolean;
   clearAuth: () => void;
   setUser: (user: User) => void;
   setSessionId: (sessionId: string) => void;
   /** Store the JWT token returned by V2 login/register */
   setToken: (token: string) => void;
+  setReauthRequired: (required: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -30,8 +32,15 @@ export const useAuthStore = create<AuthState>()(
       sessionId: null,
       token: null,
       isAuthenticated: false,
+      isReauthRequired: false,
       clearAuth: () => {
-        set({ user: null, sessionId: null, token: null, isAuthenticated: false });
+        set({
+          user: null,
+          sessionId: null,
+          token: null,
+          isAuthenticated: false,
+          isReauthRequired: false,
+        });
       },
       setUser: (user) => {
         set({ user, isAuthenticated: true });
@@ -42,9 +51,12 @@ export const useAuthStore = create<AuthState>()(
       setToken: (token) => {
         set({ token });
       },
+      setReauthRequired: (required) => {
+        set({ isReauthRequired: required });
+      },
     }),
     {
-      name: "auth-storage", // name of the item in the storage (must be unique)
+      name: 'auth-storage', // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
     }
   )

@@ -151,6 +151,7 @@ const ActionIcons = ({ variant = 'desktop' }: { variant?: 'desktop' | 'tablet' |
 const LogoSelect = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const currentLevel = useThemeStore((state) => state.currentLevel);
+  const isReauthRequired = useAuthStore((state) => state.isReauthRequired);
 
   // Re-authentication states for proactive upgrade to JWT (v2 / blue-box)
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = React.useState(false);
@@ -247,15 +248,17 @@ const LogoSelect = () => {
       {isOpen && <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />}
 
       <UpgradeSessionDialog
-        isOpen={isUpgradeModalOpen}
-        pendingLevel={pendingLevel}
+        isOpen={isUpgradeModalOpen || isReauthRequired}
+        pendingLevel={pendingLevel || currentLevel}
         onClose={() => {
           setIsUpgradeModalOpen(false);
           setPendingLevel('');
+          useAuthStore.getState().setReauthRequired(false);
         }}
         onSuccess={() => {
           setIsUpgradeModalOpen(false);
           setPendingLevel('');
+          useAuthStore.getState().setReauthRequired(false);
         }}
       />
     </div>
