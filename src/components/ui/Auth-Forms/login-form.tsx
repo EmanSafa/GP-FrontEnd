@@ -48,25 +48,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
         message: 'Please enter a valid email address',
       }),
 
-    password: z
-      .string()
-      .trim()
-      .nonempty({ message: 'Password is required' })
-      .min(8, { message: 'Password must be at least 8 characters long' })
-      .max(50, { message: 'Password must not exceed 50 characters' })
-      .regex(/[A-Z]/, {
-        message: 'Password must contain at least one uppercase letter',
-      })
-      .regex(/[a-z]/, {
-        message: 'Password must contain at least one lowercase letter',
-      })
-      .regex(/[0-9]/, { message: 'Password must contain at least one number' })
-      .regex(/[^A-Za-z0-9]/, {
-        message: 'Password must contain at least one special character',
-      })
-      .refine((val) => !/\s/.test(val), {
-        message: 'Password must not contain spaces',
-      }),
+    password: z.string().nonempty({ message: 'Password is required' }),
   });
 
   type LoginFormData = z.infer<typeof schema>;
@@ -148,9 +130,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
               errors.password && 'border-red-500 focus:ring-red-300'
             )}
           />
-          {/* {errors.password && (
-            <FieldError>{errors.password.message}</FieldError>
-          )} */}
+          {errors.password && <FieldError>{errors.password.message}</FieldError>}
         </Field>
         <Field>
           <Button type="submit" variant={'default'} disabled={isPending}>

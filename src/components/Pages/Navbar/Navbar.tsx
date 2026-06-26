@@ -13,6 +13,10 @@ import { navbarStyles, navigationConfig } from '../../ui/navbar-styles';
 import UserDropDown from './UserDropDown';
 import { useThemeStore } from '@/store/themeStore';
 import { useVersionStore } from '@/store/versionStore';
+import { useAuthStore } from '@/store/authStore';
+import { useHighlightStore } from '@/store/highlightStore';
+import { toast } from 'sonner';
+import { UpgradeSessionDialog } from './UpgradeSessionDialog';
 import Cart from '../Cart/Cart';
 import { useGetAllCategories } from '@/hooks/useCategories';
 import logo from './../../../assets/logo.png';
@@ -148,12 +152,33 @@ const LogoSelect = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const currentLevel = useThemeStore((state) => state.currentLevel);
 
+  // Re-authentication states for proactive upgrade to JWT (v2 / blue-box)
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = React.useState(false);
+  const [pendingLevel, setPendingLevel] = React.useState('');
+
   const handleSelect = (value: string) => {
-    // Sync theme (visual)
-    useThemeStore.getState().setLevel(value);
-    // Sync API version — blue-box → v2, everything else → v1
+    // If selecting green box, show a toast coming soon and return
+    if (value === 'green-box') {
+      toast('coming soon');
+      setIsOpen(false);
+      return;
+    }
+
     const version = navigationConfig.levelToVersion[value] ?? 'v1';
+    const { isAuthenticated, token, user } = useAuthStore.getState();
+
+    // If changing to v2 (blue-box), user is logged in, but has no JWT token
+    if (version === 'v2' && isAuthenticated && !token && user?.email) {
+      setPendingLevel(value);
+      setIsUpgradeModalOpen(true);
+      setIsOpen(false);
+      return;
+    }
+
+    // Otherwise, switch version immediately
+    useThemeStore.getState().setLevel(value);
     useVersionStore.getState().setVersion(version);
+    useHighlightStore.getState().resetBugScanner();
     setIsOpen(false);
   };
 
@@ -220,6 +245,19 @@ const LogoSelect = () => {
 
       {/* Click-outside overlay */}
       {isOpen && <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />}
+
+      <UpgradeSessionDialog
+        isOpen={isUpgradeModalOpen}
+        pendingLevel={pendingLevel}
+        onClose={() => {
+          setIsUpgradeModalOpen(false);
+          setPendingLevel('');
+        }}
+        onSuccess={() => {
+          setIsUpgradeModalOpen(false);
+          setPendingLevel('');
+        }}
+      />
     </div>
   );
 };
