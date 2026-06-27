@@ -93,7 +93,7 @@ const PersonalInfoEditDialog = () => {
     updatePassword({
       email: userData?.email,
       new_password: newPassword,
-      ...(activeVersion === 'v2' ? { current_password: currentPassword } : {}),
+      ...(activeVersion === 'v2' ? { old_password: currentPassword } : {}),
     });
   };
 
@@ -192,7 +192,7 @@ const PersonalInfoEditDialog = () => {
                     onClick={() => setIsCurrentPasswordVisible((prevState) => !prevState)}
                     className="text-plate-8 hover:text-plate-8/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
                   >
-                    {isCurrentPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
+                    {isCurrentPasswordVisible ? <EyeIcon /> : <EyeOffIcon />}
                     <span className="sr-only">
                       {isCurrentPasswordVisible ? 'Hide password' : 'Show password'}
                     </span>
@@ -222,7 +222,7 @@ const PersonalInfoEditDialog = () => {
                     onClick={() => setIsPasswordVisible((prevState) => !prevState)}
                     className="text-plate-8 hover:text-plate-8/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
                   >
-                    {isPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
+                    {isPasswordVisible ? <EyeIcon /> : <EyeOffIcon />}
                     <span className="sr-only">
                       {isPasswordVisible ? 'Hide password' : 'Show password'}
                     </span>
@@ -253,7 +253,7 @@ const PersonalInfoEditDialog = () => {
                     onClick={() => setIsConfirmPasswordVisible((prevState) => !prevState)}
                     className="text-plate-8 hover:text-plate-8/90 focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
                   >
-                    {isConfirmPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
+                    {isConfirmPasswordVisible ? <EyeIcon /> : <EyeOffIcon />}
                     <span className="sr-only">
                       {isConfirmPasswordVisible ? 'Hide password' : 'Show password'}
                     </span>

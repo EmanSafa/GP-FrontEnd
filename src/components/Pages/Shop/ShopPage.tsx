@@ -1,12 +1,12 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import AppSidebar from "./App-Sidebar";
-import { type ReactNode, useState, useEffect } from "react";
-import ProductCard from "../Home/product-card";
-import GlobalPagination from "@/components/Global/GlobalPagination";
-import GlobalSort from "@/components/Global/GlobalSort";
-import { useGetProducts, useSearchProducts } from "@/hooks/useProducts";
-import type { Product, ProductParams } from "@/types/types";
-import ProductSkeleton from "@/components/Skeletons/ProductSkeleton";
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import AppSidebar from './App-Sidebar';
+import { type ReactNode, useState, useEffect } from 'react';
+import ProductCard from '../Home/product-card';
+import GlobalPagination from '@/components/Global/GlobalPagination';
+import GlobalSort from '@/components/Global/GlobalSort';
+import { useGetProducts, useSearchProducts } from '@/hooks/useProducts';
+import type { Product, ProductParams } from '@/types/types';
+import ProductSkeleton from '@/components/Skeletons/ProductSkeleton';
 
 interface IProps {
   children?: ReactNode;
@@ -21,7 +21,7 @@ interface IProps {
   q?: string;
 }
 
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from '@tanstack/react-router';
 
 // ... existing imports
 
@@ -64,10 +64,9 @@ const ShopPage = ({
   // Unified hook for general filtering (including "New" filter)
   const isSearch = !!q;
   const { data: searchData, isLoading: isSearchLoading } = useSearchProducts(
-    { q: q || "", limit: 20 },
+    { q: q || '', limit: 20 },
     { enabled: isSearch }
   );
-  console.log(searchData)
   const { data: listData, isLoading: isListLoading } = useGetProducts(filters, {
     enabled: !isSearch,
   });
@@ -77,7 +76,6 @@ const ShopPage = ({
 
   const products = responseData?.products || [];
 
-
   const totalPages = responseData?.pagination.totalPages || 1;
   const currentPage = responseData?.pagination.page || page;
 
@@ -86,10 +84,13 @@ const ShopPage = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSortChange = (newSort: 'price' | 'rating' | 'created_at' | 'name', newOrder: 'asc' | 'desc') => {
-    navigate({
+  const handleSortChange = (
+    newSort: 'price' | 'rating' | 'created_at' | 'name',
+    newOrder: 'asc' | 'desc'
+  ) => {
+    void navigate({
       to: '/shop',
-      search: (prev: any) => ({
+      search: (prev: Record<string, unknown>) => ({
         ...prev,
         sort: newSort,
         order: newOrder,
@@ -117,9 +118,7 @@ const ShopPage = ({
           <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
             {isLoading ? (
               // Render skeletons
-              Array.from({ length: 10 }).map((_, i) => (
-                <ProductSkeleton key={i} />
-              ))
+              Array.from({ length: 10 }).map((_, i) => <ProductSkeleton key={i} />)
             ) : products.length > 0 ? (
               products.map((product: Product) => (
                 <ProductCard
@@ -128,8 +127,8 @@ const ShopPage = ({
                   title={product.name}
                   price={`$${product.price}`}
                   oldPrice={`$${parseFloat(product.price) + 240}`}
-                  rating={parseFloat(product.rating || "0")}
-                  imgSrc={product.main_image_url || product.main_image || ""}
+                  rating={parseFloat(product.rating || '0')}
+                  imgSrc={product.main_image_url || product.main_image || ''}
                   discount={20}
                 />
               ))

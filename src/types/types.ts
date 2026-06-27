@@ -49,7 +49,7 @@ export interface ProductsResponse {
   success: boolean;
   products: Product[];
   pagination: PaginationData;
-  filters?: any;
+  filters?: Record<string, unknown>;
 }
 export type CategoriesResponse = Category[];
 
@@ -60,8 +60,8 @@ export interface ProductParams {
   brand?: number;
   min_price?: number;
   max_price?: number;
-  sort?: "price" | "rating" | "created_at" | "name";
-  order?: "asc" | "desc";
+  sort?: 'price' | 'rating' | 'created_at' | 'name';
+  order?: 'asc' | 'desc';
 }
 export interface SearchParams {
   q: string;
@@ -118,7 +118,19 @@ export interface Order {
   shipping_address: string;
   notes: string;
   created_at: string;
-  updated_at: string;
+}
+
+export interface OrderItem {
+  id: number | string;
+  product_id?: number;
+  product_name: string;
+  product_image_url?: string;
+  quantity: number;
+  price: string | number;
+}
+
+export interface DetailedOrder extends Order {
+  items?: OrderItem[];
 }
 
 export interface UserOrdersResponse {
@@ -215,7 +227,7 @@ export interface BrandFormData {
   logo: string | File;
 }
 export interface OrderFormData {
-  status: "pending" | "shipped" | "delivered" | "cancelled" | "processing";
+  status: 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'processing';
 }
 export interface AddAdminFormData {
   name: string;

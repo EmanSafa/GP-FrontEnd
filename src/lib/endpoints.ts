@@ -1,12 +1,13 @@
 export const endpoints = {
   auth: {
-    register: "/register",
-    login: "/login",
-    logout: "/logout",
-    resetPassword: "password/reset",
+    register: '/register',
+    login: '/login',
+    logout: '/logout',
+    resetPassword: 'password/reset',
+    forgotPassword: 'password',
   },
   products: {
-    list: "/products",
+    list: '/products',
     detail: (id: number) => `/products/${id}`,
     images: (id: number) => `/products/${id}/images`,
     imageDelete: (id: number) => `/products/images/${id}`,
@@ -14,21 +15,21 @@ export const endpoints = {
     singleProduct: (id: number) => `/products/${id}`,
     singleProductImages: (id: number) => `/products/${id}/images`,
     // categories and brands are not explicitly in the paths but mentioned in the NOTE
-    categories: "/categories",
-    brands: "/brands",
+    categories: '/categories',
+    brands: '/brands',
   },
   cart: {
-    items: "/cart",
-    add: "/cart/add",
-    total: "/cart/total",
-    count: "/cart/count",
+    items: '/cart',
+    add: '/cart/add',
+    total: '/cart/total',
+    count: '/cart/count',
     update: (id: number) => `/cart/items/${id}`,
     remove: (id: number) => `/cart/items/${id}`,
-    clear: "/cart/clear", // Inferred
+    clear: '/cart/clear', // Inferred
   },
   orders: {
     checkout: `/checkout`,
-    orders: "/orders",
+    orders: '/orders',
     singleOrder: (id: number) => `/orders/${id}`,
     items: (id: number) => `/orders/${id}/items`,
     status: (id: number) => `/orders/${id}/status`,
@@ -44,11 +45,11 @@ export const endpoints = {
     helpful: (id: number) => `reviews/${id}/helpful`,
   },
   categories: {
-    list: "/categories",
+    list: '/categories',
     detail: (id: number) => `/categories/${id}/products`,
   },
   brands: {
-    list: "/brands",
+    list: '/brands',
     detail: (id: number) => `/brands/${id}/products`,
   },
   user: {
@@ -64,17 +65,17 @@ export const endpoints = {
     query: `/products/search`,
   },
   test: {
-    public: "/test/public",
-    protected: "/test/protected",
-    admin: "/test/admin",
-    session: "/test/session",
+    public: '/test/public',
+    protected: '/test/protected',
+    admin: '/test/admin',
+    session: '/test/session',
     ownership: (id: number) => `/test/ownership/${id}`,
   },
   addAdmin: {
-    add: "/admin/add",
+    add: '/admin/add',
   },
   productsAdminApi: {
-    create: "/products",
+    create: '/products',
     update: (id: number) => `/products/${id}`,
     delete: (id: number) => `/products/${id}`,
     uploadImages: (id: number) => `/products/${id}/images`,
@@ -82,21 +83,21 @@ export const endpoints = {
     replaceImages: (id: number) => `/products/${id}/images/replace`,
   },
   categoriesAdminApi: {
-    create: "/categories",
+    create: '/categories',
     update: (id: number) => `/categories/${id}`,
     delete: (id: number) => `/categories/${id}`,
   },
   brandsAdminApi: {
-    create: "/brands",
+    create: '/brands',
     update: (id: number) => `/brands/${id}`,
     delete: (id: number) => `/brands/${id}`,
   },
   orderAdminApi: {
-    list: "/usersorders",
+    list: '/usersorders',
     update: (id: number) => `/orders/${id}/status`,
   },
   userAdminApi: {
-    list: "/users",
+    list: '/users',
     delete: (id: number) => `users/${id}`,
   },
 };

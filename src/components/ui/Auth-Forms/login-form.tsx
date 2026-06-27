@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Link, useNavigate } from '@tanstack/react-router';
-import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authApi } from '@/api/authApi';
@@ -18,7 +17,10 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/authStore';
 import { BugHighlighter } from '@/components/BugScanner/BugHighlighter';
+import { useVersionStore } from '@/store/versionStore';
 import { LOGIN_BUG } from '@/constants/bugs';
+import { loginV1Schema, loginV2Schema } from '@/schema/loginSchema';
+import type { LoginFormData } from '@/schema/loginSchema';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'form'>) {
   const [apiError, setApiError] = useState<string>('');
@@ -37,21 +39,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
     },
   });
 
-  const schema = z.object({
-    email: z
-      .string()
-      .trim()
-      .nonempty({ message: 'Email is required' })
-      .min(5, { message: 'Email is too short' })
-      .max(50, { message: 'Email is too long' })
-      .regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
-        message: 'Please enter a valid email address',
-      }),
-
-    password: z.string().nonempty({ message: 'Password is required' }),
-  });
-
-  type LoginFormData = z.infer<typeof schema>;
+  const activeVersion = useVersionStore((state) => state.activeVersion);
+  const schema = activeVersion === 'v2' ? loginV2Schema : loginV1Schema;
 
   const {
     register,

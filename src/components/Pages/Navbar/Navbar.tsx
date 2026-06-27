@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Search, Menu, X, ChevronDown } from 'lucide-react';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate, useLocation } from '@tanstack/react-router';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -152,6 +152,7 @@ const LogoSelect = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const currentLevel = useThemeStore((state) => state.currentLevel);
   const isReauthRequired = useAuthStore((state) => state.isReauthRequired);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   // Re-authentication states for proactive upgrade to JWT (v2 / blue-box)
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = React.useState(false);
@@ -248,7 +249,7 @@ const LogoSelect = () => {
       {isOpen && <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />}
 
       <UpgradeSessionDialog
-        isOpen={isUpgradeModalOpen || isReauthRequired}
+        isOpen={(isUpgradeModalOpen || isReauthRequired) && isAuthenticated}
         pendingLevel={pendingLevel || currentLevel}
         onClose={() => {
           setIsUpgradeModalOpen(false);
@@ -268,11 +269,27 @@ const LogoSelect = () => {
 // ─── NavTopBar
 export const NavTopBar = () => {
   const { scanBugs } = useScanBugs();
+  const { isAuthenticated } = useAuthStore();
+  const location = useLocation();
+
+  const isLoginPage = location.pathname === '/auth/login';
+  const authPath = isLoginPage ? '/auth/signup' : '/auth/login';
+  const authLabel = isLoginPage ? 'Sign Up' : 'Sign In';
 
   return (
     <div className="bg-gray-50/50 w-full justify-between px-2 md:px-5 flex items-center z-[60] relative h-[3.6rem] border-b border-gray-100">
       <LogoSelect />
-      <div>
+      <div className="flex items-center gap-3">
+        {!isAuthenticated && (
+          <Link to={authPath} className="no-underline">
+            <Button
+              variant="outline"
+              className="text-black border-black hover:bg-gray-100 font-semibold"
+            >
+              {authLabel}
+            </Button>
+          </Link>
+        )}
         <Button variant={'default'} onClick={scanBugs}>
           Scan Bugs
         </Button>
@@ -285,6 +302,12 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { scanBugs } = useScanBugs();
+  const { isAuthenticated } = useAuthStore();
+  const location = useLocation();
+
+  const isLoginPage = location.pathname === '/auth/login';
+  const authPath = isLoginPage ? '/auth/signup' : '/auth/login';
+  const authLabel = isLoginPage ? 'Sign Up' : 'Sign In';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -320,8 +343,18 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Right Side: Scan Bugs Button */}
-        <div>
+        {/* Right Side: Action Buttons */}
+        <div className="flex items-center gap-3">
+          {!isAuthenticated && (
+            <Link to={authPath} className="no-underline">
+              <Button
+                variant="outline"
+                className="text-black border-black hover:bg-gray-100 font-semibold"
+              >
+                {authLabel}
+              </Button>
+            </Link>
+          )}
           <Button variant={'default'} onClick={scanBugs}>
             Scan Bugs
           </Button>

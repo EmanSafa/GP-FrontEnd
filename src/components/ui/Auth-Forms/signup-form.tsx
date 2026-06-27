@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import {
   Field,
   FieldDescription,
@@ -7,113 +7,67 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "@tanstack/react-router";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { authApi } from "@/api/authApi";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { authApi } from '@/api/authApi';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { useVersionStore } from '@/store/versionStore';
+import { signupV1Schema, signupV2Schema, type SignupFormData } from '@/schema/signupSchema';
 
-export function SignupForm({
-  className,
-  ...props
-}: React.ComponentProps<"form">) {
-  const [apiError, setApiError] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
+export function SignupForm({ className, ...props }: React.ComponentProps<'form'>) {
+  const [apiError, setApiError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const navigate = useNavigate();
 
   const { mutate: registerUser, isPending } = useMutation({
     mutationFn: authApi.register,
-    onSuccess: () => {
-      setSuccessMessage("Account created successfully! Redirecting to login...");
-      setTimeout(() => {
-        navigate({ to: '/auth/login' });
-      }, 2000);
+    onSuccess: async (_data, variables) => {
+      setSuccessMessage('Account created successfully! Logging in...');
+      try {
+        const authData = await authApi.login({
+          email: variables.email,
+          password: variables.password,
+        });
+        const destination = authData.user?.role === 'admin' ? '/dashboard' : '/';
+        setTimeout(() => {
+          void navigate({ to: destination });
+        }, 1500);
+      } catch {
+        toast.error('Auto-login failed. Redirecting to login...');
+        setTimeout(() => {
+          void navigate({ to: '/auth/login' });
+        }, 2000);
+      }
     },
     onError: (error: Error) => {
       setApiError(error.message);
     },
   });
 
-  // const schema = z
-  //   .object({
-  //     name: z
-  //       .string()
-  //       .min(2, { message: "Full Name is too short" })
-  //       .max(100, { message: "Full Name is too long" })
-  //       .nonempty({ message: "Full name is required" }),
-  //
-  //     email: z
-  //       .string()
-  //       .trim()
-  //       .nonempty({ message: "Email is required" })
-  //       .min(5, { message: "Email is too short" })
-  //       .max(50, { message: "Email is too long" })
-  //       .regex(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
-  //         message: "Please enter a valid email address",
-  //       }),
-  //
-  //     phone: z
-  //       .string()
-  //       .trim()
-  //       .optional(),
-  //
-  //
-  //     password: z
-  //       .string()
-  //       .trim()
-  //       .nonempty({ message: "Password is required" })
-  //       .min(8, { message: "Password must be at least 8 characters long" })
-  //       .max(50, { message: "Password must not exceed 50 characters" })
-  //       .regex(/[A-Z]/, { message: "At least one uppercase letter required" })
-  //       .regex(/[a-z]/, { message: "At least one lowercase letter required" })
-  //       .regex(/[0-9]/, { message: "At least one number required" })
-  //       .regex(/[^A-Za-z0-9]/, {
-  //         message: "At least one special character required",
-  //       })
-  //       .refine((val) => !val.includes("password"), {
-  //         message: "Password should not contain the word 'password'",
-  //       }),
-  //     confirmPassword: z
-  //       .string()
-  //       .trim()
-  //       .nonempty({ message: "Please confirm your password" }),
-  //   })
-  //   .refine((data) => data.password === data.confirmPassword, {
-  //     path: ["confirmPassword"],
-  //     message: "Passwords do not match",
-  //   });
-
-  const schema = z.object({
-    name: z.string(),
-    email: z.string(),
-    phone: z.string().optional(),
-    password: z.string(),
-    confirmPassword: z.string(),
-  });
-
-  type SignupFormData = z.infer<typeof schema>;
+  const activeVersion = useVersionStore((state) => state.activeVersion);
+  const schema = activeVersion === 'v2' ? signupV2Schema : signupV1Schema;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<SignupFormData>({
     resolver: zodResolver(schema),
-    mode: "onSubmit",
+    mode: 'onSubmit',
   });
 
   const onSubmit = (data: SignupFormData) => {
-    setApiError("");
-    setSuccessMessage("");
+    setApiError('');
+    setSuccessMessage('');
 
     // Transform data to match API spec (name instead of name)
     const registerData = {
-      name: data.name,  // Backend expects 'name'
+      name: data.name, // Backend expects 'name'
       email: data.email,
       password: data.password,
       phone: data.phone,
@@ -123,21 +77,20 @@ export function SignupForm({
     console.log('Sending to API:', registerData);
 
     registerUser(registerData);
-    reset();
   };
 
   return (
     <form
-      className={cn("flex flex-col  max-w-sm mx-auto", className)}
+      className={cn('flex flex-col  max-w-sm mx-auto', className)}
       {...props}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        void handleSubmit(onSubmit)(e);
+      }}
       noValidate
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center ">
-          <h1 className="text-3xl font-bold text-plate-8 tracking-tight">
-            Create Account
-          </h1>
+          <h1 className="text-3xl font-bold text-plate-8 tracking-tight">Create Account</h1>
           <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
             Fill in the form below to create your account
           </p>
@@ -162,14 +115,12 @@ export function SignupForm({
             placeholder="Enter your full name"
             required
             className={cn(
-              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
-              errors.name && "border-red-500 focus:ring-red-300"
+              'border-gray-300 focus:border-plate-8 focus:ring-plate-8/20',
+              errors.name && 'border-red-500 focus:ring-red-300'
             )}
-            {...register("name")}
+            {...register('name')}
           />
-          {errors.name && (
-            <FieldError>{errors.name.message}</FieldError>
-          )}
+          {errors.name && <FieldError>{errors.name.message}</FieldError>}
         </Field>
         <Field>
           <FieldLabel htmlFor="email" className="text-plate-8 font-medium">
@@ -181,10 +132,10 @@ export function SignupForm({
             placeholder="Enter your email"
             required
             className={cn(
-              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
-              errors.email && "border-red-500 focus:ring-red-300"
+              'border-gray-300 focus:border-plate-8 focus:ring-plate-8/20',
+              errors.email && 'border-red-500 focus:ring-red-300'
             )}
-            {...register("email")}
+            {...register('email')}
           />
           {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </Field>
@@ -197,10 +148,10 @@ export function SignupForm({
             type="tel"
             placeholder="Enter your phone number"
             className={cn(
-              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
-              errors.phone && "border-red-500 focus:ring-red-300"
+              'border-gray-300 focus:border-plate-8 focus:ring-plate-8/20',
+              errors.phone && 'border-red-500 focus:ring-red-300'
             )}
-            {...register("phone")}
+            {...register('phone')}
           />
           {errors.phone && <FieldError>{errors.phone.message}</FieldError>}
         </Field>
@@ -215,21 +166,16 @@ export function SignupForm({
             placeholder="Create a password"
             required
             className={cn(
-              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
-              errors.password && "border-red-500 focus:ring-red-300"
+              'border-gray-300 focus:border-plate-8 focus:ring-plate-8/20',
+              errors.password && 'border-red-500 focus:ring-red-300'
             )}
-            {...register("password")}
+            {...register('password')}
             isPassword={true}
           />
-          {errors.password && (
-            <FieldError>{errors.password.message}</FieldError>
-          )}
+          {errors.password && <FieldError>{errors.password.message}</FieldError>}
         </Field>
         <Field>
-          <FieldLabel
-            htmlFor="confirm-password"
-            className="text-plate-8 font-medium"
-          >
+          <FieldLabel htmlFor="confirm-password" className="text-plate-8 font-medium">
             Confirm Password
           </FieldLabel>
           <Input
@@ -238,29 +184,21 @@ export function SignupForm({
             placeholder="Confirm your password"
             required
             className={cn(
-              "border-gray-300 focus:border-plate-8 focus:ring-plate-8/20",
-              errors.confirmPassword && "border-red-500 focus:ring-red-300"
+              'border-gray-300 focus:border-plate-8 focus:ring-plate-8/20',
+              errors.confirmPassword && 'border-red-500 focus:ring-red-300'
             )}
-            {...register("confirmPassword")}
+            {...register('confirmPassword')}
             isPassword={true}
           />
-          {errors.confirmPassword && (
-            <FieldError>{errors.confirmPassword.message}</FieldError>
-          )}
+          {errors.confirmPassword && <FieldError>{errors.confirmPassword.message}</FieldError>}
         </Field>
         <Field className="mt-1">
-          <Button
-            type="submit"
-            variant={"default"}
-            disabled={isPending}
-          >
-            {isPending ? "Creating Account..." : "Create Account"}
+          <Button type="submit" variant={'default'} disabled={isPending}>
+            {isPending ? 'Creating Account...' : 'Create Account'}
           </Button>
         </Field>
 
-        <FieldSeparator className="text-gray-500 text-sm">
-          Or continue with
-        </FieldSeparator>
+        <FieldSeparator className="text-gray-500 text-sm">Or continue with</FieldSeparator>
 
         <Field>
           {/* <Button
@@ -273,11 +211,8 @@ export function SignupForm({
           </Button> */}
 
           <FieldDescription className="text-center text-plate-8 hover:text-plate-8/90">
-            Already have an account?{" "}
-            <Link
-              to="/auth/login"
-              className=" font-semibold transition-colors duration-200"
-            >
+            Already have an account?{' '}
+            <Link to="/auth/login" className=" font-semibold transition-colors duration-200">
               Login
             </Link>
           </FieldDescription>

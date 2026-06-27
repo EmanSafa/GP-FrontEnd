@@ -35,6 +35,7 @@ export interface ResetPasswordRequest {
   email: string;
   new_password: string;
   current_password?: string;
+  old_password?: string;
 }
 
 // ─── Helper ──────────────────────────────────────────────────────────────────
@@ -86,7 +87,21 @@ export const authApi = {
       toast.success('Registration successful!');
       return authData;
     } catch (error) {
-      const axiosError = error as AxiosError<{ message?: string }>;
+      const axiosError = error as AxiosError<{
+        message?: string;
+        errors?: Record<string, string | string[]>;
+      }>;
+      const serverErrors = axiosError.response?.data?.errors;
+      if (serverErrors && typeof serverErrors === 'object') {
+        const errorMessages = Object.values(serverErrors).map((err) =>
+          Array.isArray(err) ? err.join(', ') : String(err)
+        );
+        const errorMsg = errorMessages.join('. ');
+        if (errorMsg) {
+          toast.error(errorMsg);
+          throw new Error(errorMsg);
+        }
+      }
       toast.error(axiosError.response?.data?.message || 'Registration failed');
       throw new Error(axiosError.response?.data?.message || 'Registration failed');
     }
@@ -128,7 +143,21 @@ export const authApi = {
       toast.success('Login successful!');
       return authData;
     } catch (error) {
-      const axiosError = error as AxiosError<{ message?: string }>;
+      const axiosError = error as AxiosError<{
+        message?: string;
+        errors?: Record<string, string | string[]>;
+      }>;
+      const serverErrors = axiosError.response?.data?.errors;
+      if (serverErrors && typeof serverErrors === 'object') {
+        const errorMessages = Object.values(serverErrors).map((err) =>
+          Array.isArray(err) ? err.join(', ') : String(err)
+        );
+        const errorMsg = errorMessages.join('. ');
+        if (errorMsg) {
+          toast.error(errorMsg);
+          throw new Error(errorMsg);
+        }
+      }
       toast.error(axiosError.response?.data?.message || 'Login failed');
       throw new Error(axiosError.response?.data?.message || 'Login failed');
     }
@@ -151,7 +180,20 @@ export const authApi = {
   // ── Reset Password ─────────────────────────────────────────────────────────
   resetPassword: async (data: ResetPasswordRequest) => {
     try {
-      await axiosInstance.post(endpoints.auth.resetPassword, data);
+      const activeVersion = useVersionStore.getState().activeVersion;
+      if (activeVersion === 'v2') {
+        const userId = useAuthStore.getState().user?.id;
+        if (!userId) {
+          throw new Error('User ID not found. Please log in again.');
+        }
+        const endpoint = `/users/${userId}/password`;
+        await axiosInstance.put(endpoint, {
+          old_password: data.old_password,
+          new_password: data.new_password,
+        });
+      } else {
+        await axiosInstance.post(endpoints.auth.resetPassword, data);
+      }
     } catch (error) {
       const axiosError = error as AxiosError<{
         message?: string;
