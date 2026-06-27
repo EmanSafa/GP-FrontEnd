@@ -22,11 +22,6 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // For V1: Custom Session ID Header
-    // if (activeVersion === 'v1' && sessionId) {
-    //   config.headers['X-Session-ID'] = sessionId;
-    // }
-
     return config;
   },
   (error: AxiosError) => {

@@ -64,10 +64,20 @@ export interface ProductParams {
   order?: 'asc' | 'desc';
 }
 export interface SearchParams {
-  q: string;
-  limit: number;
-  // ...
+  q?: string;
+  limit?: number;
 }
+export interface ProductReviewParams {
+  page?: number;
+  per_page?: number;
+  sort?: string;
+}
+
+export interface UserAdminListParams {
+  page?: number;
+  per_page?: number;
+}
+
 export interface SingleProductResponse {
   success: boolean;
   product: Product;
@@ -90,10 +100,20 @@ export interface User {
   created_at: string;
 }
 export interface UserProfilePic {
-  photo_url: string;
-  filename: string;
+  photo_url: string | null;
+  filename?: string;
   success: boolean;
   has_photo: boolean;
+}
+
+export interface ApiMessageResponse {
+  success: boolean;
+  message?: string;
+}
+
+export interface UserProfilePicMutationResponse extends ApiMessageResponse {
+  photo_url?: string;
+  filename?: string;
 }
 
 export interface UserProfileResponse {
