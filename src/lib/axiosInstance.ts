@@ -13,7 +13,7 @@ const API_BASE = (import.meta.env.VITE_API_BASE_URL as string) || '';
 axiosInstance.interceptors.request.use(
   (config) => {
     const { activeVersion } = useVersionStore.getState();
-    const { token, sessionId } = useAuthStore.getState();
+    const { token } = useAuthStore.getState();
 
     // Use the base API URL, we will add the version in the request
     config.baseURL = `${API_BASE}/${activeVersion}`;
@@ -23,9 +23,9 @@ axiosInstance.interceptors.request.use(
     }
 
     // For V1: Custom Session ID Header
-    if (activeVersion === 'v1' && sessionId) {
-      config.headers['X-Session-ID'] = sessionId;
-    }
+    // if (activeVersion === 'v1' && sessionId) {
+    //   config.headers['X-Session-ID'] = sessionId;
+    // }
 
     return config;
   },
