@@ -209,4 +209,82 @@ export const authApi = {
       throw new Error(axiosError.response?.data?.message || 'Reset Password failed');
     }
   },
+
+  // ── Forgot Password ────────────────────────────────────────────────────────
+  forgotPassword: async (
+    email: string
+  ): Promise<{ success?: boolean; message?: string; user_id?: number; email?: string }> => {
+    try {
+      const endpoint = endpoints.auth.forgotPassword;
+      const response = await axiosInstance.post<{
+        success?: boolean;
+        message?: string;
+        user_id?: number;
+        email?: string;
+      }>(endpoint, { email });
+      toast.success(response.data?.message || 'Reset link sent successfully!');
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<{
+        message?: string;
+        errors?: Record<string, string | string[]>;
+      }>;
+      const serverErrors = axiosError.response?.data?.errors;
+      if (serverErrors && typeof serverErrors === 'object') {
+        const errorMessages = Object.values(serverErrors).map((err) =>
+          Array.isArray(err) ? err.join(', ') : String(err)
+        );
+        const errorMsg = errorMessages.join('. ');
+        if (errorMsg) {
+          toast.error(errorMsg);
+          throw new Error(errorMsg);
+        }
+      }
+      const errorMsg = axiosError.response?.data?.message || 'Forgot password request failed';
+      toast.error(errorMsg);
+      throw new Error(errorMsg);
+    }
+  },
+
+  // ── Reset Password Guest ───────────────────────────────────────────────────
+  resetPasswordGuest: async (data: {
+    email: string;
+    new_password: string;
+    user_id?: number;
+  }): Promise<{ message?: string; success?: boolean }> => {
+    try {
+      const activeVersion = useVersionStore.getState().activeVersion;
+      // In V1 we can use user_id directly if available, otherwise email. In V2 we use email.
+      const payload =
+        activeVersion === 'v1' && data.user_id
+          ? { user_id: data.user_id, email: data.email, new_password: data.new_password }
+          : { email: data.email, new_password: data.new_password };
+
+      const response = await axiosInstance.post<{ message?: string; success?: boolean }>(
+        endpoints.auth.resetPassword,
+        payload
+      );
+      toast.success(response.data?.message || 'Password reset successfully!');
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<{
+        message?: string;
+        errors?: Record<string, string | string[]>;
+      }>;
+      const serverErrors = axiosError.response?.data?.errors;
+      if (serverErrors && typeof serverErrors === 'object') {
+        const errorMessages = Object.values(serverErrors).map((err) =>
+          Array.isArray(err) ? err.join(', ') : String(err)
+        );
+        const errorMsg = errorMessages.join('. ');
+        if (errorMsg) {
+          toast.error(errorMsg);
+          throw new Error(errorMsg);
+        }
+      }
+      const errorMsg = axiosError.response?.data?.message || 'Reset password failed';
+      toast.error(errorMsg);
+      throw new Error(errorMsg);
+    }
+  },
 };
