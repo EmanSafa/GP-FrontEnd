@@ -1,70 +1,99 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import {
-  ArrowLeft,
-  Gift,
-  Lock,
-  Shield,
-  Trash2,
-  Truck,
-} from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import StepContact from "../CheckoutSteps/StepContact";
-import StepShipping from "../CheckoutSteps/StepShipping";
-import StepPayment from "../CheckoutSteps/StepPayment";
-import { useCheckoutOrder } from "@/hooks/useOrders";
-import { useDeleteCartItem, useGetCart, useGetCartTotal } from "@/hooks/useCart";
-import type { Cart } from "@/types/types";
+import { useEffect, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { ArrowLeft, Gift, Lock, Shield, Trash2, Truck } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import StepContact from '../CheckoutSteps/StepContact';
+import StepShipping from '../CheckoutSteps/StepShipping';
+import StepPayment from '../CheckoutSteps/StepPayment';
+import { useCheckoutOrder } from '@/hooks/useOrders';
+import { useGetUserProfile } from '@/hooks/useAccount';
+import { useDeleteCartItem, useGetCart, useGetCartTotal } from '@/hooks/useCart';
+import { useAuthStore } from '@/store/authStore';
+import { useCheckoutSuccessStore } from '@/store/checkoutSuccessStore';
+import { useVersionStore } from '@/store/versionStore';
+import type { Cart, CheckoutData } from '@/types/types';
+import type { CheckoutResponse } from '@/types/checkout.types';
+import { toast } from 'sonner';
+
+function mapPaymentMethodForApi(method: string, apiVersion: 'v1' | 'v2') {
+  if (apiVersion !== 'v2') {
+    return method;
+  }
+
+  const v2Methods: Record<string, string> = {
+    cash: 'cash_on_delivery',
+    credit_card: 'credit_card',
+    debit_card: 'credit_card',
+    bank_transfer: 'bank_transfer',
+  };
+
+  return v2Methods[method] ?? method;
+}
 
 const Checkout = () => {
-  const { data: orderSummary } = useGetCart()
-  const { data: orderTotal } = useGetCartTotal()
-  const { mutate: deleteCartItem } = useDeleteCartItem()
-  const { mutate: checkout, isPending: isCheckoutLoading } = useCheckoutOrder()
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const { data: userProfile } = useGetUserProfile(Number(user?.id) || 0, { enabled: !!user });
+  const setCheckoutResult = useCheckoutSuccessStore((state) => state.setCheckoutResult);
+  const { data: orderSummary } = useGetCart();
+  const { data: orderTotal } = useGetCartTotal();
+  const { mutate: deleteCartItem } = useDeleteCartItem();
+  const { mutate: checkout, isPending: isCheckoutLoading } = useCheckoutOrder();
 
   const [step, setStep] = useState(1);
   const [showCvv, setShowCvv] = useState(false);
   const [formData, setFormData] = useState({
     // Personal Information
-    email: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
 
     // Shipping Address
-    address: "",
-    city: "",
-    governorate: "",
-    zipCode: "",
-    country: "US",
-    notes: "",
+    address: '',
+    city: '',
+    governorate: '',
+    zipCode: '',
+    country: 'US',
+    notes: '',
 
     // Payment
-    paymentMethod: "cash",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardName: "",
+    paymentMethod: 'cash',
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    cardName: '',
 
     // Options
     saveInfo: false,
     sameAsBilling: true,
     newsletter: false,
-    promoCode: "",
+    promoCode: '',
   });
 
+  useEffect(() => {
+    if (!userProfile) {
+      return;
+    }
+
+    const nameParts = (userProfile.name || '').split(' ');
+
+    setFormData((prev) => ({
+      ...prev,
+      email: prev.email || userProfile.email || '',
+      firstName: prev.firstName || nameParts[0] || '',
+      lastName: prev.lastName || nameParts.slice(1).join(' ') || '',
+      phone: prev.phone || userProfile.phone || '',
+      address: prev.address || userProfile.address || '',
+    }));
+  }, [userProfile]);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -73,62 +102,66 @@ const Checkout = () => {
   const handleCardNumberChange = (value: string) => {
     // Format card number with spaces
     const formatted = value
-      .replace(/\s/g, "")
-      .replace(/(.{4})/g, "$1 ")
+      .replace(/\s/g, '')
+      .replace(/(.{4})/g, '$1 ')
       .trim();
-    handleInputChange("cardNumber", formatted);
+    handleInputChange('cardNumber', formatted);
   };
 
   const handleExpiryChange = (value: string) => {
     // Format expiry as MM/YY
-    const formatted = value.replace(/\D/g, "").replace(/(\d{2})(\d)/, "$1/$2");
-    handleInputChange("expiryDate", formatted);
+    const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2');
+    handleInputChange('expiryDate', formatted);
   };
 
   const handleCompleteOrder = () => {
     const shippingAddress = `${formData.address}, ${formData.city}, ${formData.governorate}, ${formData.zipCode}, Egypt`;
+    const { activeVersion } = useVersionStore.getState();
 
-    const checkoutData: any = {
-      payment_method: formData.paymentMethod,
+    const checkoutData: CheckoutData = {
+      payment_method: mapPaymentMethodForApi(formData.paymentMethod, activeVersion),
       shipping_address: shippingAddress,
       notes: formData.notes,
     };
 
-    if (formData.paymentMethod !== 'cash' && formData.paymentMethod !== 'bank_transfer' && formData.paymentMethod !== 'paypal') {
+    if (
+      formData.paymentMethod !== 'cash' &&
+      formData.paymentMethod !== 'bank_transfer' &&
+      formData.paymentMethod !== 'paypal'
+    ) {
       checkoutData.card_details = {
-        card_number: formData.cardNumber.replace(/\s/g, ""),
+        card_number: formData.cardNumber.replace(/\s/g, ''),
         cvv: formData.cvv,
-        expiry: formData.expiryDate
-      }
+        expiry: formData.expiryDate,
+      };
     }
 
-    checkout(checkoutData);
+    checkout(checkoutData, {
+      onSuccess: (data: CheckoutResponse) => {
+        if (!data.order) {
+          toast.error('Order was placed but details were missing. Check your order history.');
+          return;
+        }
+
+        setCheckoutResult(data.order, data.payment ?? null, data.message ?? null);
+        void navigate({ to: '/order-success' });
+      },
+      onError: () => {
+        toast.error('Checkout failed. Please try again.');
+      },
+    });
   };
 
   const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
-
-  const isFormValid = () => {
-    // Basic validation
-    if (!formData.email || !formData.firstName || !formData.lastName || !formData.phone) return false;
-    if (!formData.address || !formData.city || !formData.governorate || !formData.zipCode) return false;
-    if (formData.paymentMethod !== 'cash' && formData.paymentMethod !== 'bank_transfer' && formData.paymentMethod !== 'paypal') {
-      if (!formData.cardNumber || !formData.expiryDate || !formData.cvv || !formData.cardName) return false;
-    }
-    return true;
-  }
 
   return (
     <div className="bg-muted/30">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-balance">
-            Secure Checkout
-          </h1>
-          <p className="text-muted-foreground">
-            Complete your purchase in just a few steps
-          </p>
+          <h1 className="mb-2 text-3xl font-bold text-balance">Secure Checkout</h1>
+          <p className="text-muted-foreground">Complete your purchase in just a few steps</p>
         </div>
 
         {/* Progress Indicator */}
@@ -137,17 +170,17 @@ const Checkout = () => {
             {[1, 2, 3].map((stepNumber) => (
               <div key={stepNumber} className="flex items-center">
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-1 border-plate-8  text-sm font-medium transition-colors ${stepNumber <= step
-                    ? "bg-plate-8 text-white"
-                    : "bg-muted text-plate-8"
-                    }`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border border-plate-8 text-sm font-medium transition-colors ${
+                    stepNumber <= step ? 'bg-plate-8 text-white' : 'bg-muted text-plate-8'
+                  }`}
                 >
                   {stepNumber}
                 </div>
                 {stepNumber < 3 && (
                   <div
-                    className={`mx-4  h-1 w-16 rounded transition-colors ${stepNumber < step ? "bg-plate-8 " : "bg-muted"
-                      }`}
+                    className={`mx-4  h-1 w-16 rounded transition-colors ${
+                      stepNumber < step ? 'bg-plate-8 ' : 'bg-muted'
+                    }`}
                   />
                 )}
               </div>
@@ -161,32 +194,25 @@ const Checkout = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-balance">
-                  {step === 1 && "Contact Information"}
-                  {step === 2 && "Shipping Address"}
-                  {step === 3 && "Payment Details"}
+                  {step === 1 && 'Contact Information'}
+                  {step === 2 && 'Shipping Address'}
+                  {step === 3 && 'Payment Details'}
                 </CardTitle>
                 <CardDescription>
                   {step === 1 && "We'll use this to send you order updates"}
-                  {step === 2 && "Where should we deliver your order?"}
-                  {step === 3 &&
-                    "Your payment information is secure and encrypted"}
+                  {step === 2 && 'Where should we deliver your order?'}
+                  {step === 3 && 'Your payment information is secure and encrypted'}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Step 1: Contact Information */}
                 {step === 1 && (
-                  <StepContact
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                  />
+                  <StepContact formData={formData} handleInputChange={handleInputChange} />
                 )}
 
                 {/* Step 2: Shipping Address */}
                 {step === 2 && (
-                  <StepShipping
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                  />
+                  <StepShipping formData={formData} handleInputChange={handleInputChange} />
                 )}
 
                 {/* Step 3: Payment */}
@@ -215,21 +241,19 @@ const Checkout = () => {
                   </Button>
 
                   {step < 3 ? (
-                    <Button
-                      onClick={nextStep}
-                      variant={"auth"}
-                      className="cursor-pointer"
-                    >
+                    <Button onClick={nextStep} variant={'auth'} className="cursor-pointer">
                       Continue
                     </Button>
                   ) : (
                     <Button
-                      variant={"auth"}
+                      variant={'auth'}
                       className="flex cursor-pointer items-center gap-2"
                       onClick={handleCompleteOrder}
-                      disabled={!isFormValid() || isCheckoutLoading}
+                      disabled={isCheckoutLoading}
                     >
-                      {isCheckoutLoading ? "Processing..." : (
+                      {isCheckoutLoading ? (
+                        'Processing...'
+                      ) : (
                         <>
                           <Lock className="size-4" />
                           Complete Order
@@ -251,37 +275,36 @@ const Checkout = () => {
               <CardContent className="space-y-4">
                 {/* Items */}
                 <div className="space-y-4 ">
-                  {Array.isArray(orderSummary) && orderSummary.map((item: Cart) => (
-                    <div key={item.id} className="flex gap-4">
-                      <div className="relative">
-                        <div className="p-5 h-[100px] w-[100px]">
-                          <img
-                            src={item.product_image_url}
-                            alt={item.product_name}
-                            className="h-16 w-16 rounded-lg h-auto w-auto object-cover"
-                          />
+                  {Array.isArray(orderSummary) &&
+                    orderSummary.map((item: Cart) => (
+                      <div key={item.id} className="flex gap-4">
+                        <div className="relative">
+                          <div className="p-5 h-[100px] w-[100px]">
+                            <img
+                              src={item.product_image_url}
+                              alt={item.product_name}
+                              className="size-16 rounded-lg object-cover"
+                            />
+                          </div>
+                          <Badge
+                            variant="secondary"
+                            className="absolute -end-2 -top-2 size-6 rounded-full p-0 text-xs"
+                          >
+                            {item.quantity}
+                          </Badge>
                         </div>
-                        <Badge
-                          variant="secondary"
-                          className="absolute -end-2 -top-2 size-6 rounded-full p-0 text-xs"
-                        >
-                          {item.quantity}
-                        </Badge>
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="truncate text-sm font-medium">
-                          {item.product_name}
-                        </h4>
-                        {/* <p className="text-muted-foreground text-xs">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="truncate text-sm font-medium">{item.product_name}</h4>
+                          {/* <p className="text-muted-foreground text-xs">
                           {item.variant}
                         </p> */}
-                        <p className="mt-1 text-sm font-medium">
-                          ${item.price}
-                        </p>
+                          <p className="mt-1 text-sm font-medium">${item.price}</p>
+                        </div>
+                        <button onClick={() => deleteCartItem(item.id)}>
+                          <Trash2 />
+                        </button>
                       </div>
-                      <button onClick={() => deleteCartItem(item.id)}><Trash2 /></button>
-                    </div>
-                  ))}
+                    ))}
                 </div>
 
                 <Separator />
@@ -296,9 +319,7 @@ const Checkout = () => {
                       id="promoCode-kL1m67Q"
                       placeholder="Enter code"
                       value={formData.promoCode}
-                      onChange={(e) =>
-                        handleInputChange("promoCode", e.target.value)
-                      }
+                      onChange={(e) => handleInputChange('promoCode', e.target.value)}
                     />
                     <Button variant="outline" className="cursor-pointer">
                       Apply
@@ -312,7 +333,7 @@ const Checkout = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${orderTotal?.toFixed(2) || '0.00'}</span>
+                    <span>${typeof orderTotal === 'number' ? orderTotal.toFixed(2) : '0.00'}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground flex items-center gap-1">
@@ -325,7 +346,6 @@ const Checkout = () => {
                     <span className="text-muted-foreground">Tax</span>
                     <span>$0.00</span>
                   </div>
-
                 </div>
 
                 <Separator />

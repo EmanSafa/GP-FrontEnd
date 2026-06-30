@@ -17,6 +17,7 @@ import { Route as AuthOtpRouteImport } from './routes/auth/otp'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forgetPassword'
 import { Route as MainShopRouteImport } from './routes/_main/shop'
+import { Route as MainOrderSuccessRouteImport } from './routes/_main/order-success'
 import { Route as MainContactRouteImport } from './routes/_main/contact'
 import { Route as MainCheckoutRouteImport } from './routes/_main/checkout'
 import { Route as MainCartRouteImport } from './routes/_main/cart'
@@ -69,6 +70,11 @@ const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
 const MainShopRoute = MainShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => MainRouteRoute,
+} as any)
+const MainOrderSuccessRoute = MainOrderSuccessRouteImport.update({
+  id: '/order-success',
+  path: '/order-success',
   getParentRoute: () => MainRouteRoute,
 } as any)
 const MainContactRoute = MainContactRouteImport.update({
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
+  '/order-success': typeof MainOrderSuccessRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -174,6 +181,7 @@ export interface FileRoutesByTo {
   '/cart': typeof MainCartRoute
   '/checkout': typeof MainCheckoutRoute
   '/contact': typeof MainContactRoute
+  '/order-success': typeof MainOrderSuccessRoute
   '/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -199,6 +207,7 @@ export interface FileRoutesById {
   '/_main/cart': typeof MainCartRoute
   '/_main/checkout': typeof MainCheckoutRoute
   '/_main/contact': typeof MainContactRoute
+  '/_main/order-success': typeof MainOrderSuccessRoute
   '/_main/shop': typeof MainShopRoute
   '/auth/forgetPassword': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/contact'
+    | '/order-success'
     | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/contact'
+    | '/order-success'
     | '/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/_main/cart'
     | '/_main/checkout'
     | '/_main/contact'
+    | '/_main/order-success'
     | '/_main/shop'
     | '/auth/forgetPassword'
     | '/auth/login'
@@ -345,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof MainShopRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
+    '/_main/order-success': {
+      id: '/_main/order-success'
+      path: '/order-success'
+      fullPath: '/order-success'
+      preLoaderRoute: typeof MainOrderSuccessRouteImport
       parentRoute: typeof MainRouteRoute
     }
     '/_main/contact': {
@@ -478,6 +497,7 @@ interface MainRouteRouteChildren {
   MainCartRoute: typeof MainCartRoute
   MainCheckoutRoute: typeof MainCheckoutRoute
   MainContactRoute: typeof MainContactRoute
+  MainOrderSuccessRoute: typeof MainOrderSuccessRoute
   MainShopRoute: typeof MainShopRoute
   MainIndexRoute: typeof MainIndexRoute
 }
@@ -491,6 +511,7 @@ const MainRouteRouteChildren: MainRouteRouteChildren = {
   MainCartRoute: MainCartRoute,
   MainCheckoutRoute: MainCheckoutRoute,
   MainContactRoute: MainContactRoute,
+  MainOrderSuccessRoute: MainOrderSuccessRoute,
   MainShopRoute: MainShopRoute,
   MainIndexRoute: MainIndexRoute,
 }

@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { CreditCard, Eye, EyeOff } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { CreditCard, Eye, EyeOff } from 'lucide-react';
 
 interface PaymentData {
   paymentMethod: string;
@@ -36,30 +36,38 @@ const StepPayment = ({
         <Label className="text-sm font-medium">Payment method</Label>
         <RadioGroup
           value={formData.paymentMethod}
-          onValueChange={(value) => handleInputChange("paymentMethod", value)}
+          onValueChange={(value) => handleInputChange('paymentMethod', value)}
           className="space-y-3"
         >
           <div className="flex items-center space-x-3 rounded-lg border p-4">
             <RadioGroupItem value="cash" id="cash" />
-            <Label htmlFor="cash" className="flex-1 cursor-pointer">Cash on delivery</Label>
+            <Label htmlFor="cash" className="flex-1 cursor-pointer">
+              Cash on delivery
+            </Label>
           </div>
           <div className="flex items-center space-x-3 rounded-lg border p-4">
             <RadioGroupItem value="credit_card" id="credit_card" />
             <CreditCard className="text-muted-foreground size-5" />
-            <Label htmlFor="credit_card" className="flex-1 cursor-pointer">Credit card</Label>
+            <Label htmlFor="credit_card" className="flex-1 cursor-pointer">
+              Credit card
+            </Label>
           </div>
           <div className="flex items-center space-x-3 rounded-lg border p-4">
             <RadioGroupItem value="debit_card" id="debit_card" />
             <CreditCard className="text-muted-foreground size-5" />
-            <Label htmlFor="debit_card" className="flex-1 cursor-pointer">Debit card</Label>
+            <Label htmlFor="debit_card" className="flex-1 cursor-pointer">
+              Debit card
+            </Label>
           </div>
-          <div className="flex items-center space-x-3 rounded-lg border p-4">
+          {/* <div className="flex items-center space-x-3 rounded-lg border p-4">
             <RadioGroupItem value="paypal" id="paypal" />
             <Label htmlFor="paypal" className="flex-1 cursor-pointer">PayPal</Label>
-          </div>
+          </div> */}
           <div className="flex items-center space-x-3 rounded-lg border p-4">
             <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-            <Label htmlFor="bank_transfer" className="flex-1 cursor-pointer">Bank transfer</Label>
+            <Label htmlFor="bank_transfer" className="flex-1 cursor-pointer">
+              Bank transfer
+            </Label>
           </div>
         </RadioGroup>
       </div>
@@ -95,10 +103,10 @@ const StepPayment = ({
               <div className="relative">
                 <Input
                   id="cvv-gH8s34N"
-                  type={showCvv ? "text" : "password"}
+                  type={showCvv ? 'text' : 'password'}
                   placeholder="123"
                   value={formData.cvv}
-                  onChange={(e) => handleInputChange("cvv", e.target.value)}
+                  onChange={(e) => handleInputChange('cvv', e.target.value)}
                   maxLength={4}
                   className="mt-2 pe-10"
                 />
@@ -123,7 +131,7 @@ const StepPayment = ({
                 id="cardName-hI9t45O"
                 placeholder="John Doe"
                 value={formData.cardName}
-                onChange={(e) => handleInputChange("cardName", e.target.value)}
+                onChange={(e) => handleInputChange('cardName', e.target.value)}
                 className="mt-2"
               />
             </div>

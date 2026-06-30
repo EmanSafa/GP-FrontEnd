@@ -226,6 +226,16 @@ export interface Review {
   helpful_count: number;
   created_at: string;
 }
+
+export interface ProductReviewsResponse {
+  success: boolean;
+  reviews: Review[];
+  pagination?: {
+    totalPages: number;
+    currentPage?: number;
+    total?: number;
+  };
+}
 export interface productsFormData {
   name: string;
   description?: string;

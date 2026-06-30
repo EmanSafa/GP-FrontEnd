@@ -1,6 +1,6 @@
-import { Plus } from "lucide-react";
-import { FaStar } from "react-icons/fa";
-import { useNavigate } from "@tanstack/react-router";
+import { Plus } from 'lucide-react';
+import { FaStar } from 'react-icons/fa';
+import { useNavigate } from '@tanstack/react-router';
 
 type ProductCardProps = {
   id: number;
@@ -21,15 +21,15 @@ const ProductCard = ({
   rating = 5,
   imgSrc,
   discount,
-  className = "",
+  className = '',
 }: ProductCardProps) => {
   const navigate = useNavigate();
   return (
     <div
       onClick={() => {
-        navigate({ to: "/cardInfo", search: { id: id } });
+        void navigate({ to: '/cardInfo', search: { id } });
       }}
-      className={`w-full max-w-xs bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-3 hover:shadow-2xl duration-300 fade-up flex-wrap ${className}`}
+      className={`w-full max-w-sm bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-3 hover:shadow-2xl duration-300 fade-up flex-wrap ${className}`}
     >
       <div className="relative bg-gradient-to-b from-white to-plate-1 p-4 flex items-center justify-center">
         <img src={imgSrc} alt={title} className="w-36 h-36 object-contain" />
@@ -39,7 +39,6 @@ const ProductCard = ({
           </span>
         ) : null}
       </div>
-
 
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
@@ -55,18 +54,13 @@ const ProductCard = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {oldPrice ? (
-              <span className="text-gray-400 text-sm line-through">
-                {oldPrice}
-              </span>
+              <span className="text-gray-400 text-sm line-through">{oldPrice}</span>
             ) : null}
             <span className="text-plate-7 font-semibold">{price}</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              aria-label="add"
-              className="p-1 rounded-md bg-plate-1 hover:bg-plate-2"
-            >
+            <button aria-label="add" className="p-1 rounded-md bg-plate-1 hover:bg-plate-2">
               <Plus className="text-plate-8" />
             </button>
           </div>

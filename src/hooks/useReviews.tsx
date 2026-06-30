@@ -1,101 +1,129 @@
-import { reviewsApi } from "@/lib/apiClient";
-import type { ReivewData } from "@/types/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner";
+import { reviewsApi } from '@/lib/apiClient';
+import type {
+  ApiMessageResponse,
+  ProductReviewParams,
+  ProductReviewsResponse,
+  ReivewData,
+} from '@/types/types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 export const useCreateReview = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async ({ id, data }: { id: number; data: ReivewData }) => {
-            const response = await reviewsApi.create(id, data);
-            if (response.data && response.data.success) {
-                toast.success(response.data.message || 'Review has sumbitted successfully');
-                return response.data;
-            }
-            throw new Error("Failed to create reiview: Invalid response format");
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['reviews'] });
-            queryClient.invalidateQueries({ queryKey: ['product-rating'] });
-        }
+  const queryClient = useQueryClient();
+  return useMutation<ApiMessageResponse, Error, { id: number; data: ReivewData }>({
+    mutationFn: async ({ id, data }) => {
+      const response = await reviewsApi.create(id, data);
+      const responseData = response.data as ApiMessageResponse | undefined;
+      if (responseData?.success) {
+        toast.success(responseData.message || 'Review has sumbitted successfully');
+        return responseData;
+      }
+      throw new Error('Failed to create reiview: Invalid response format');
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['reviews'] });
+      void queryClient.invalidateQueries({ queryKey: ['product-rating'] });
+    },
+  });
+};
 
-    })
-}
-
-export const useGetProductReviews = (id: number, params?: any) => {
-    return useQuery({
-        queryKey: ["reviews", id, params],
-        queryFn: async () => {
-            const response = await reviewsApi.productReview(id, params);
-            return response.data;
-        },
-        enabled: !!id,
-    });
+export const useGetProductReviews = (
+  id: number,
+  options?: { enabled?: boolean; params?: ProductReviewParams }
+) => {
+  return useQuery<ProductReviewsResponse, Error>({
+    queryKey: ['reviews', id, options?.params],
+    queryFn: async () => {
+      const response = await reviewsApi.productReview(id, options?.params);
+      const data = response.data as ProductReviewsResponse | undefined;
+      if (data?.reviews) {
+        return data;
+      }
+      throw new Error('Failed to fetch product reviews: Invalid response format');
+    },
+    enabled: !!id && options?.enabled !== false,
+  });
 };
 
 export const useGetProductRating = (id: number) => {
-    return useQuery({
-        queryKey: ["product-rating", id],
-        queryFn: async () => {
-            const response = await reviewsApi.rating(id);
-            return response.data;
-        },
-        enabled: !!id,
-    });
+  return useQuery<ApiMessageResponse, Error>({
+    queryKey: ['product-rating', id],
+    queryFn: async () => {
+      const response = await reviewsApi.rating(id);
+      const data = response.data as ApiMessageResponse | undefined;
+      if (data?.success) {
+        return data;
+      }
+      throw new Error('Failed to fetch product rating: Invalid response format');
+    },
+    enabled: !!id,
+  });
 };
 
 export const useUpdateReview = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async ({ id, data }: { id: number; data: ReivewData }) => {
-            const response = await reviewsApi.update(id, data);
-            return response.data;
-        },
-        onSuccess: () => {
-            toast.success("Review updated successfully");
-            queryClient.invalidateQueries({ queryKey: ["reviews"] });
-            queryClient.invalidateQueries({ queryKey: ["product-rating"] });
-        },
-        onError: (error) => {
-            toast.error("Failed to update review");
-            console.error(error);
-        },
-    });
+  const queryClient = useQueryClient();
+  return useMutation<ApiMessageResponse, Error, { id: number; data: ReivewData }>({
+    mutationFn: async ({ id, data }) => {
+      const response = await reviewsApi.update(id, data);
+      const responseData = response.data as ApiMessageResponse | undefined;
+      if (responseData?.success) {
+        return responseData;
+      }
+      throw new Error('Failed to update review: Invalid response format');
+    },
+    onSuccess: () => {
+      toast.success('Review updated successfully');
+      void queryClient.invalidateQueries({ queryKey: ['reviews'] });
+      void queryClient.invalidateQueries({ queryKey: ['product-rating'] });
+    },
+    onError: (error) => {
+      toast.error('Failed to update review');
+      console.error(error);
+    },
+  });
 };
 
 export const useDeleteReview = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async (id: number) => {
-            const response = await reviewsApi.delete(id);
-            return response.data;
-        },
-        onSuccess: () => {
-            toast.success("Review deleted successfully");
-            queryClient.invalidateQueries({ queryKey: ["reviews"] });
-            queryClient.invalidateQueries({ queryKey: ["product-rating"] });
-        },
-        onError: (error) => {
-            toast.error("Failed to delete review");
-            console.error(error);
-        },
-    });
+  const queryClient = useQueryClient();
+  return useMutation<ApiMessageResponse, Error, number>({
+    mutationFn: async (reviewId) => {
+      const response = await reviewsApi.delete(reviewId);
+      const responseData = response.data as ApiMessageResponse | undefined;
+      if (responseData?.success) {
+        return responseData;
+      }
+      throw new Error('Failed to delete review: Invalid response format');
+    },
+    onSuccess: () => {
+      toast.success('Review deleted successfully');
+      void queryClient.invalidateQueries({ queryKey: ['reviews'] });
+      void queryClient.invalidateQueries({ queryKey: ['product-rating'] });
+    },
+    onError: (error) => {
+      toast.error('Failed to delete review');
+      console.error(error);
+    },
+  });
 };
 
 export const useMarkReviewHelpful = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async (id: number) => {
-            const response = await reviewsApi.helpful(id, {});
-            toast.success(response.data.message || "Review marked as helpful successfully");
-            return response.data;
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["reviews"] });
-        },
-        onError: (error) => {
-            toast.error("Failed to mark review as helpful");
-            console.error(error);
-        },
-    });
+  const queryClient = useQueryClient();
+  return useMutation<ApiMessageResponse, Error, number>({
+    mutationFn: async (reviewId) => {
+      const response = await reviewsApi.helpful(reviewId, {});
+      const responseData = response.data as ApiMessageResponse | undefined;
+      if (responseData?.success) {
+        toast.success(responseData.message || 'Review marked as helpful successfully');
+        return responseData;
+      }
+      throw new Error('Failed to mark review as helpful: Invalid response format');
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['reviews'] });
+    },
+    onError: (error) => {
+      toast.error('Failed to mark review as helpful');
+      console.error(error);
+    },
+  });
 };

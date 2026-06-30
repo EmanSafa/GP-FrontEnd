@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ordersApi } from '@/lib/apiClient';
+import { normalizeCheckoutResponse } from '@/lib/normalizeCheckoutResponse';
 import { toast } from 'sonner';
+import type { CheckoutResponse } from '@/types/checkout.types';
 import type { CheckoutData, OrderItem, DetailedOrder } from '@/types/types';
 
 interface BasicResponse {
@@ -20,18 +22,23 @@ interface SingleOrderResponse {
 
 export const useCheckoutOrder = () => {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useMutation<CheckoutResponse, Error, CheckoutData>({
     mutationFn: async (data: CheckoutData) => {
       const response = await ordersApi.checkout(data);
-      const resData = response.data as BasicResponse;
-      if (resData && resData.success) {
-        toast.success(resData.message || 'Order checked out successfully');
-        return resData;
+      const resData = normalizeCheckoutResponse(response.data);
+
+      if (!resData) {
+        throw new Error('Failed to checkout order: Invalid response format');
       }
-      throw new Error('Failed to checkout order: Invalid response format');
+
+      toast.success(resData.message || 'Order checked out successfully');
+      return resData;
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['orders'] });
+      void queryClient.invalidateQueries({ queryKey: ['cart-items'] });
+      void queryClient.invalidateQueries({ queryKey: ['cart-count'] });
+      void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
     },
   });
 };

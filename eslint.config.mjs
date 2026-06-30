@@ -16,7 +16,12 @@ export default tseslint.config({
   ],
   rules: {
     '@typescript-eslint/array-type': 'error',
-    '@typescript-eslint/no-duplicate-type-constituents': 'error'
-    // Add more rules as needed
+    '@typescript-eslint/no-duplicate-type-constituents': 'error',
+  },
+},
+{
+  files: ['src/routes/**/*.tsx'],
+  rules: {
+    '@typescript-eslint/only-throw-error': 'off',
   },
 });
