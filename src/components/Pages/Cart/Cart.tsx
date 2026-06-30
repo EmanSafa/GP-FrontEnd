@@ -51,7 +51,7 @@ const Cart = () => {
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold">Cart</SheetTitle>
         </SheetHeader>
-        {cartItems?.length > 0 ? (
+        {(cartItems?.length ?? 0) > 0 ? (
           cartItems?.map((item: CartType) => (
             <CartItem
               key={item.id}

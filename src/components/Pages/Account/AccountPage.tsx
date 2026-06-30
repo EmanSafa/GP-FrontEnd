@@ -1,13 +1,13 @@
-import { UserRound, Pencil } from "lucide-react";
-import { USER_DATA_CORS_BUG, PERSONAL_INFO_CSRF_BUG } from "@/constants/bugs";
-import OrderHistory from "./OrderHistory";
-import InfoSection from "./InfoSection";
-import InfoField from "./InfoField";
-import { useAuthStore } from "@/store/authStore";
-import { useGetUserProfile, useGetUserProfilePic } from "@/hooks/useAccount";
-import { ProfilePictureDialog } from "./ProfilePictureDialog";
-import PersonalInfoEditDialog from "./personalInfoEditDialog";
-import { BugHighlighter } from "@/components/BugScanner/BugHighlighter";
+import { UserRound, Pencil } from 'lucide-react';
+import { USER_DATA_CORS_BUG, PERSONAL_INFO_CSRF_BUG } from '@/constants/bugs';
+import OrderHistory from './OrderHistory';
+import InfoSection from './InfoSection';
+import InfoField from './InfoField';
+import { useAuthStore } from '@/store/authStore';
+import { useGetUserProfile, useGetUserProfilePic } from '@/hooks/useAccount';
+import { ProfilePictureDialog } from './ProfilePictureDialog';
+import PersonalInfoEditDialog from './personalInfoEditDialog';
+import { BugHighlighter } from '@/components/BugScanner/BugHighlighter';
 
 const AccountPage = () => {
   const { user } = useAuthStore();
@@ -18,20 +18,23 @@ const AccountPage = () => {
   if (!userData) return <div>Loading...</div>;
 
   // Split name into first and last name
-  const nameParts = (userData.name || "").split(" ");
-  const firstName = nameParts[0] || "";
-  const lastName = nameParts.slice(1).join(" ") || "";
+  const nameParts = (userData.name || '').split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
 
   return (
     <div className="mt-9 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Profile Header */}
       <div className="flex items-center gap-4 mb-8">
         <BugHighlighter id="profile-pic" bugName="RCE - Remote code execution">
-          <ProfilePictureDialog currentImage={userDataForPic?.photo_url} userName={userData.name}>
+          <ProfilePictureDialog
+            currentImage={userDataForPic?.photo_url ?? undefined}
+            userName={userData.name}
+          >
             <div className="relative cursor-pointer group">
               {userDataForPic?.has_photo ? (
                 <img
-                  src={userDataForPic.photo_url}
+                  src={userDataForPic.photo_url ?? undefined}
                   alt={userDataForPic.filename}
                   className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-plate-1"
                 />
@@ -46,9 +49,7 @@ const AccountPage = () => {
         </BugHighlighter>
         <div>
           <h1 className="font-bold text-xl md:text-2xl">{userData.name}</h1>
-          <h3 className="font-normal text-plate-7 text-sm md:text-base">
-            {userData.email}
-          </h3>
+          <h3 className="font-normal text-plate-7 text-sm md:text-base">{userData.email}</h3>
           {userData.role && (
             <span className="inline-block mt-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full capitalize">
               {userData.role}
@@ -58,7 +59,12 @@ const AccountPage = () => {
       </div>
 
       {/* Information Sections */}
-      <BugHighlighter id="userdataCors" ids={[USER_DATA_CORS_BUG.id, PERSONAL_INFO_CSRF_BUG.id]} className="w-full" bugName="Security Vulnerabilities">
+      <BugHighlighter
+        id="userdataCors"
+        ids={[USER_DATA_CORS_BUG.id, PERSONAL_INFO_CSRF_BUG.id]}
+        className="w-full"
+        bugName="Security Vulnerabilities"
+      >
         <div className="w-full">
           {/* Personal Information */}
           <InfoSection title="Personal Information" editDialog={<PersonalInfoEditDialog />}>
@@ -73,10 +79,7 @@ const AccountPage = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <InfoField label="User Name" value={userData.name} />
-              <InfoField
-                label="Password"
-                value={"***********"}
-              />
+              <InfoField label="Password" value={'***********'} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="capitalize">
