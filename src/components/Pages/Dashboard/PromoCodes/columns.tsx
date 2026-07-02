@@ -113,7 +113,7 @@ export const getColumns = ({ onEdit, onDelete }: ColumnsProps): ColumnDef<PromoC
     accessorKey: 'expires_at',
     header: 'Expires At',
     cell: ({ row }) => {
-      const expiresAt = row.getValue('expires_at');
+      const expiresAt = row.original.expires_at;
       if (!expiresAt) return <span className="text-gray-400">Never</span>;
       const date = new Date(expiresAt);
       const isExpired = date.getTime() < Date.now();
