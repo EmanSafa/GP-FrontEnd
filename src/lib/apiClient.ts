@@ -16,6 +16,7 @@ import type {
   SearchParams,
   ProductReviewParams,
   UserAdminListParams,
+  PromoCodeFormData,
 } from '@/types/types';
 import type { AxiosResponse } from 'axios';
 import axiosInstance from './axiosInstance';
@@ -70,6 +71,9 @@ export const cartApi = {
     axiosInstance.put(endpoints.cart.update(id), data),
   remove: (id: number) => axiosInstance.delete(endpoints.cart.remove(id)),
   clear: () => axiosInstance.delete(endpoints.cart.clear),
+  applyPromo: (promoCode: string) =>
+    axiosInstance.post(endpoints.cart.applyPromo, { promo_code: promoCode }),
+  removePromo: () => axiosInstance.delete(endpoints.cart.applyPromo),
 };
 
 export const ordersApi = {
@@ -273,4 +277,13 @@ export const UserAdminApi = {
 };
 export const AddAdmin = {
   add: (data: AddAdminFormData) => axiosInstance.post(endpoints.addAdmin.add, data),
+};
+
+export const promoCodesAdminApi = {
+  list: () => axiosInstance.get(endpoints.promoCodesAdminApi.list),
+  create: (data: PromoCodeFormData) =>
+    axiosInstance.post(endpoints.promoCodesAdminApi.create, data),
+  update: (id: number, data: PromoCodeFormData) =>
+    axiosInstance.put(endpoints.promoCodesAdminApi.update(id), data),
+  delete: (id: number) => axiosInstance.delete(endpoints.promoCodesAdminApi.delete(id)),
 };

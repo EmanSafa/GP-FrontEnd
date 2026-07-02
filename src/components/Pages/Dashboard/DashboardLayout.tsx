@@ -1,84 +1,82 @@
-import { BugHighlighter } from "@/components/BugScanner/BugHighlighter"
+import { BugHighlighter } from '@/components/BugScanner/BugHighlighter';
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { Link } from "@tanstack/react-router"
-
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import { Link } from '@tanstack/react-router';
 
 // Menu items.
 const items = [
-    {
-        title: "Products",
-        url: "/dashboard/product",
-
-    },
-    {
-        title: "Categories",
-        url: "/dashboard/categories",
-    },
-    {
-        title: "Orders",
-        url: "/dashboard/orders",
-    },
-    {
-        title: "Brands",
-        url: "/dashboard/brands",
-    },
-    {
-        title: "Users",
-        url: "/dashboard/users",
-    },
-]
+  {
+    title: 'Products',
+    url: '/dashboard/product',
+  },
+  {
+    title: 'Categories',
+    url: '/dashboard/categories',
+  },
+  {
+    title: 'Orders',
+    url: '/dashboard/orders',
+  },
+  {
+    title: 'Brands',
+    url: '/dashboard/brands',
+  },
+  {
+    title: 'Users',
+    url: '/dashboard/users',
+  },
+  {
+    title: 'Promo Codes',
+    url: '/dashboard/promo-codes',
+  },
+];
 
 interface DashboardLayoutProps {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-
-
-
-    return (
-
-        <SidebarProvider>
-            <Sidebar>
-                <SidebarContent>
-                    <SidebarGroup>
-                        <SidebarGroupLabel>Application</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu className="mt-16">
-                                {items.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
-                                            <Link to={item.url}>
-                                                <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                ))}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                </SidebarContent>
-            </Sidebar>
-            <main className="w-full">
-                <SidebarTrigger />
-                <div className="p-4">
-                    <BugHighlighter id="dashboardBug" className='w-full' bugName="Broken Access control">
-                        {children}
-                    </BugHighlighter>
-                </div>
-            </main>
-        </SidebarProvider>
-    )
-}
-export default DashboardLayout
+  return (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Application</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="mt-16">
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url}>
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <main className="w-full">
+        <SidebarTrigger />
+        <div className="p-4">
+          <BugHighlighter id="dashboardBug" className="w-full" bugName="Broken Access control">
+            {children}
+          </BugHighlighter>
+        </div>
+      </main>
+    </SidebarProvider>
+  );
+};
+export default DashboardLayout;

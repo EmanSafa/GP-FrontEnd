@@ -28,6 +28,7 @@ import { Route as MainAboutRouteImport } from './routes/_main/about'
 import { Route as MainDashboardRouteRouteImport } from './routes/_main/dashboard/route'
 import { Route as MainDashboardIndexRouteImport } from './routes/_main/dashboard/index'
 import { Route as MainDashboardUsersRouteImport } from './routes/_main/dashboard/users'
+import { Route as MainDashboardPromoCodesRouteImport } from './routes/_main/dashboard/promo-codes'
 import { Route as MainDashboardProductRouteImport } from './routes/_main/dashboard/product'
 import { Route as MainDashboardOrdersRouteImport } from './routes/_main/dashboard/orders'
 import { Route as MainDashboardCategoriesRouteImport } from './routes/_main/dashboard/categories'
@@ -127,6 +128,11 @@ const MainDashboardUsersRoute = MainDashboardUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => MainDashboardRouteRoute,
 } as any)
+const MainDashboardPromoCodesRoute = MainDashboardPromoCodesRouteImport.update({
+  id: '/promo-codes',
+  path: '/promo-codes',
+  getParentRoute: () => MainDashboardRouteRoute,
+} as any)
 const MainDashboardProductRoute = MainDashboardProductRouteImport.update({
   id: '/product',
   path: '/product',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/categories': typeof MainDashboardCategoriesRoute
   '/dashboard/orders': typeof MainDashboardOrdersRoute
   '/dashboard/product': typeof MainDashboardProductRoute
+  '/dashboard/promo-codes': typeof MainDashboardPromoCodesRoute
   '/dashboard/users': typeof MainDashboardUsersRoute
   '/dashboard/': typeof MainDashboardIndexRoute
 }
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/dashboard/categories': typeof MainDashboardCategoriesRoute
   '/dashboard/orders': typeof MainDashboardOrdersRoute
   '/dashboard/product': typeof MainDashboardProductRoute
+  '/dashboard/promo-codes': typeof MainDashboardPromoCodesRoute
   '/dashboard/users': typeof MainDashboardUsersRoute
   '/dashboard': typeof MainDashboardIndexRoute
 }
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/_main/dashboard/categories': typeof MainDashboardCategoriesRoute
   '/_main/dashboard/orders': typeof MainDashboardOrdersRoute
   '/_main/dashboard/product': typeof MainDashboardProductRoute
+  '/_main/dashboard/promo-codes': typeof MainDashboardPromoCodesRoute
   '/_main/dashboard/users': typeof MainDashboardUsersRoute
   '/_main/dashboard/': typeof MainDashboardIndexRoute
 }
@@ -244,6 +253,7 @@ export interface FileRouteTypes {
     | '/dashboard/categories'
     | '/dashboard/orders'
     | '/dashboard/product'
+    | '/dashboard/promo-codes'
     | '/dashboard/users'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | '/dashboard/categories'
     | '/dashboard/orders'
     | '/dashboard/product'
+    | '/dashboard/promo-codes'
     | '/dashboard/users'
     | '/dashboard'
   id:
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/_main/dashboard/categories'
     | '/_main/dashboard/orders'
     | '/_main/dashboard/product'
+    | '/_main/dashboard/promo-codes'
     | '/_main/dashboard/users'
     | '/_main/dashboard/'
   fileRoutesById: FileRoutesById
@@ -436,6 +448,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainDashboardUsersRouteImport
       parentRoute: typeof MainDashboardRouteRoute
     }
+    '/_main/dashboard/promo-codes': {
+      id: '/_main/dashboard/promo-codes'
+      path: '/promo-codes'
+      fullPath: '/dashboard/promo-codes'
+      preLoaderRoute: typeof MainDashboardPromoCodesRouteImport
+      parentRoute: typeof MainDashboardRouteRoute
+    }
     '/_main/dashboard/product': {
       id: '/_main/dashboard/product'
       path: '/product'
@@ -472,6 +491,7 @@ interface MainDashboardRouteRouteChildren {
   MainDashboardCategoriesRoute: typeof MainDashboardCategoriesRoute
   MainDashboardOrdersRoute: typeof MainDashboardOrdersRoute
   MainDashboardProductRoute: typeof MainDashboardProductRoute
+  MainDashboardPromoCodesRoute: typeof MainDashboardPromoCodesRoute
   MainDashboardUsersRoute: typeof MainDashboardUsersRoute
   MainDashboardIndexRoute: typeof MainDashboardIndexRoute
 }
@@ -481,6 +501,7 @@ const MainDashboardRouteRouteChildren: MainDashboardRouteRouteChildren = {
   MainDashboardCategoriesRoute: MainDashboardCategoriesRoute,
   MainDashboardOrdersRoute: MainDashboardOrdersRoute,
   MainDashboardProductRoute: MainDashboardProductRoute,
+  MainDashboardPromoCodesRoute: MainDashboardPromoCodesRoute,
   MainDashboardUsersRoute: MainDashboardUsersRoute,
   MainDashboardIndexRoute: MainDashboardIndexRoute,
 }

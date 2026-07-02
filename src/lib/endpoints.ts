@@ -26,6 +26,7 @@ export const endpoints = {
     update: (id: number) => `/cart/items/${id}`,
     remove: (id: number) => `/cart/items/${id}`,
     clear: '/cart/clear', // Inferred
+    applyPromo: '/cart/promo',
   },
   orders: {
     checkout: `/checkout`,
@@ -99,6 +100,13 @@ export const endpoints = {
   userAdminApi: {
     list: '/users',
     delete: (id: number) => `users/${id}`,
+  },
+  promoCodesAdminApi: {
+    list: '/promo-codes',
+    detail: (id: number) => `/promo-codes/${id}`,
+    create: '/promo-codes',
+    update: (id: number) => `/promo-codes/${id}`,
+    delete: (id: number) => `/promo-codes/${id}`,
   },
 };
 

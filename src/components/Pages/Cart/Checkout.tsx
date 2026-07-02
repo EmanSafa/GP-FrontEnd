@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { useNavigate } from '@tanstack/react-router';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,12 @@ import StepShipping from '../CheckoutSteps/StepShipping';
 import StepPayment from '../CheckoutSteps/StepPayment';
 import { useCheckoutOrder } from '@/hooks/useOrders';
 import { useGetUserProfile } from '@/hooks/useAccount';
-import { useDeleteCartItem, useGetCart, useGetCartTotal } from '@/hooks/useCart';
+import {
+  useDeleteCartItem,
+  useGetCartDetails,
+  useApplyPromo,
+  useRemovePromo,
+} from '@/hooks/useCart';
 import { useAuthStore } from '@/store/authStore';
 import { useCheckoutSuccessStore } from '@/store/checkoutSuccessStore';
 import { useVersionStore } from '@/store/versionStore';
@@ -42,10 +48,30 @@ const Checkout = () => {
   const { user } = useAuthStore();
   const { data: userProfile } = useGetUserProfile(Number(user?.id) || 0, { enabled: !!user });
   const setCheckoutResult = useCheckoutSuccessStore((state) => state.setCheckoutResult);
-  const { data: orderSummary } = useGetCart();
-  const { data: orderTotal } = useGetCartTotal();
+  const { data: cartDetails } = useGetCartDetails();
+  const orderSummary = cartDetails?.items;
   const { mutate: deleteCartItem } = useDeleteCartItem();
   const { mutate: checkout, isPending: isCheckoutLoading } = useCheckoutOrder();
+  const { mutate: applyPromo, isPending: isApplyingPromo } = useApplyPromo();
+  const { mutate: removePromo, isPending: isRemovingPromo } = useRemovePromo();
+
+  const handleApplyPromo = () => {
+    if (!formData.promoCode.trim()) {
+      toast.error('Please enter a promo code');
+      return;
+    }
+    applyPromo(formData.promoCode, {
+      onSuccess: (data) => {
+        toast.success(data.message || 'Promo code applied successfully!');
+      },
+      onError: (err) => {
+        const axiosError = err as AxiosError<{ message?: string }>;
+        const errMsg =
+          axiosError.response?.data?.message || axiosError.message || 'Failed to apply promo code';
+        toast.error(errMsg);
+      },
+    });
+  };
 
   const [step, setStep] = useState(1);
   const [showCvv, setShowCvv] = useState(false);
@@ -311,20 +337,108 @@ const Checkout = () => {
 
                 {/* Promo Code */}
                 <div className="space-y-2">
-                  <Label htmlFor="promoCode-kL1m67Q" className="text-sm">
-                    Promo code
-                  </Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="promoCode-kL1m67Q"
-                      placeholder="Enter code"
-                      value={formData.promoCode}
-                      onChange={(e) => handleInputChange('promoCode', e.target.value)}
-                    />
-                    <Button variant="outline" className="cursor-pointer">
-                      Apply
-                    </Button>
-                  </div>
+                  <Label className="text-sm font-medium">Promo code</Label>
+                  {cartDetails?.promo ? (
+                    cartDetails.promo.valid ? (
+                      <div className="flex items-center justify-between px-3 py-2 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/30 rounded-lg text-emerald-800 dark:text-emerald-300 text-sm transition-all duration-300 animate-in fade-in slide-in-from-top-1">
+                        <div className="flex items-center gap-2">
+                          <Gift className="size-4 text-emerald-600 dark:text-emerald-400 animate-pulse" />
+                          <span className="font-bold tracking-wider">{cartDetails.promo.code}</span>
+                          <span className="text-xs opacity-90">(Applied)</span>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          disabled={isRemovingPromo}
+                          onClick={() => {
+                            removePromo(undefined, {
+                              onSuccess: () => {
+                                toast.success('Promo code removed successfully');
+                                handleInputChange('promoCode', '');
+                              },
+                              onError: (err) => {
+                                const axiosError = err as AxiosError<{ message?: string }>;
+                                const errMsg =
+                                  axiosError.response?.data?.message ||
+                                  axiosError.message ||
+                                  'Failed to remove promo code';
+                                toast.error(errMsg);
+                              },
+                            });
+                          }}
+                          className="h-auto p-1 px-2 text-emerald-800 dark:text-emerald-300 hover:text-emerald-950 dark:hover:text-emerald-100 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 cursor-pointer text-xs font-semibold rounded"
+                        >
+                          {isRemovingPromo ? 'Removing...' : 'Remove'}
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between px-3 py-2 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-sm transition-all duration-300 animate-in fade-in slide-in-from-top-1">
+                          <div className="flex items-center gap-2">
+                            <Gift className="size-4 text-destructive animate-pulse" />
+                            <span className="font-bold tracking-wider">
+                              {cartDetails.promo.code}
+                            </span>
+                            <span className="text-xs opacity-90">(Invalid)</span>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            disabled={isRemovingPromo}
+                            onClick={() => {
+                              removePromo(undefined, {
+                                onSuccess: () => {
+                                  toast.success('Promo code removed successfully');
+                                  handleInputChange('promoCode', '');
+                                },
+                                onError: (err) => {
+                                  const axiosError = err as AxiosError<{ message?: string }>;
+                                  const errMsg =
+                                    axiosError.response?.data?.message ||
+                                    axiosError.message ||
+                                    'Failed to remove promo code';
+                                  toast.error(errMsg);
+                                },
+                              });
+                            }}
+                            className="h-auto p-1 px-2 text-destructive hover:text-red-800 hover:bg-red-50 dark:hover:bg-red-950/20 cursor-pointer text-xs font-semibold rounded"
+                          >
+                            {isRemovingPromo ? 'Removing...' : 'Remove'}
+                          </Button>
+                        </div>
+                        <p className="text-xs text-destructive font-medium px-1">
+                          {cartDetails.promo.message}
+                        </p>
+                      </div>
+                    )
+                  ) : (
+                    <div className="flex gap-2">
+                      <Input
+                        id="promoCode-kL1m67Q"
+                        placeholder="Enter promo code"
+                        value={formData.promoCode}
+                        onChange={(e) => handleInputChange('promoCode', e.target.value)}
+                        className="uppercase font-medium tracking-wide placeholder:normal-case placeholder:font-normal"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleApplyPromo();
+                          }
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="cursor-pointer font-medium hover:bg-plate-8 hover:text-white transition-colors"
+                        disabled={isApplyingPromo || !formData.promoCode.trim()}
+                        onClick={handleApplyPromo}
+                      >
+                        {isApplyingPromo ? 'Applying...' : 'Apply'}
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <Separator />
@@ -333,27 +447,34 @@ const Checkout = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${typeof orderTotal === 'number' ? orderTotal.toFixed(2) : '0.00'}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground flex items-center gap-1">
-                      <Truck className="size-3" />
-                      Shipping
+                    <span>
+                      $
+                      {typeof cartDetails?.subtotal === 'number'
+                        ? cartDetails.subtotal.toFixed(2)
+                        : '0.00'}
                     </span>
-                    <span>Free</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Tax</span>
-                    <span>$0.00</span>
-                  </div>
+
+                  {typeof cartDetails?.discount === 'number' && cartDetails.discount > 0 ? (
+                    <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400 font-medium transition-all duration-300 animate-in fade-in">
+                      <span className="flex items-center gap-1">
+                        <Gift className="size-3" />
+                        Discount {cartDetails.promo?.code ? `(${cartDetails.promo.code})` : ''}
+                      </span>
+                      <span>-${cartDetails.discount.toFixed(2)}</span>
+                    </div>
+                  ) : null}
                 </div>
 
                 <Separator />
 
-                {/* <div className="flex justify-between font-semibold">
+                <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
-                </div> */}
+                  <span>
+                    $
+                    {typeof cartDetails?.total === 'number' ? cartDetails.total.toFixed(2) : '0.00'}
+                  </span>
+                </div>
 
                 {/* Trust Indicators */}
                 <div className="space-y-3 pt-4">

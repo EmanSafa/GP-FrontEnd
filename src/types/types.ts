@@ -265,3 +265,31 @@ export interface AddAdminFormData {
   phone: string;
   password?: string;
 }
+
+export interface PromoCode {
+  id: number;
+  code: string;
+  description: string | null;
+  discount_type: 'percentage' | 'fixed';
+  discount_value: number;
+  min_order_amount: number;
+  usage_limit_total: number | null;
+  usage_limit_per_user: number | null;
+  times_used: number;
+  expires_at: string | null;
+  is_active: number | boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PromoCodeFormData {
+  code: string;
+  description: string;
+  discount_type: 'percentage' | 'fixed';
+  discount_value: number;
+  min_order_amount: number;
+  usage_limit_total: number | null;
+  usage_limit_per_user: number | null;
+  expires_at: string | null;
+  is_active?: number | boolean;
+}
