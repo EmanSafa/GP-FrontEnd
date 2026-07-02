@@ -7,6 +7,7 @@ import type {
 } from '@/types/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import type { AxiosError } from 'axios';
 
 export const useCreateReview = () => {
   const queryClient = useQueryClient();
@@ -23,6 +24,10 @@ export const useCreateReview = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['reviews'] });
       void queryClient.invalidateQueries({ queryKey: ['product-rating'] });
+    },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError.response?.data?.message || error.message || 'Failed to submit review');
     },
   });
 };

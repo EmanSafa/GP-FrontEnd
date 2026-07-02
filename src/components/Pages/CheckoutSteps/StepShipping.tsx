@@ -1,12 +1,12 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 interface ShippingData {
   address: string;
@@ -29,9 +29,9 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
         <Label htmlFor="address-qP4z17X">Street address</Label>
         <Input
           id="address-qP4z17X"
-          placeholder="123 Main Street"
+          placeholder="12 El-Galaa St, Heliopolis"
           value={formData.address}
-          onChange={(e) => handleInputChange("address", e.target.value)}
+          onChange={(e) => handleInputChange('address', e.target.value)}
           className="mt-2"
         />
       </div>
@@ -41,9 +41,9 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
           <Label htmlFor="city-sT5y91B">City</Label>
           <Input
             id="city-sT5y91B"
-            placeholder="New York"
+            placeholder="Cairo"
             value={formData.city}
-            onChange={(e) => handleInputChange("city", e.target.value)}
+            onChange={(e) => handleInputChange('city', e.target.value)}
             className="mt-2"
           />
         </div>
@@ -51,7 +51,7 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
           <Label htmlFor="governorate-wX3k85M">Governorate</Label>
           <Select
             value={formData.governorate}
-            onValueChange={(value) => handleInputChange("governorate", value)}
+            onValueChange={(value) => handleInputChange('governorate', value)}
           >
             <SelectTrigger id="governorate-wX3k85M" className="mt-2 w-full">
               <SelectValue placeholder="Select Governorate" />
@@ -93,9 +93,9 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
         <Label htmlFor="zipCode-vZ9q46N">ZIP code</Label>
         <Input
           id="zipCode-vZ9q46N"
-          placeholder="10001"
+          placeholder="11511"
           value={formData.zipCode}
-          onChange={(e) => handleInputChange("zipCode", e.target.value)}
+          onChange={(e) => handleInputChange('zipCode', e.target.value)}
           className="mt-2"
         />
       </div>
@@ -106,7 +106,7 @@ const StepShipping = ({ formData, handleInputChange }: Props) => {
           id="notes"
           placeholder="Please call before delivery"
           value={formData.notes}
-          onChange={(e) => handleInputChange("notes", e.target.value)}
+          onChange={(e) => handleInputChange('notes', e.target.value)}
           className="mt-2"
         />
       </div>

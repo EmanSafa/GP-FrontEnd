@@ -1,4 +1,4 @@
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaQuoteLeft } from 'react-icons/fa';
 
 interface IProps {
   img: string;
@@ -6,46 +6,40 @@ interface IProps {
   userComment: string;
   userImg: string;
 }
-const UserFeedback = ({ img, user, userComment, userImg }: IProps) => {
+
+const UserFeedback = ({ user, userComment, userImg }: IProps) => {
   return (
-    <div className="relative w-full max-w-md h-[600px] rounded-3xl overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${img})` }}
-      />
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-md p-8 relative flex flex-col items-center text-center max-w-md w-full transition-transform hover:-translate-y-1 hover:shadow-lg duration-300">
+      {/* User Avatar */}
+      <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
+        <img
+          src={userImg}
+          alt={user}
+          className="w-20 h-20 rounded-full border-4 border-white shadow-md object-cover bg-plate-1"
+        />
+      </div>
 
-      {/* Overlay Card */}
-      <div className="absolute bottom-8 left-8 right-8 bg-white rounded-2xl shadow-2xl p-8">
-        {/* User Avatar */}
-        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
-          <img
-            src={userImg}
-            alt={user}
-            className="w-16 h-16 rounded-full border-4 border-white object-cover"
-          />
-        </div>
+      {/* Quote Icon */}
+      <div className="text-plate-1 mt-10 mb-4">
+        <FaQuoteLeft className="w-8 h-8 text-plate-2 opacity-30" />
+      </div>
 
-        {/* User Name */}
-        <h3 className="text-xl font-bold text-gray-900 text-center mt-6 mb-1">
-          {user}
-        </h3>
+      {/* Comment */}
+      <p className="text-gray-600 italic leading-relaxed mb-6 flex-grow">"{userComment}"</p>
 
-        {/* Verified Badge */}
-        <p className="text-sm text-gray-500 text-center mb-4">Verified Buyer</p>
+      {/* User Name */}
+      <h3 className="text-lg font-bold text-gray-800 mb-0.5">{user}</h3>
 
-        {/* Comment */}
-        <p className="text-gray-600 text-center mb-4 italic leading-relaxed">
-          " {userComment} "
-        </p>
+      {/* Verified Badge */}
+      <p className="text-xs text-plate-6 font-semibold tracking-wider uppercase mb-4">
+        Verified Buyer
+      </p>
 
-        {/* Star Rating */}
-        <div className="flex justify-center gap-1">
-          {[1, 2, 3, 4].map((star) => (
-            <FaStar key={star} className="w-5 h-5 text-[#880909]" />
-          ))}
-          <FaStar className="w-5 h-5 text-[#880909]/10" />
-        </div>
+      {/* Star Rating */}
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <FaStar key={star} className="w-4 h-4 text-plate-7" />
+        ))}
       </div>
     </div>
   );

@@ -16,7 +16,10 @@ import type { Cart as CartType } from '@/types/types';
 import CartItem from './CartItem';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
+import { useCartDrawerStore } from '@/store/cartDrawerStore';
+
 const Cart = () => {
+  const { isOpen, setIsOpen } = useCartDrawerStore();
   const { data: cartItems } = useGetCart();
   const { data: cartCount } = useGetCartCount();
   const { data: cartTotalPrice } = useGetCartTotal();
@@ -28,7 +31,7 @@ const Cart = () => {
     clearCart();
   };
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <button
           aria-label="Open cart"
@@ -96,7 +99,11 @@ const Cart = () => {
             </SheetClose>
           )}
           <SheetClose asChild>
-            <Button variant="outline">Continue Shopping</Button>
+            <Link to="/shop" className="w-full">
+              <Button variant="outline" className="w-full">
+                Continue Shopping
+              </Button>
+            </Link>
           </SheetClose>
           {isAuthenticated && (
             <Button variant="default" onClick={handleClearCart}>

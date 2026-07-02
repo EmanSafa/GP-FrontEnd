@@ -138,6 +138,14 @@ export interface Order {
   shipping_address: string;
   notes: string;
   created_at: string;
+  promo_code?: string;
+  discount_amount?: string;
+  promo_info?: {
+    code: string;
+    discount_type: string;
+    discount_value: number;
+    valid: boolean;
+  };
 }
 
 export interface OrderItem {
@@ -181,7 +189,7 @@ export interface AddCartResponse {
 
 export interface Cart {
   id: number;
-  subtotal: number;
+  subtotal: string | number;
   cart_id: number;
   product_id: number;
   quantity: number;

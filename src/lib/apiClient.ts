@@ -116,8 +116,10 @@ export const userApi = {
     axiosInstance.get<UserProfileResponse>(endpoints.user.profile(id), {
       withCredentials: true,
     }),
-  orders: (id: number): Promise<AxiosResponse<UserOrdersResponse>> =>
-    axiosInstance.get<UserOrdersResponse>(endpoints.user.orders(id)),
+  orders: (id: number, page?: number): Promise<AxiosResponse<UserOrdersResponse>> =>
+    axiosInstance.get<UserOrdersResponse>(endpoints.user.orders(id), {
+      params: page ? { page } : undefined,
+    }),
   reviews: (id: number) => axiosInstance.get(endpoints.user.reviews(id)),
   addProfilePic: (
     id: number,

@@ -100,9 +100,9 @@ const ShopPage = ({
 
   return (
     <>
-      <SidebarProvider className="pt-[2rem]">
+      <SidebarProvider className="pt-[3.5rem] ">
         <AppSidebar />
-        <main className="w-full mt-5">
+        <main className="flex-1 min-w-0 mt-5">
           <div className="flex items-center justify-start ml-4">
             <SidebarTrigger />
             <h1 className="font-bold text-4xl ">{categoryTitle}</h1>
@@ -115,7 +115,7 @@ const ShopPage = ({
               onSortChange={handleSortChange}
             />
           </div>
-          <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-8">
+          <div className="w-[88%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8">
             {isLoading ? (
               // Render skeletons
               Array.from({ length: 10 }).map((_, i) => <ProductSkeleton key={i} />)
@@ -125,11 +125,12 @@ const ShopPage = ({
                   key={product.id}
                   id={Number(product.id)}
                   title={product.name}
-                  price={`$${product.price}`}
-                  oldPrice={`$${parseFloat(product.price) + 240}`}
+                  price={parseFloat(product.price)}
+                  oldPrice={parseFloat(product.price) + 240}
                   rating={parseFloat(product.rating || '0')}
                   imgSrc={product.main_image_url || product.main_image || ''}
                   discount={20}
+                  stock={product.stock}
                 />
               ))
             ) : (

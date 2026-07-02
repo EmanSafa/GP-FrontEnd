@@ -161,20 +161,23 @@ const HomePage = () => {
         </Button>
       </div>
       <div className="w-[92%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8 animate-in slide-in-from-bottom-5 fade-in duration-700 delay-500">
-        {productsData?.products?.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={Number(product.id)}
-            title={product.name}
-            price={`$${product.price}`}
-            // oldPrice="$1200" // Assuming no old price in API for now, or calculate it
-            rating={Number(product.rating) || 5}
-            // Use local image fallback if url missing, or just a placeholder
-            imgSrc={product.main_image_url || phoneImg}
-            discount={product.stock && product.stock > 0 ? 0 : undefined} // Or some logic for discount
-            className="hover:scale-105 transition-all duration-300 hover:shadow-2xl"
-          />
-        ))}
+        {productsData?.products
+          ?.filter((product) => product.stock === undefined || Number(product.stock) !== 0)
+          ?.map((product) => (
+            <ProductCard
+              key={product.id}
+              id={Number(product.id)}
+              title={product.name}
+              price={parseFloat(product.price)}
+              // oldPrice={parseFloat(product.price) + 240}
+              rating={Number(product.rating) || 5}
+              // Use local image fallback if url missing, or just a placeholder
+              imgSrc={product.main_image_url || phoneImg}
+              discount={20}
+              stock={product.stock}
+              className="hover:scale-105 transition-all duration-300 hover:shadow-2xl"
+            />
+          ))}
       </div>
       <div>
         <div className="w-[88%] mx-auto mt-7">
@@ -210,12 +213,23 @@ const HomePage = () => {
                       onClick={() => {
                         void navigate({ to: '/shop', search: { brandId: brand.id } });
                       }}
-                      className="cursor-pointer rounded-lg w-60 h-18 bg-gray-50 hover:bg-white transition-all duration-300 border border-transparent hover:border-gray-200 flex items-center justify-center p-4 hover:shadow-lg hover:scale-105"
+                      className="cursor-pointer rounded-lg w-60 h-18 bg-white hover:bg-gray-50 transition-all duration-300 border border-gray-300 hover:border-gray-500 flex items-center justify-center p-4 shadow-sm hover:shadow-md hover:scale-105"
                     >
                       <img
                         src={brand.logo_url || appleLogo}
                         alt={brand.name}
                         className="max-h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 transform"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          const parent = e.currentTarget.parentElement;
+                          if (parent && !parent.querySelector('.brand-fallback')) {
+                            const textNode = document.createElement('span');
+                            textNode.className =
+                              'brand-fallback font-bold text-gray-800 text-lg uppercase tracking-wider';
+                            textNode.innerText = brand.name;
+                            parent.appendChild(textNode);
+                          }
+                        }}
                       />
                     </div>
                   </CarouselItem>
@@ -226,7 +240,7 @@ const HomePage = () => {
             </Carousel>
           </div>
         </div>
-        <div className="w-[88%] mx-auto mt-10 ">
+        <div className="w-[88%] mx-auto mt-10 mb-4 ">
           <h1 className="text-2xl font-semibold mb-10">User Feedback</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
             {/* Fallback to static if no reviews, or just map the first 3 reviews */}

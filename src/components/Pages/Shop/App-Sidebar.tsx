@@ -7,35 +7,29 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+} from '@/components/ui/sidebar';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@radix-ui/react-collapsible';
+import { ChevronDown } from 'lucide-react';
+import { Checkbox } from '../../ui/checkbox';
+import { useGetAllCategories } from '@/hooks/useCategories';
+import type { Brand, Category } from '@/types/types';
+import { Link, useNavigate, useSearch } from '@tanstack/react-router';
+import { useGetAllBrands } from '@/hooks/useBrands';
+import type { ShopSearch } from '@/routes/_main/shop';
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
-import { ChevronDown } from "lucide-react";
-import { Checkbox } from "../../ui/checkbox";
-import { useGetAllCategories } from "@/hooks/useCategories";
-import type { Brand, Category } from "@/types/types";
-import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useGetAllBrands } from "@/hooks/useBrands";
-
-// Menu items.
 const AppSidebar = () => {
   const { data: categories } = useGetAllCategories();
   const { data: brands } = useGetAllBrands();
   const navigate = useNavigate();
-  // @ts-ignore - We know the search params exist on this route
   const search = useSearch({ from: '/_main/shop' });
 
-  const updateFilter = (key: string, value: any) => {
-    navigate({
+  const updateFilter = <K extends keyof ShopSearch>(key: K, value: ShopSearch[K]) => {
+    void navigate({
       to: '/shop',
-      search: (prev: any) => ({
+      search: (prev: ShopSearch) => ({
         ...prev,
         [key]: value,
       }),
@@ -43,7 +37,7 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="top-14 h-[calc(100svh-3.5rem)]! border-r border-gray-100 bg-white" >
+    <Sidebar className="top-14 h-[calc(100svh-3.5rem)]! border-r border-gray-100 bg-white">
       <SidebarContent className="bg-white">
         <SidebarGroup className="bg-plate-1 p-5">
           <SidebarGroupLabel className="flex items-center text-2xl font-normal mb-4 text-plate-7">
@@ -52,19 +46,30 @@ const AppSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className="text-normal text-[16px]">
-                <SidebarMenuButton asChild isActive={!search.categoryId} className="hover:bg-white/50 data-[active=true]:bg-white data-[active=true]:font-bold transition-colors rounded-md p-2">
-                  <Link to="/shop" search={(prev: any) => ({ ...prev, categoryId: undefined })}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={!search.categoryId}
+                  className="hover:bg-white/50 data-[active=true]:bg-white data-[active=true]:font-bold transition-colors rounded-md p-2"
+                >
+                  <Link
+                    to="/shop"
+                    search={(prev: ShopSearch) => ({ ...prev, categoryId: undefined })}
+                  >
                     <span>All</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {categories?.map((category: Category) => (
-                <SidebarMenuItem
-                  key={category.id}
-                  className="text-normal text-[16px]"
-                >
-                  <SidebarMenuButton asChild isActive={search.categoryId === category.id} className="hover:bg-white/50 data-[active=true]:bg-white data-[active=true]:font-bold transition-colors rounded-md p-2">
-                    <Link to="/shop" search={(prev: any) => ({ ...prev, categoryId: category.id })}>
+                <SidebarMenuItem key={category.id} className="text-normal text-[16px]">
+                  <SidebarMenuButton
+                    asChild
+                    isActive={search.categoryId === category.id}
+                    className="hover:bg-white/50 data-[active=true]:bg-white data-[active=true]:font-bold transition-colors rounded-md p-2"
+                  >
+                    <Link
+                      to="/shop"
+                      search={(prev: ShopSearch) => ({ ...prev, categoryId: category.id })}
+                    >
                       <span>{category.name}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -90,17 +95,24 @@ const AppSidebar = () => {
                     checked={search.sort === 'created_at' && search.order === 'desc'}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        navigate({
+                        void navigate({
                           to: '/shop',
-                          search: (prev: any) => ({ ...prev, sort: 'created_at', order: 'desc' }),
+                          search: (prev: ShopSearch) => ({
+                            ...prev,
+                            sort: 'created_at',
+                            order: 'desc',
+                          }),
                         });
                       } else {
-                        navigate({
+                        void navigate({
                           to: '/shop',
-                          search: (prev: any) => {
-                            const { sort, order, ...rest } = prev;
-                            return rest;
-                          },
+                          search: (prev: ShopSearch) => ({
+                            categoryId: prev.categoryId,
+                            brandId: prev.brandId,
+                            minPrice: prev.minPrice,
+                            maxPrice: prev.maxPrice,
+                            q: prev.q,
+                          }),
                         });
                       }
                     }}
@@ -121,22 +133,31 @@ const AppSidebar = () => {
                         <div className="flex items-center gap-2">
                           <Checkbox
                             id="brand-all"
-                            className="border-gray-500 data-[state=checked]:bg-plate-6 data-[state=checked]:border-plate-6"
-                            checked={!search.brandId}
+                            className="border-gray-500"
+                            checked={search.brandId === undefined || search.brandId === null}
                             onCheckedChange={(checked) => {
                               if (checked) {
                                 updateFilter('brandId', undefined);
                               }
                             }}
                           />
-                          <Label htmlFor="brand-all" className="text-normal text-[16px] cursor-pointer">All</Label>
+                          <Label
+                            htmlFor="brand-all"
+                            className="text-normal text-[16px] cursor-pointer"
+                          >
+                            All
+                          </Label>
                         </div>
                         {brands?.map((brand: Brand) => (
                           <div key={brand.id} className="flex items-center gap-2">
                             <Checkbox
                               id={brand.id.toString()}
-                              className="border-gray-500 data-[state=checked]:bg-plate-6 data-[state=checked]:border-plate-6"
-                              checked={Number(search.brandId) === brand.id}
+                              className="border-gray-500"
+                              checked={
+                                search.brandId !== undefined &&
+                                search.brandId !== null &&
+                                Number(search.brandId) === Number(brand.id)
+                              }
                               onCheckedChange={(checked) => {
                                 updateFilter('brandId', checked ? brand.id : undefined);
                               }}
@@ -149,7 +170,6 @@ const AppSidebar = () => {
                             </Label>
                           </div>
                         ))}
-
                       </div>
                     </CollapsibleContent>
                   </SidebarGroup>
@@ -167,35 +187,49 @@ const AppSidebar = () => {
                     <CollapsibleContent>
                       <div className="flex flex-col gap-3 px-2 py-3">
                         {[
-                          { label: "All Prices", value: [0, 1000000] },
-                          { label: "6000 - 10000 EGP", value: [6000, 10000] },
-                          { label: "10000 - 35000 EGP", value: [10000, 35000] },
-                          { label: "35000 - 50000 EGP", value: [35000, 50000] },
-                          { label: "50000 - 60000 EGP", value: [50000, 60000] },
-                          { label: "Above 60000 EGP", value: [60000, 1000000] },
+                          { label: 'All Prices', value: [0, 1000000] },
+                          { label: '6000 - 10000 EGP', value: [6000, 10000] },
+                          { label: '10000 - 35000 EGP', value: [10000, 35000] },
+                          { label: '35000 - 50000 EGP', value: [35000, 50000] },
+                          { label: '50000 - 60000 EGP', value: [50000, 60000] },
+                          { label: 'Above 60000 EGP', value: [60000, 1000000] },
                         ].map((range, index) => (
                           <div key={index} className="flex items-center space-x-2">
                             <Checkbox
                               id={`price-${index}`}
-                              className="border-gray-500 rounded-full data-[state=checked]:bg-plate-6 data-[state=checked]:border-plate-6"
+                              className="border-gray-500 rounded-full"
                               checked={
-                                (search.minPrice === range.value[0] && search.maxPrice === range.value[1]) ||
-                                (!search.minPrice && !search.maxPrice && index === 0)
+                                (search.minPrice === range.value[0] &&
+                                  search.maxPrice === range.value[1]) ||
+                                ((search.minPrice === undefined || search.minPrice === null) &&
+                                  (search.maxPrice === undefined || search.maxPrice === null) &&
+                                  index === 0)
                               }
                               onCheckedChange={(checked) => {
                                 if (checked) {
-                                  navigate({
+                                  void navigate({
                                     to: '/shop',
-                                    search: (prev: any) => ({
+                                    search: (prev: ShopSearch) => ({
                                       ...prev,
-                                      minPrice: range.value[0] === 0 && range.value[1] === 1000000 ? undefined : range.value[0],
-                                      maxPrice: range.value[0] === 0 && range.value[1] === 1000000 ? undefined : range.value[1],
+                                      minPrice:
+                                        range.value[0] === 0 && range.value[1] === 1000000
+                                          ? undefined
+                                          : range.value[0],
+                                      maxPrice:
+                                        range.value[0] === 0 && range.value[1] === 1000000
+                                          ? undefined
+                                          : range.value[1],
                                     }),
                                   });
                                 }
                               }}
                             />
-                            <Label htmlFor={`price-${index}`} className="text-normal text-[16px] cursor-pointer">{range.label}</Label>
+                            <Label
+                              htmlFor={`price-${index}`}
+                              className="text-normal text-[16px] cursor-pointer"
+                            >
+                              {range.label}
+                            </Label>
                           </div>
                         ))}
                       </div>
@@ -206,8 +240,8 @@ const AppSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent >
-    </Sidebar >
+      </SidebarContent>
+    </Sidebar>
   );
 };
 export default AppSidebar;

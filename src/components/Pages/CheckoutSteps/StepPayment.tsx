@@ -83,6 +83,7 @@ const StepPayment = ({
               onChange={(e) => handleCardNumberChange(e.target.value)}
               maxLength={19}
               className="mt-2"
+              autoComplete="off"
             />
           </div>
 
@@ -96,6 +97,7 @@ const StepPayment = ({
                 onChange={(e) => handleExpiryChange(e.target.value)}
                 maxLength={5}
                 className="mt-2"
+                autoComplete="off"
               />
             </div>
             <div className="space-y-2">
@@ -109,6 +111,7 @@ const StepPayment = ({
                   onChange={(e) => handleInputChange('cvv', e.target.value)}
                   maxLength={4}
                   className="mt-2 pe-10"
+                  autoComplete="off"
                 />
                 <Button
                   type="button"
@@ -133,6 +136,7 @@ const StepPayment = ({
                 value={formData.cardName}
                 onChange={(e) => handleInputChange('cardName', e.target.value)}
                 className="mt-2"
+                autoComplete="off"
               />
             </div>
           </div>

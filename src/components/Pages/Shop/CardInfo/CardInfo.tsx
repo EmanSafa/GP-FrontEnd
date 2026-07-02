@@ -1,20 +1,21 @@
-import { Minus, Plus, Trash2 } from "lucide-react";
-import { FaStar, FaPlus } from "react-icons/fa";
-import { useState, useRef, useEffect } from "react";
-import { Button } from "../../../ui/button";
-import ShippingsIcon from "../../../ui/icons/shippingsIcon";
-import DeliverIcon from "../../../ui/icons/deliverIcon";
-import CardTable from "./CardTable";
-import YouMightLike from "../YouMightLike";
-import { usegetSingleProduct, useGetSingleProductImages } from "@/hooks/useProducts";
-import CardInfoSkeleton from "../../../Skeletons/CardInfoSkeleton";
-import { useAddCartItem } from "@/hooks/useCart";
-import ReviewSection from "./ReviewSection";
-import ReviewsList from "./ReviewsList";
-import { useDeleteProductImage, useUploadProductImage } from "@/hooks/Admin/useProductsAdmin";
-import { toast } from "sonner"; // Assuming sonner is used for toasts based on other files
-import { useAuthStore } from "@/store/authStore";
-import { useNavigate } from "@tanstack/react-router";
+import { Minus, Plus, Trash2 } from 'lucide-react';
+import { FaStar, FaPlus } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '../../../ui/button';
+import ShippingsIcon from '../../../ui/icons/shippingsIcon';
+import DeliverIcon from '../../../ui/icons/deliverIcon';
+import CardTable from './CardTable';
+import YouMightLike from '../YouMightLike';
+import { usegetSingleProduct, useGetSingleProductImages } from '@/hooks/useProducts';
+import CardInfoSkeleton from '../../../Skeletons/CardInfoSkeleton';
+import { useAddCartItem } from '@/hooks/useCart';
+import ReviewSection from './ReviewSection';
+import ReviewsList from './ReviewsList';
+import { useDeleteProductImage, useUploadProductImage } from '@/hooks/Admin/useProductsAdmin';
+import { toast } from 'sonner'; // Assuming sonner is used for toasts based on other files
+import { useAuthStore } from '@/store/authStore';
+import { useNavigate } from '@tanstack/react-router';
+import { formatPrice } from '@/lib/utils';
 
 interface CardInfoProps {
   id?: number;
@@ -24,17 +25,15 @@ const CardInfo = ({ id }: CardInfoProps) => {
   const [counter, setCounter] = useState(1);
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const { data: product, isLoading } = usegetSingleProduct(id);
-  const { data: singleProductImages } = useGetSingleProductImages(id)
+  const { data: singleProductImages } = useGetSingleProductImages(id);
   const { mutateAsync: addCart } = useAddCartItem();
 
   const { mutateAsync: deleteImage } = useDeleteProductImage();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadProductImage(id || 0);
-  const { user } = useAuthStore()
-  const isAdmin = user?.role === 'admin'
+  const { user } = useAuthStore();
+  const isAdmin = user?.role === 'admin';
   const { isAuthenticated } = useAuthStore.getState();
   const navigate = useNavigate();
-
-
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -48,10 +47,10 @@ const CardInfo = ({ id }: CardInfoProps) => {
     if (!id) return;
     if (!isAuthenticated) {
       toast.error('Please login to add to cart');
-      navigate({ to: "/auth/login" });
+      void navigate({ to: '/auth/login' });
       return;
     }
-    addCart({
+    void addCart({
       product_id: id,
       quantity: counter,
     });
@@ -61,7 +60,7 @@ const CardInfo = ({ id }: CardInfoProps) => {
     try {
       await deleteImage(imageId);
     } catch (error) {
-      console.error("Failed to delete image:", error);
+      console.error('Failed to delete image:', error);
     }
   };
 
@@ -75,7 +74,7 @@ const CardInfo = ({ id }: CardInfoProps) => {
 
       // Check for file size limit (approx 2MB common PHP default)
       const MAX_SIZE = 2 * 1024 * 1024;
-      const validFiles = files.filter(f => {
+      const validFiles = files.filter((f) => {
         if (f.size > MAX_SIZE) {
           toast.error(`File ${f.name} is too large. Max size is 2MB.`);
           return false;
@@ -87,12 +86,12 @@ const CardInfo = ({ id }: CardInfoProps) => {
         try {
           await uploadImage(validFiles);
         } catch (error) {
-          console.error("Failed to upload image:", error);
+          console.error('Failed to upload image:', error);
         }
       }
 
       // Reset input
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -114,20 +113,19 @@ const CardInfo = ({ id }: CardInfoProps) => {
               <div className="flex items-center justify-center bg-plate-1 relative group shrink-0 cursor-pointer">
                 <p className="text-gray-400">No images available</p>
               </div>
-            )}{
-              product?.main_image_url && (
-                <div
-                  className="h-[194px] w-[141px] flex items-center justify-center bg-plate-1 relative group shrink-0 cursor-pointer"
-                  onClick={() => setActiveImage(product?.main_image_url || '')}
-                >
-                  <img
-                    src={product?.main_image_url}
-                    alt="main"
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-              )
-            }
+            )}
+            {product?.main_image_url && (
+              <div
+                className="h-[194px] w-[141px] flex items-center justify-center bg-plate-1 relative group shrink-0 cursor-pointer"
+                onClick={() => setActiveImage(product?.main_image_url || '')}
+              >
+                <img
+                  src={product?.main_image_url}
+                  alt="main"
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            )}
             {singleProductImages?.images?.map((img, i) => (
               <div
                 key={img.id}
@@ -145,7 +143,7 @@ const CardInfo = ({ id }: CardInfoProps) => {
                       e.stopPropagation();
                       // If we delete the active image, revert to main
                       if (activeImage === img.url) setActiveImage(product?.main_image_url || null);
-                      handleDeleteImage(img.id);
+                      void handleDeleteImage(img.id);
                     }}
                     className="absolute top-2 right-2 p-2 bg-white/80 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
                   >
@@ -172,32 +170,38 @@ const CardInfo = ({ id }: CardInfoProps) => {
                   className="hidden"
                   multiple
                   accept="image/*"
-                  onChange={handleFileChange}
+                  onChange={(e) => {
+                    void handleFileChange(e);
+                  }}
                 />
               </div>
             )}
           </div>
           <div className=" lg:w-[70%] md:w-[60%] w-full p-4 h-auto flex items-center justify-center bg-plate-1">
-            <img src={activeImage || product?.main_image_url} alt={product?.name} className="max-w-full max-h-[500px] object-contain" />
+            <img
+              src={activeImage || product?.main_image_url}
+              alt={product?.name}
+              className="max-w-full max-h-[500px] object-contain"
+            />
           </div>
         </div>
         <div className="flex flex-col mx-5 gap-2 w-full lg:w-1/2 ">
           <h1 className=" text-start text-xl font-bold text-plate-4 ">
-            {product?.brand_name || "Brand"}
+            {product?.brand_name || 'Brand'}
           </h1>
 
           <div className="flex items-center flex-wrap justify-start gap-2">
             <span className="sm:text-[24px]/[171%] font-normal text-[20px]  ">
-              {product?.price}
+              {formatPrice(product?.price)}
             </span>
             <span className="text-plate-6 text-[16px]/[171%] font-normal line-through">
-              {product?.price ? Number(product.price) + 1000 : ''}
+              {product?.price ? formatPrice(Number(product.price) + 1000) : ''}
             </span>
             <span className="h-[26px] bg-black w-[1px]"></span>
             {Array.from({ length: Math.round(Number(product?.rating || 0)) }).map((_, i) => (
               <FaStar key={i} className="text-plate-4 w-3 h-3" />
             ))}
-            <span className="text-plate-6">{`(${product?.rating})` || 0} Ratings</span>
+            <span className="text-plate-6">{`(${product?.rating ?? 0})`} Ratings</span>
           </div>
           <div className="text-plate-6 font-normal sm:text-[24px] text-[15px]">
             {product?.description}
@@ -213,7 +217,9 @@ const CardInfo = ({ id }: CardInfoProps) => {
               <li>User Manual</li>
             </ul>
             {Number(product?.stock) === 0 && (
-              <div className="w-full p-2 flex items-center justify-center bg-yellow-500 rounded-md"><span className="text-plate-1 font-semibold text-lg ">Out of stock</span></div>
+              <div className="w-full p-2 flex items-center justify-center bg-yellow-500 rounded-md">
+                <span className="text-plate-1 font-semibold text-lg ">Out of stock</span>
+              </div>
             )}
           </div>
           <div className="flex items-start justify-start gap-5 mx-auto w-full flex-col lg:flex-row">
@@ -229,19 +235,19 @@ const CardInfo = ({ id }: CardInfoProps) => {
               </div>
             </div>
             <Button
-              variant={"auth"}
+              variant={'auth'}
               className="rounded-full lg:w-2/3 md:w-[90%] w-[98%] sm:h-[50px] h-[50px] py-[16px] px-[24px] font-semibold text-[15px] sm:text-[18px] "
               onClick={() => {
                 if (isAuthenticated) {
                   handleAddCart();
                 } else {
                   toast.error('Please login to add to cart');
-                  navigate({ to: "/auth/login" });
+                  void navigate({ to: '/auth/login' });
                 }
               }}
               disabled={counter === 0 || isLoading || Number(product?.stock) === 0}
             >
-              {isAuthenticated ? "Add to Cart" : "Login to Add to Cart"}
+              {isAuthenticated ? 'Add to Cart' : 'Login to Add to Cart'}
             </Button>
           </div>
           <div className="flex flex-col max-md:mt-4 gap-3 items-start justify-start">

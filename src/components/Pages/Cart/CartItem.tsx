@@ -1,22 +1,17 @@
-import { useUpdateCartItem, useDeleteCartItem } from "@/hooks/useCart";
-import { Minus, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useUpdateCartItem, useDeleteCartItem } from '@/hooks/useCart';
+import { Minus, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { formatPrice } from '@/lib/utils';
 
 interface IProps {
   id: number;
   title: string;
-  price: number;
+  price: string | number;
   quantity: number;
   imgSrc?: string;
 }
 
-const CartItem = ({
-  id,
-  title,
-  price,
-  quantity,
-  imgSrc,
-}: IProps) => {
+const CartItem = ({ id, title, price, quantity, imgSrc }: IProps) => {
   const [counter, setCounter] = useState(Number(quantity));
   const { mutate: updateCartItem } = useUpdateCartItem(id);
   const { mutate: deleteCartItem } = useDeleteCartItem();
@@ -31,29 +26,38 @@ const CartItem = ({
           <h3 className="text-lg font-semibold">{title}</h3>
 
           <div className="flex items-center flex-1 gap-3">
-            <p className="text-lg">${price}</p>
+            <p className="text-lg">{formatPrice(price)}</p>
           </div>
           <div className="flex w-full flex-1   justify-between items-center">
             <div className="flex items-center justify-between gap-2 border-1 p-1 border-plate-8 rounded-md ">
-              <div onClick={() => {
-                if (counter > 1) {
-                  const newQuantity = Number(counter) - 1;
-                  setCounter(newQuantity);
-                  updateCartItem({ quantity: newQuantity });
-                }
-              }} className="cursor-pointer">
+              <div
+                onClick={() => {
+                  if (counter > 1) {
+                    const newQuantity = Number(counter) - 1;
+                    setCounter(newQuantity);
+                    updateCartItem({ quantity: newQuantity });
+                  }
+                }}
+                className="cursor-pointer"
+              >
                 <Minus className="w-4 h-4" />
               </div>
               <span>{counter}</span>
-              <div onClick={() => {
-                const newQuantity = Number(counter) + 1;
-                setCounter(newQuantity);
-                updateCartItem({ quantity: newQuantity });
-              }} className="cursor-pointer">
+              <div
+                onClick={() => {
+                  const newQuantity = Number(counter) + 1;
+                  setCounter(newQuantity);
+                  updateCartItem({ quantity: newQuantity });
+                }}
+                className="cursor-pointer"
+              >
                 <Plus className="w-4 h-4" />
               </div>
             </div>
-            <button onClick={() => deleteCartItem(id)} className="text-plate-7 hover:text-plate-8 mr-5 cursor-pointer text-sm">
+            <button
+              onClick={() => deleteCartItem(id)}
+              className="text-plate-7 hover:text-plate-8 mr-5 cursor-pointer text-sm"
+            >
               <Trash2 />
             </button>
           </div>

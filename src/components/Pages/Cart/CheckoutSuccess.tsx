@@ -44,6 +44,7 @@ function CheckoutSuccess() {
                 order={order}
                 paymentMethod={payment?.method || order.payment_method}
                 paymentStatus={payment?.status || order.payment_status}
+                transactionId={payment?.transaction_id || ' '}
               />
             </CardContent>
           </Card>

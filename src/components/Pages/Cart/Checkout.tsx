@@ -27,6 +27,7 @@ import { useVersionStore } from '@/store/versionStore';
 import type { Cart, CheckoutData } from '@/types/types';
 import type { CheckoutResponse } from '@/types/checkout.types';
 import { toast } from 'sonner';
+import { formatPrice } from '@/lib/utils';
 
 function mapPaymentMethodForApi(method: string, apiVersion: 'v1' | 'v2') {
   if (apiVersion !== 'v2') {
@@ -205,7 +206,7 @@ const Checkout = () => {
                 {stepNumber < 3 && (
                   <div
                     className={`mx-4  h-1 w-16 rounded transition-colors ${
-                      stepNumber < step ? 'bg-plate-8 ' : 'bg-muted'
+                      stepNumber < step ? 'bg-plate-8 ' : 'bg-gray-300'
                     }`}
                   />
                 )}
@@ -324,7 +325,7 @@ const Checkout = () => {
                           {/* <p className="text-muted-foreground text-xs">
                           {item.variant}
                         </p> */}
-                          <p className="mt-1 text-sm font-medium">${item.price}</p>
+                          <p className="mt-1 text-sm font-medium">{formatPrice(item.price)}</p>
                         </div>
                         <button onClick={() => deleteCartItem(item.id)}>
                           <Trash2 />
@@ -448,10 +449,9 @@ const Checkout = () => {
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
                     <span>
-                      $
-                      {typeof cartDetails?.subtotal === 'number'
-                        ? cartDetails.subtotal.toFixed(2)
-                        : '0.00'}
+                      {formatPrice(
+                        typeof cartDetails?.subtotal === 'number' ? cartDetails.subtotal : 0
+                      )}
                     </span>
                   </div>
 
@@ -461,7 +461,7 @@ const Checkout = () => {
                         <Gift className="size-3" />
                         Discount {cartDetails.promo?.code ? `(${cartDetails.promo.code})` : ''}
                       </span>
-                      <span>-${cartDetails.discount.toFixed(2)}</span>
+                      <span>-{formatPrice(cartDetails.discount)}</span>
                     </div>
                   ) : null}
                 </div>
@@ -471,8 +471,7 @@ const Checkout = () => {
                 <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
                   <span>
-                    $
-                    {typeof cartDetails?.total === 'number' ? cartDetails.total.toFixed(2) : '0.00'}
+                    {formatPrice(typeof cartDetails?.total === 'number' ? cartDetails.total : 0)}
                   </span>
                 </div>
 

@@ -5,6 +5,7 @@ import type {
   Order,
   UserProfilePic,
   UserProfilePicMutationResponse,
+  PaginationData,
 } from '@/types/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
@@ -46,6 +47,9 @@ export const useUpdateUserProfile = (options?: { enabled?: boolean }) => {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['user'] });
+    },
+    onError: (error: Error) => {
+      toast.error(getApiErrorMessage(error, 'Failed to update user profile'));
     },
   });
 };
@@ -112,15 +116,27 @@ export const useGetUserProfilePic = (userId: number) => {
   });
 };
 
-export const useGetUserOrders = (userId: number, options?: { enabled?: boolean }) => {
-  return useQuery<Order[], Error>({
-    ...options,
-    queryKey: ['user order', userId],
+export const useGetUserOrders = (
+  userId: number,
+  options?: { enabled?: boolean; page?: number }
+) => {
+  const page = options?.page ?? 1;
+  return useQuery<{ orders: Order[]; pagination: PaginationData }, Error>({
+    enabled: options?.enabled,
+    queryKey: ['user order', userId, page],
     queryFn: async () => {
-      const response = await userApi.orders(userId);
+      const response = await userApi.orders(userId, page);
       const data = response.data;
       if (data?.success && data.orders) {
-        return data.orders;
+        return {
+          orders: data.orders,
+          pagination: data.pagination ?? {
+            page: 1,
+            totalPages: 1,
+            total: data.orders.length,
+            perPage: 10,
+          },
+        };
       }
 
       throw new Error('Failed to fetch user orders: Invalid response format');

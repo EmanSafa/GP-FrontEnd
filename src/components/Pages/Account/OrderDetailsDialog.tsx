@@ -8,8 +8,9 @@ import {
 import { useGetSingleOrder } from '@/hooks/useOrders';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, Package, Truck, CreditCard } from 'lucide-react';
+import { Loader2, Package, Truck, CreditCard, Tag } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { formatPrice } from '@/lib/utils';
 
 interface OrderDetailsDialogProps {
   orderId: number | null;
@@ -119,11 +120,11 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
                           {item.product_name || 'Product Name'}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          Qty: {item.quantity} × ${Number(item.price).toFixed(2)}
+                          Qty: {item.quantity} × {formatPrice(item.price)}
                         </p>
                       </div>
                       <div className="text-right font-medium">
-                        ${(Number(item.price) * item.quantity).toFixed(2)}
+                        {formatPrice(Number(item.price) * item.quantity)}
                       </div>
                     </div>
                   ))}
@@ -159,10 +160,26 @@ const OrderDetailsDialog = ({ orderId, isOpen, onClose }: OrderDetailsDialogProp
                         {order.payment_method.replace('_', ' ')}
                       </span>
                     </div>
+                    {order.promo_code && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground flex items-center gap-1">
+                          <Tag className="h-3 w-3" /> Promo Code
+                        </span>
+                        <span className="font-medium text-emerald-600 tracking-wider">
+                          {order.promo_code}
+                        </span>
+                      </div>
+                    )}
+                    {Number(order.discount_amount) > 0 && (
+                      <div className="flex justify-between text-emerald-600">
+                        <span>Discount</span>
+                        <span className="font-medium">-{formatPrice(order.discount_amount)}</span>
+                      </div>
+                    )}
                     <Separator className="my-2" />
                     <div className="flex justify-between text-lg font-bold text-plate-8">
                       <span>Total</span>
-                      <span>${Number(order.total).toFixed(2)}</span>
+                      <span>{formatPrice(order.total)}</span>
                     </div>
                   </div>
                 </div>

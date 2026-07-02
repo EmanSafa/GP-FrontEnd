@@ -2,6 +2,7 @@ import { cartApi } from '@/lib/apiClient';
 import type { AddCartResponse, AddCartItemData, Cart, ApiMessageResponse } from '@/types/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import type { AxiosError } from 'axios';
 
 interface CartItemsApiResponse {
   cart: {
@@ -37,6 +38,8 @@ export interface CartDetailsApiResponse {
   cart: CartDetails;
 }
 
+import { useCartDrawerStore } from '@/store/cartDrawerStore';
+
 export const useAddCartItem = (options?: { enabled?: boolean }) => {
   const queryClient = useQueryClient();
   return useMutation<AddCartResponse, Error, AddCartItemData>({
@@ -55,6 +58,13 @@ export const useAddCartItem = (options?: { enabled?: boolean }) => {
       void queryClient.invalidateQueries({ queryKey: ['cart-count'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-details'] });
+      useCartDrawerStore.getState().open();
+    },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      const message =
+        axiosError.response?.data?.message || error.message || 'Failed to add item to cart';
+      toast.error(message);
     },
   });
 };
@@ -133,6 +143,10 @@ export const useClearCart = () => {
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-details'] });
     },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError.response?.data?.message || error.message || 'Failed to clear cart');
+    },
   });
 };
 
@@ -153,6 +167,10 @@ export const useUpdateCartItem = (id: number) => {
       void queryClient.invalidateQueries({ queryKey: ['cart-count'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-details'] });
+    },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError.response?.data?.message || error.message || 'Failed to update cart');
     },
   });
 };
@@ -175,6 +193,10 @@ export const useDeleteCartItem = () => {
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-details'] });
     },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError.response?.data?.message || error.message || 'Failed to delete item');
+    },
   });
 };
 
@@ -193,6 +215,12 @@ export const useApplyPromo = () => {
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-details'] });
     },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(
+        axiosError.response?.data?.message || error.message || 'Failed to apply promo code'
+      );
+    },
   });
 };
 
@@ -209,6 +237,12 @@ export const useRemovePromo = () => {
       void queryClient.invalidateQueries({ queryKey: ['cart-count'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-details'] });
+    },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(
+        axiosError.response?.data?.message || error.message || 'Failed to remove promo code'
+      );
     },
   });
 };

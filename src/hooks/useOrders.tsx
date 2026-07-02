@@ -4,6 +4,7 @@ import { normalizeCheckoutResponse } from '@/lib/normalizeCheckoutResponse';
 import { toast } from 'sonner';
 import type { CheckoutResponse } from '@/types/checkout.types';
 import type { CheckoutData, OrderItem, DetailedOrder } from '@/types/types';
+import type { AxiosError } from 'axios';
 
 interface BasicResponse {
   success: boolean;
@@ -40,6 +41,12 @@ export const useCheckoutOrder = () => {
       void queryClient.invalidateQueries({ queryKey: ['cart-count'] });
       void queryClient.invalidateQueries({ queryKey: ['cart-total'] });
     },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(
+        axiosError.response?.data?.message || error.message || 'Failed to checkout order'
+      );
+    },
   });
 };
 
@@ -71,6 +78,10 @@ export const useDeleteOrder = () => {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+    onError: (error: Error) => {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError.response?.data?.message || error.message || 'Failed to cancel order');
     },
   });
 };
