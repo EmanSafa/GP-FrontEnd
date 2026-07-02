@@ -97,7 +97,7 @@ const AppSidebar = () => {
                       if (checked) {
                         void navigate({
                           to: '/shop',
-                          search: (prev: ShopSearch) => ({
+                          search: (prev: ShopSearch): ShopSearch => ({
                             ...prev,
                             sort: 'created_at',
                             order: 'desc',

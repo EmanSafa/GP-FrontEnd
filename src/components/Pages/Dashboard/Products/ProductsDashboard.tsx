@@ -232,11 +232,11 @@ const ProductsDashboard = () => {
       accessorKey: 'rating',
       header: () => <div className="text-center">Rating</div>,
       cell: ({ row }) => {
-        const rating = row.getValue('rating');
+        const rating = row.original.rating ?? '0.0';
         return (
           <div className="flex items-center justify-center gap-1 text-orange-500 min-w-[80px]">
             <Star className="h-4 w-4 fill-current" />
-            <span className="text-gray-700 font-medium">{rating || '0.0'}</span>
+            <span className="text-gray-700 font-medium">{rating}</span>
           </div>
         );
       },
