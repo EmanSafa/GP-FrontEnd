@@ -1,5 +1,10 @@
 import { UserRound, Pencil } from 'lucide-react';
-import { USER_DATA_CORS_BUG, PERSONAL_INFO_CSRF_BUG } from '@/constants/bugs';
+import {
+  USER_DATA_CORS_BUG,
+  PERSONAL_INFO_CSRF_BUG,
+  WEB_CACHE_DECEPTION_BUG,
+  IDOR_BUG,
+} from '@/constants/bugs';
 import OrderHistory from './OrderHistory';
 import InfoSection from './InfoSection';
 import InfoField from './InfoField';
@@ -61,7 +66,12 @@ const AccountPage = () => {
       {/* Information Sections */}
       <BugHighlighter
         id="userdataCors"
-        ids={[USER_DATA_CORS_BUG.id, PERSONAL_INFO_CSRF_BUG.id]}
+        ids={[
+          USER_DATA_CORS_BUG.id,
+          PERSONAL_INFO_CSRF_BUG.id,
+          WEB_CACHE_DECEPTION_BUG.id,
+          IDOR_BUG.id,
+        ]}
         className="w-full"
         bugName="Security Vulnerabilities"
       >

@@ -18,7 +18,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/authStore';
 import { BugHighlighter } from '@/components/BugScanner/BugHighlighter';
 import { useVersionStore } from '@/store/versionStore';
-import { LOGIN_BUG } from '@/constants/bugs';
+import { LOGIN_BUG, USER_ENUMERATION_BUG, WEAK_PASSWORD_HASH_BUG } from '@/constants/bugs';
 import { loginV1Schema, loginV2Schema } from '@/schema/loginSchema';
 import type { LoginFormData } from '@/schema/loginSchema';
 
@@ -66,7 +66,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
       noValidate
     >
       <FieldGroup>
-        <BugHighlighter id={LOGIN_BUG.id} bugName="SQLI - SQL Injection">
+        <BugHighlighter
+          id={LOGIN_BUG.id}
+          ids={[LOGIN_BUG.id, USER_ENUMERATION_BUG.id, WEAK_PASSWORD_HASH_BUG.id]}
+          bugName="Security Vulnerabilities"
+        >
           <div className="flex flex-col items-center gap-2 text-center">
             <h1 className="text-3xl whitespace-nowrap font-bold text-plate-8 3xl:text-4xl">
               Login to your account
