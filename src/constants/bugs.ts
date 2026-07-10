@@ -104,7 +104,16 @@ if (empty($data)) {
 
 //  Attacker-controlled data is written to the database
 $success = $this->userModel->updateProfile($id, $data);`,
-    fixedCode: ``,
+    fixedCode: `
+// Authentication is performed using a JWT supplied in the Authorization header.
+// Browsers do not automatically include Authorization headers in cross-origin
+// requests, preventing classical CSRF attacks.
+// The authenticated user is obtained from the verified JWT rather than
+// from client-controlled parameters or cookies.
+
+$this->requireAuth();
+
+$id = $this->getUserId();`,
   },
 };
 
