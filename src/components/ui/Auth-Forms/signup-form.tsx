@@ -17,7 +17,12 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useVersionStore } from '@/store/versionStore';
-import { signupV1Schema, signupV2Schema, type SignupFormData } from '@/schema/signupSchema';
+import {
+  signupV1Schema,
+  signupV2Schema,
+  signupV3Schema,
+  type SignupFormData,
+} from '@/schema/signupSchema';
 
 export function SignupForm({ className, ...props }: React.ComponentProps<'form'>) {
   const [apiError, setApiError] = useState<string>('');
@@ -50,7 +55,12 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'form'>
   });
 
   const activeVersion = useVersionStore((state) => state.activeVersion);
-  const schema = activeVersion === 'v1' ? signupV1Schema : signupV2Schema;
+  const schema =
+    activeVersion === 'v3'
+      ? signupV3Schema
+      : activeVersion === 'v1'
+        ? signupV1Schema
+        : signupV2Schema;
 
   const {
     register,
@@ -99,7 +109,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'form'>
               {successMessage}
             </div>
           )}
-          {apiError && (
+          {apiError && activeVersion !== 'v3' && (
             <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
               {apiError}
             </div>

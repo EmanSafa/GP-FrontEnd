@@ -55,4 +55,12 @@ export const signupV1Schema = z
     message: 'Passwords do not match',
   });
 
+export const signupV3Schema = z.object({
+  name: z.string().optional().or(z.literal('')),
+  email: z.string().optional().or(z.literal('')),
+  phone: z.string().optional().or(z.literal('')),
+  password: z.string().optional().or(z.literal('')),
+  confirmPassword: z.string().optional().or(z.literal('')),
+});
+
 export type SignupFormData = z.infer<typeof signupV2Schema>;

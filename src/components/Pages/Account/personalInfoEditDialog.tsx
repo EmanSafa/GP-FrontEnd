@@ -71,24 +71,26 @@ const PersonalInfoEditDialog = () => {
     setPasswordError('');
   };
   const handleUpdatePassword = () => {
-    if (activeVersion === 'v2' && !currentPassword) {
-      setPasswordError('Please enter your current password');
-      return;
-    }
+    if (activeVersion !== 'v3') {
+      if (activeVersion === 'v2' && !currentPassword) {
+        setPasswordError('Please enter your current password');
+        return;
+      }
 
-    if (!newPassword || !confirmPassword) {
-      setPasswordError('Please fill in both password fields');
-      return;
-    }
+      if (!newPassword || !confirmPassword) {
+        setPasswordError('Please fill in both password fields');
+        return;
+      }
 
-    if (newPassword.length < 8) {
-      setPasswordError('Password must be at least 8 characters long');
-      return;
-    }
+      if (newPassword.length < 8) {
+        setPasswordError('Password must be at least 8 characters long');
+        return;
+      }
 
-    if (newPassword !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      return;
+      if (newPassword !== confirmPassword) {
+        setPasswordError('Passwords do not match');
+        return;
+      }
     }
     updatePassword({
       email: userData?.email,
@@ -259,7 +261,9 @@ const PersonalInfoEditDialog = () => {
                     </span>
                   </Button>
                 </div>
-                {passwordError && <p className="text-red-500 text-sm mt-2">{passwordError}</p>}
+                {passwordError && activeVersion !== 'v3' && (
+                  <p className="text-red-500 text-sm mt-2">{passwordError}</p>
+                )}
                 <Button
                   className="my-4"
                   disabled={updatePasswordPending}

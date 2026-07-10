@@ -19,7 +19,7 @@ import { useAuthStore } from '@/store/authStore';
 import { BugHighlighter } from '@/components/BugScanner/BugHighlighter';
 import { useVersionStore } from '@/store/versionStore';
 import { LOGIN_BUG, USER_ENUMERATION_BUG, WEAK_PASSWORD_HASH_BUG } from '@/constants/bugs';
-import { loginV1Schema, loginV2Schema } from '@/schema/loginSchema';
+import { loginV1Schema, loginV2Schema, loginV3Schema } from '@/schema/loginSchema';
 import type { LoginFormData } from '@/schema/loginSchema';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'form'>) {
@@ -40,7 +40,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
   });
 
   const activeVersion = useVersionStore((state) => state.activeVersion);
-  const schema = activeVersion === 'v1' ? loginV1Schema : loginV2Schema;
+  const schema =
+    activeVersion === 'v3' ? loginV3Schema : activeVersion === 'v1' ? loginV1Schema : loginV2Schema;
 
   const {
     register,
@@ -78,7 +79,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
             <p className="text-muted-foreground text-sm 3xl:text-md text-balance ">
               Enter your email below to login to your account
             </p>
-            {apiError && (
+            {apiError && activeVersion !== 'v3' && (
               <div className="w-full p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
                 {apiError}
               </div>

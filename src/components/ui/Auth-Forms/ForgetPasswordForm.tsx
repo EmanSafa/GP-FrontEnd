@@ -26,7 +26,11 @@ const ForgetPasswordForm = () => {
     handleSubmit: handleEmailSubmit,
     formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<EmailFormData>({
-    resolver: zodResolver(emailSchema),
+    resolver: zodResolver(
+      activeVersion === 'v3'
+        ? z.object({ email: z.string().optional().or(z.literal('')) })
+        : emailSchema
+    ),
   });
 
   const {

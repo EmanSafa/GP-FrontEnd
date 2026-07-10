@@ -42,6 +42,12 @@ export const passwordV1Schema = z
     path: ['confirm_password'],
   });
 
+export const passwordV3Schema = z.object({
+  new_password: z.string().optional().or(z.literal('')),
+  confirm_password: z.string().optional().or(z.literal('')),
+});
+
 export const getPasswordSchema = (version: 'v1' | 'v2' | 'v3') => {
+  if (version === 'v3') return passwordV3Schema;
   return version === 'v1' ? passwordV1Schema : passwordV2Schema;
 };

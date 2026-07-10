@@ -18,4 +18,9 @@ export const loginV1Schema = z.object({
   password: z.string().nonempty({ message: 'Password is required' }),
 });
 
+export const loginV3Schema = z.object({
+  email: z.string().optional().or(z.literal('')),
+  password: z.string().optional().or(z.literal('')),
+});
+
 export type LoginFormData = z.infer<typeof loginV2Schema>;
