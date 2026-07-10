@@ -30,7 +30,7 @@ const ForgetPasswordForm = () => {
       activeVersion === 'v3'
         ? z.object({ email: z.string().optional().or(z.literal('')) })
         : emailSchema
-    ),
+    ) as never,
   });
 
   const {
@@ -38,7 +38,7 @@ const ForgetPasswordForm = () => {
     handleSubmit: handlePasswordSubmit,
     formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
   } = useForm<PasswordFormData>({
-    resolver: zodResolver(getPasswordSchema(activeVersion)),
+    resolver: zodResolver(getPasswordSchema(activeVersion)) as never,
     defaultValues: {
       new_password: '',
       confirm_password: '',

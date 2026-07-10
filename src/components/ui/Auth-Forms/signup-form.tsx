@@ -67,7 +67,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'form'>
     handleSubmit,
     formState: { errors },
   } = useForm<SignupFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as never,
     mode: 'onSubmit',
   });
 
