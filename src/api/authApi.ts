@@ -75,8 +75,8 @@ export const authApi = {
         useAuthStore.getState().setToken(authData.token);
       }
 
-      // V1: persist session ID (legacy cookie-based auth)
-      if (activeVersion === 'v1') {
+      // V1/V3: persist session ID (legacy cookie-based auth)
+      if (activeVersion === 'v1' || activeVersion === 'v3') {
         const legacyData = responseData as AuthResponse;
         const sessionId = legacyData.session_id ?? authData.session_id;
         if (sessionId) {
@@ -131,8 +131,8 @@ export const authApi = {
         useAuthStore.getState().setToken(authData.token);
       }
 
-      // V1: persist session ID (legacy cookie-based auth)
-      if (activeVersion === 'v1') {
+      // V1/V3: persist session ID (legacy cookie-based auth)
+      if (activeVersion === 'v1' || activeVersion === 'v3') {
         const legacyData = responseData as AuthResponse;
         const sessionId = legacyData.session_id ?? authData.session_id;
         if (sessionId) {

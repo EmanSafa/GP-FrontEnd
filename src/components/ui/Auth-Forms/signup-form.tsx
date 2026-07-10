@@ -50,7 +50,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'form'>
   });
 
   const activeVersion = useVersionStore((state) => state.activeVersion);
-  const schema = activeVersion === 'v2' ? signupV2Schema : signupV1Schema;
+  const schema = activeVersion === 'v1' ? signupV1Schema : signupV2Schema;
 
   const {
     register,

@@ -15,7 +15,6 @@ import { useThemeStore } from '@/store/themeStore';
 import { useVersionStore } from '@/store/versionStore';
 import { useAuthStore } from '@/store/authStore';
 import { useHighlightStore } from '@/store/highlightStore';
-import { toast } from 'sonner';
 import { UpgradeSessionDialog } from './UpgradeSessionDialog';
 import Cart from '../Cart/Cart';
 import { useGetAllCategories } from '@/hooks/useCategories';
@@ -159,13 +158,6 @@ const LogoSelect = () => {
   const [pendingLevel, setPendingLevel] = React.useState('');
 
   const handleSelect = (value: string) => {
-    // If selecting green box, show a toast coming soon and return
-    if (value === 'green-box') {
-      toast('coming soon');
-      setIsOpen(false);
-      return;
-    }
-
     const version = navigationConfig.levelToVersion[value] ?? 'v1';
     const { isAuthenticated, token, user } = useAuthStore.getState();
 
@@ -235,7 +227,7 @@ const LogoSelect = () => {
                 <span className="flex-1">{option.label}</span>
                 <span
                   className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md
-                  ${version === 'v2' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}
+                  ${version === 'v2' ? 'bg-blue-100 text-blue-700' : version === 'v3' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
                 >
                   {version.toUpperCase()}
                 </span>

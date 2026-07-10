@@ -42,6 +42,6 @@ export const passwordV1Schema = z
     path: ['confirm_password'],
   });
 
-export const getPasswordSchema = (version: 'v1' | 'v2') => {
-  return version === 'v2' ? passwordV2Schema : passwordV1Schema;
+export const getPasswordSchema = (version: 'v1' | 'v2' | 'v3') => {
+  return version === 'v1' ? passwordV1Schema : passwordV2Schema;
 };

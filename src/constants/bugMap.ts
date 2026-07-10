@@ -68,4 +68,11 @@ export const BUG_MAP: Record<ApiVersion, Record<string, BugEntry[]>> = {
     dashboard: [],
     'auth/login': [],
   },
+
+  // ─── V3 — Advanced Secure version ──────────────────────────────────────────
+  v3: {
+    account: [],
+    dashboard: [],
+    'auth/login': [],
+  },
 };

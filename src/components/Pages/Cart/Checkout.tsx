@@ -29,8 +29,8 @@ import type { CheckoutResponse } from '@/types/checkout.types';
 import { toast } from 'sonner';
 import { formatPrice } from '@/lib/utils';
 
-function mapPaymentMethodForApi(method: string, apiVersion: 'v1' | 'v2') {
-  if (apiVersion !== 'v2') {
+function mapPaymentMethodForApi(method: string, apiVersion: 'v1' | 'v2' | 'v3') {
+  if (apiVersion === 'v1') {
     return method;
   }
 

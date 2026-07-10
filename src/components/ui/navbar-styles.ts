@@ -113,13 +113,13 @@ export const navigationConfig = {
   levelOptions: [
     { value: 'red-box', label: 'Red Box (V1)' },
     { value: 'blue-box', label: 'Blue Box (V2)' },
-    { value: 'green-box', label: 'Green Box (V1)' },
+    { value: 'green-box', label: 'Green Box (V3)' },
   ],
 
   /** Maps a box level to its API version */
   levelToVersion: {
     'red-box': 'v1',
     'blue-box': 'v2',
-    'green-box': 'v1',
-  } as Record<string, 'v1' | 'v2'>,
+    'green-box': 'v3',
+  } as Record<string, 'v1' | 'v2' | 'v3'>,
 };

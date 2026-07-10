@@ -8,12 +8,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { authApi } from '@/api/authApi';
 import { emailSchema, getPasswordSchema, passwordV2Schema } from '@/schema/forgetPasswordSchema';
+import { useVersionStore } from '@/store/versionStore';
 
 type EmailFormData = z.infer<typeof emailSchema>;
 type PasswordFormData = z.infer<typeof passwordV2Schema>;
 
 const ForgetPasswordForm = () => {
   const navigate = useNavigate();
+  const { activeVersion } = useVersionStore();
 
   const [step, setStep] = useState<'email' | 'password'>('email');
   const [email, setEmail] = useState('');
@@ -32,7 +34,7 @@ const ForgetPasswordForm = () => {
     handleSubmit: handlePasswordSubmit,
     formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
   } = useForm<PasswordFormData>({
-    resolver: zodResolver(getPasswordSchema('v2')),
+    resolver: zodResolver(getPasswordSchema(activeVersion)),
     defaultValues: {
       new_password: '',
       confirm_password: '',

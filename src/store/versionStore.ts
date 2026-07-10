@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
-export type ApiVersion = "v1" | "v2";
+export type ApiVersion = 'v1' | 'v2' | 'v3';
 
 interface VersionState {
   /** The currently active API version used for all requests */
@@ -13,13 +13,13 @@ interface VersionState {
 export const useVersionStore = create<VersionState>()(
   persist(
     (set) => ({
-      activeVersion: "v1",
+      activeVersion: 'v1',
       setVersion: (version) => {
         set({ activeVersion: version });
       },
     }),
     {
-      name: "version-storage", // key in localStorage
+      name: 'version-storage', // key in localStorage
       storage: createJSONStorage(() => localStorage),
     }
   )

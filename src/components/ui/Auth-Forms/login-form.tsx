@@ -40,7 +40,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
   });
 
   const activeVersion = useVersionStore((state) => state.activeVersion);
-  const schema = activeVersion === 'v2' ? loginV2Schema : loginV1Schema;
+  const schema = activeVersion === 'v1' ? loginV1Schema : loginV2Schema;
 
   const {
     register,
