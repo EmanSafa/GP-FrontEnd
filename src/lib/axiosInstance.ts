@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useVersionStore } from '@/store/versionStore';
+import { useWafBlockStore } from '@/store/wafBlockStore';
+import { isWafBlockedResponse, type WafBlockedResponse } from '@/types/waf.types';
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -9,6 +11,12 @@ export const axiosInstance = axios.create({
   },
 });
 const API_BASE = (import.meta.env.VITE_API_BASE_URL as string) || '';
+
+function captureWafBlock(data: unknown): WafBlockedResponse | null {
+  if (!isWafBlockedResponse(data)) return null;
+  useWafBlockStore.getState().setBlock(data);
+  return data;
+}
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -31,9 +39,25 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    const block = captureWafBlock(response.data);
+    if (block) {
+      return Promise.reject(
+        new AxiosError(
+          block.message ?? 'Request blocked by AI-WAF',
+          String(response.status),
+          response.config,
+          response.request,
+          response
+        )
+      );
+    }
     return response;
   },
   (error: AxiosError) => {
+    if (captureWafBlock(error.response?.data)) {
+      return Promise.reject(error);
+    }
+
     const { activeVersion } = useVersionStore.getState();
     const { isAuthenticated } = useAuthStore.getState();
 

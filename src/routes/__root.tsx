@@ -4,6 +4,7 @@ import '../index.css';
 import { useEffect } from 'react';
 import { useThemeStore } from '@/store/themeStore';
 import { useHighlightStore } from '@/store/highlightStore';
+import { AccessDeniedPage } from '@/components/Waf/AccessDeniedPage';
 
 export const Route = createRootRoute({
   component: () => {
@@ -16,6 +17,11 @@ export const Route = createRootRoute({
       useHighlightStore.getState().resetBugScanner();
     }, [activeTheme]);
 
-    return <Outlet />;
+    return (
+      <>
+        <Outlet />
+        <AccessDeniedPage />
+      </>
+    );
   },
 });
